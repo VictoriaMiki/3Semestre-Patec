@@ -7,6 +7,13 @@ public class Aluno {
 	private String ra;
 	private String cpf;
 	private String nomeAluno;
+	
+	public Aluno(String ra, String cpf, String nomeAluno, Date dataNascimento) {
+		this.ra = ra;
+		this.cpf = cpf;
+		this.nomeAluno = nomeAluno;
+		this.dataNascimento = dataNascimento;
+	}
 	private Date dataNascimento;
 	public String getRa() {
 		return ra;

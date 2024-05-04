@@ -1,9 +1,17 @@
 package patec;
 
 public class Disciplina {
+
 	private String codigoDisciplina;
 	private String nomeDisciplina;
 	private int semestreDisciplina;
+	
+	public Disciplina(String codigoDisciplina, String nomeDisciplina, int semestreDisciplina) {
+		this.codigoDisciplina = codigoDisciplina;
+		this.nomeDisciplina = nomeDisciplina;
+		this.semestreDisciplina = semestreDisciplina;
+	}
+	
 	public String getCodigoDisciplina() {
 		return codigoDisciplina;
 	}

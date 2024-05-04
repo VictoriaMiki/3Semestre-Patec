@@ -11,6 +11,18 @@ public class FolhaDeRespostas {
 	private int codigoGabarito;
 	private String raAluno;
 	
+	public FolhaDeRespostas(int codigoRespostas, char resposta1, char resposta2, char resposta3,
+			char resposta4, char resposta5, int codigoGabarito, String raAluno) {
+		this.codigoRespostas = codigoRespostas;
+		this.resposta1 = resposta1;
+		this.resposta2 = resposta2;
+		this.resposta3 = resposta3;
+		this.resposta4 = resposta4;
+		this.resposta5 = resposta5;
+		this.codigoGabarito = codigoGabarito;
+		this.raAluno = raAluno;
+	}
+	
 	public int getCodigoRespostas() {
 		return codigoRespostas;
 	}

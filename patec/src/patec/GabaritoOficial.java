@@ -11,6 +11,18 @@ public class GabaritoOficial {
 	private String codigoDisciplina;
 	private int codigoAvaliacao;
 	
+	public GabaritoOficial(int codigoGabarito, char questao1, char questao2, char questao3,
+			char questao4, char questao5, String codigoDisciplina, int codigoAvaliacao) {
+		this.codigoGabarito = codigoGabarito;
+		this.questao1 = questao1;
+		this.questao2 = questao2;
+		this.questao3 = questao3;
+		this.questao4 = questao4;
+		this.questao5 = questao5;
+		this.codigoDisciplina = codigoDisciplina;
+		this.codigoAvaliacao = codigoAvaliacao;
+	}
+	
 	public int getCodigoGabarito() {
 		return codigoGabarito;
 	}
