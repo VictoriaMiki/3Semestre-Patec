@@ -1,4 +1,4 @@
-package patec;
+package model;
 
 import java.sql.Date;
 

@@ -1,4 +1,4 @@
-package patec;
+package model;
 
 public class FolhaDeRespostas {
 	private int codigoRespostas;
