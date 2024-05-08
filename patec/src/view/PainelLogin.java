@@ -1,7 +1,8 @@
 package view;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 import javax.swing.GroupLayout.*;
 
 public class PainelLogin extends JPanel {
@@ -33,6 +34,15 @@ public class PainelLogin extends JPanel {
 		tfSenha = new JTextField();
 		
 		JButton btnEntrar = new JButton("New button");
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelMenuAluno p = new PainelMenuAluno();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		
 		GroupLayout gl_loginContainer = new GroupLayout(loginContainer);
 		gl_loginContainer.setHorizontalGroup(
 			gl_loginContainer.createParallelGroup(Alignment.LEADING)
@@ -55,6 +65,7 @@ public class PainelLogin extends JPanel {
 							.addComponent(btnEntrar)))
 					.addGap(24))
 		);
+		
 		gl_loginContainer.setVerticalGroup(
 			gl_loginContainer.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_loginContainer.createSequentialGroup()
@@ -76,6 +87,7 @@ public class PainelLogin extends JPanel {
 					.addComponent(btnEntrar)
 					.addContainerGap(17, Short.MAX_VALUE))
 		);
+		
 		loginContainer.setLayout(gl_loginContainer);
 		GridBagConstraints gbc_loginContainer = new GridBagConstraints();
 		gbc_loginContainer.anchor = GridBagConstraints.NORTH;
