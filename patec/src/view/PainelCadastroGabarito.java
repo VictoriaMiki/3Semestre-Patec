@@ -20,49 +20,93 @@ public class PainelCadastroGabarito extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JMenuBar menuBar = new JMenuBar();
-		GridBagConstraints gbc_menuBar = new GridBagConstraints();
-		gbc_menuBar.gridwidth = 3;
-		gbc_menuBar.fill = GridBagConstraints.BOTH;
-		gbc_menuBar.insets = new Insets(0, 0, 5, 0);
-		gbc_menuBar.gridx = 0;
-		gbc_menuBar.gridy = 0;
-		add(menuBar, gbc_menuBar);
+		JMenuBar menuBarCoord = new JMenuBar();
+		GridBagConstraints gbc_menuBarCoord = new GridBagConstraints();
+		gbc_menuBarCoord.anchor = GridBagConstraints.NORTH;
+		gbc_menuBarCoord.fill = GridBagConstraints.HORIZONTAL;
+		gbc_menuBarCoord.insets = new Insets(0, 0, 5, 0);
+		gbc_menuBarCoord.gridx = 0;
+		gbc_menuBarCoord.gridy = 0;
+		add(menuBarCoord, gbc_menuBarCoord);
 		
-		JMenu mnNewMenu = new JMenu("Cadastro");
-		menuBar.add(mnNewMenu);
+		JMenu mnCadastro = new JMenu("Cadastro");
+		menuBarCoord.add(mnCadastro);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Gabarito");
-		mnNewMenu.add(mntmNewMenuItem);
+		JMenuItem miCadGabarito = new JMenuItem("Gabarito");
+		miCadGabarito.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelCadastroGabarito p = new PainelCadastroGabarito();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		mnCadastro.add(miCadGabarito);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Aluno");
-		mnNewMenu.add(mntmNewMenuItem_1);
+		JMenuItem miCadAluno = new JMenuItem("Aluno");
+		miCadAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelCadastroAluno p = new PainelCadastroAluno();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		mnCadastro.add(miCadAluno);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Disciplina");
-		mnNewMenu.add(mntmNewMenuItem_2);
+		JMenuItem miCadDisciplina = new JMenuItem("Disciplina");
+		miCadDisciplina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelCadastroDisciplina p = new PainelCadastroDisciplina();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		mnCadastro.add(miCadDisciplina);
 		
-		JMenu mnNewMenu_1 = new JMenu("Relatório");
-		menuBar.add(mnNewMenu_1);
+		JMenu mnRelatorio = new JMenu("Relatório");
+		menuBarCoord.add(mnRelatorio);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Por Disciplina");
-		mnNewMenu_1.add(mntmNewMenuItem_3);
+		JMenuItem miRelatorioDisciplina = new JMenuItem("Por Disciplina");
+		/*
+		miRelatorioDisciplina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelRelatorioDisciplina p = new PainelRelatorioDisciplina();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		*/
+		mnRelatorio.add(miRelatorioDisciplina);
 		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Por Aluno");
-		mnNewMenu_1.add(mntmNewMenuItem_4);
+		JMenuItem miRelatorioAluno = new JMenuItem("Por Aluno");
+		/*
+		miRelatorioAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelRelatorioAluno p = new PainelRelatorioAluno();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		*/
+		mnRelatorio.add(miRelatorioAluno);
 		
-				JButton btnVoltar = new JButton("Voltar");
-				GridBagConstraints gbc_btnVoltar = new GridBagConstraints();
-				gbc_btnVoltar.insets = new Insets(0, 0, 5, 5);
-				gbc_btnVoltar.gridx = 0;
-				gbc_btnVoltar.gridy = 1;
-				add(btnVoltar, gbc_btnVoltar);
+		JButton btnVoltar = new JButton("Voltar");
+		GridBagConstraints gbc_btnVoltar = new GridBagConstraints();
+		gbc_btnVoltar.insets = new Insets(0, 0, 5, 5);
+		gbc_btnVoltar.gridx = 0;
+		gbc_btnVoltar.gridy = 1;
+		add(btnVoltar, gbc_btnVoltar);
 		
-				JButton btnSair = new JButton("Sair");
-				GridBagConstraints gbc_btnSair = new GridBagConstraints();
-				gbc_btnSair.insets = new Insets(0, 0, 5, 0);
-				gbc_btnSair.gridx = 2;
-				gbc_btnSair.gridy = 1;
-				add(btnSair, gbc_btnSair);
+		JButton btnSair = new JButton("Sair");
+		GridBagConstraints gbc_btnSair = new GridBagConstraints();
+		gbc_btnSair.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSair.gridx = 2;
+		gbc_btnSair.gridy = 1;
+		add(btnSair, gbc_btnSair);
 		
 		JPanel containerDadosProva = new JPanel();
 		containerDadosProva.setBackground(new Color(255, 0, 0));

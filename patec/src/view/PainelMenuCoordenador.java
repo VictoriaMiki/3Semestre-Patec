@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PainelMenuCoordenador extends JPanel {
 
@@ -17,35 +19,80 @@ public class PainelMenuCoordenador extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		JMenuBar menuBar = new JMenuBar();
-		GridBagConstraints gbc_menuBar = new GridBagConstraints();
-		gbc_menuBar.anchor = GridBagConstraints.NORTH;
-		gbc_menuBar.fill = GridBagConstraints.HORIZONTAL;
-		gbc_menuBar.insets = new Insets(0, 0, 5, 0);
-		gbc_menuBar.gridx = 0;
-		gbc_menuBar.gridy = 0;
-		add(menuBar, gbc_menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Cadastro");
-		menuBar.add(mnNewMenu);
+		JMenuBar menuBarCoord = new JMenuBar();
+		GridBagConstraints gbc_menuBarCoord = new GridBagConstraints();
+		gbc_menuBarCoord.anchor = GridBagConstraints.NORTH;
+		gbc_menuBarCoord.fill = GridBagConstraints.HORIZONTAL;
+		gbc_menuBarCoord.insets = new Insets(0, 0, 5, 0);
+		gbc_menuBarCoord.gridx = 0;
+		gbc_menuBarCoord.gridy = 0;
+		add(menuBarCoord, gbc_menuBarCoord);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Gabarito");
-		mnNewMenu.add(mntmNewMenuItem);
+		JMenu mnCadastro = new JMenu("Cadastro");
+		menuBarCoord.add(mnCadastro);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Aluno");
-		mnNewMenu.add(mntmNewMenuItem_1);
+		JMenuItem miCadGabarito = new JMenuItem("Gabarito");
+		miCadGabarito.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelCadastroGabarito p = new PainelCadastroGabarito();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		mnCadastro.add(miCadGabarito);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Disciplina");
-		mnNewMenu.add(mntmNewMenuItem_2);
+		JMenuItem miCadAluno = new JMenuItem("Aluno");
+		miCadAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelCadastroAluno p = new PainelCadastroAluno();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		mnCadastro.add(miCadAluno);
 		
-		JMenu mnNewMenu_1 = new JMenu("Relatório");
-		menuBar.add(mnNewMenu_1);
+		JMenuItem miCadDisciplina = new JMenuItem("Disciplina");
+		miCadDisciplina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelCadastroDisciplina p = new PainelCadastroDisciplina();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		mnCadastro.add(miCadDisciplina);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Por Disciplina");
-		mnNewMenu_1.add(mntmNewMenuItem_3);
+		JMenu mnRelatorio = new JMenu("Relatório");
+		menuBarCoord.add(mnRelatorio);
 		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Por Aluno");
-		mnNewMenu_1.add(mntmNewMenuItem_4);
+		JMenuItem miRelatorioDisciplina = new JMenuItem("Por Disciplina");
+		/*
+		miRelatorioDisciplina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelRelatorioDisciplina p = new PainelRelatorioDisciplina();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		*/
+		mnRelatorio.add(miRelatorioDisciplina);
+		
+		JMenuItem miRelatorioAluno = new JMenuItem("Por Aluno");
+		/*
+		miRelatorioAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelRelatorioAluno p = new PainelRelatorioAluno();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		*/
+		mnRelatorio.add(miRelatorioAluno);
 		
 		JButton btnNewButton = new JButton("Sair");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
