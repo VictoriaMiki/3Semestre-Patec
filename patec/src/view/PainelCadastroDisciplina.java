@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class PainelCadastroDisciplina extends JPanel {
 
@@ -30,6 +31,7 @@ public class PainelCadastroDisciplina extends JPanel {
 		add(menuBarCoord, gbc_menuBarCoord);
 		
 		JMenu mnCadastro = new JMenu("Cadastro");
+		mnCadastro.setMnemonic(KeyEvent.VK_C);
 		menuBarCoord.add(mnCadastro);
 		
 		JMenuItem miCadGabarito = new JMenuItem("Gabarito");
@@ -41,6 +43,8 @@ public class PainelCadastroDisciplina extends JPanel {
 				FramePatec.frame.repaint();
 			}
 		});
+		KeyStroke ksCadGabarito = KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.ALT_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK);
+		miCadGabarito.setAccelerator(ksCadGabarito);
 		mnCadastro.add(miCadGabarito);
 		
 		JMenuItem miCadAluno = new JMenuItem("Aluno");
@@ -52,6 +56,8 @@ public class PainelCadastroDisciplina extends JPanel {
 				FramePatec.frame.repaint();
 			}
 		});
+		KeyStroke ksCadAluno = KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.ALT_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK);
+		miCadAluno.setAccelerator(ksCadAluno);
 		mnCadastro.add(miCadAluno);
 		
 		JMenuItem miCadDisciplina = new JMenuItem("Disciplina");
@@ -63,9 +69,12 @@ public class PainelCadastroDisciplina extends JPanel {
 				FramePatec.frame.repaint();
 			}
 		});
+		KeyStroke ksCadDisciplina = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.ALT_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK);
+		miCadDisciplina.setAccelerator(ksCadDisciplina);
 		mnCadastro.add(miCadDisciplina);
 		
 		JMenu mnRelatorio = new JMenu("Relatório");
+		mnRelatorio.setMnemonic(KeyEvent.VK_R);
 		menuBarCoord.add(mnRelatorio);
 		
 		JMenuItem miRelatorioDisciplina = new JMenuItem("Por Disciplina");
@@ -79,6 +88,8 @@ public class PainelCadastroDisciplina extends JPanel {
 			}
 		});
 		*/
+		KeyStroke ksRelatorioDisciplina = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK);
+		miCadDisciplina.setAccelerator(ksRelatorioDisciplina);
 		mnRelatorio.add(miRelatorioDisciplina);
 		
 		JMenuItem miRelatorioAluno = new JMenuItem("Por Aluno");
@@ -92,6 +103,8 @@ public class PainelCadastroDisciplina extends JPanel {
 			}
 		});
 		*/
+		KeyStroke ksRelatorioAluno = KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK);
+		miRelatorioAluno.setAccelerator(ksRelatorioAluno);
 		mnRelatorio.add(miRelatorioAluno);
 		
 		JButton btnSair = new JButton("Sair");
