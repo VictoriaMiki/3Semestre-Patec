@@ -1,6 +1,9 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class PainelMenuAluno extends JPanel {
@@ -47,12 +50,20 @@ public class PainelMenuAluno extends JPanel {
 		JMenu mnNewMenu_6 = new JMenu("6° SEM");
 		mnNewMenu.add(mnNewMenu_6);
 		
-		JButton btnNewButton = new JButton("Sair");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.anchor = GridBagConstraints.NORTHEAST;
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
-		add(btnNewButton, gbc_btnNewButton);
+		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelLogin p = new PainelLogin();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		GridBagConstraints gbc_btnSair = new GridBagConstraints();
+		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btnSair.gridx = 0;
+		gbc_btnSair.gridy = 1;
+		add(btnSair, gbc_btnSair);
 	}
 
 }

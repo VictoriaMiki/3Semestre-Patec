@@ -3,6 +3,8 @@ package view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JMenu;
@@ -54,12 +56,20 @@ public class PainelListarGabarito extends JPanel {
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Por Aluno");
 		mnNewMenu_1.add(mntmNewMenuItem_4);
 		
-		JButton btnNewButton = new JButton("Sair");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.anchor = GridBagConstraints.NORTHEAST;
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
-		add(btnNewButton, gbc_btnNewButton);
+		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelLogin p = new PainelLogin();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		GridBagConstraints gbc_btnSair = new GridBagConstraints();
+		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btnSair.gridx = 0;
+		gbc_btnSair.gridy = 1;
+		add(btnSair, gbc_btnSair);
 	}
 
 }
