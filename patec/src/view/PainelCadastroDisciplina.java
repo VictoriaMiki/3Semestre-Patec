@@ -108,6 +108,14 @@ public class PainelCadastroDisciplina extends JPanel {
 		mnRelatorio.add(miRelatorioAluno);
 		
 		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelLogin p = new PainelLogin();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
 		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnSair.gridx = 0;
