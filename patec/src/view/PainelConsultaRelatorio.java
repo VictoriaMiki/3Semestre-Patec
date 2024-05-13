@@ -13,12 +13,12 @@ public class PainelConsultaRelatorio extends JPanel {
 	 */
 	public PainelConsultaRelatorio() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 450, 0, 0};
-		gridBagLayout.rowHeights = new int[]{28, 272, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[] { 0, 450, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 28, 272, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-		
+
 		JMenuBar menuBarCoord = new JMenuBar();
 		GridBagConstraints gbc_menuBarCoord = new GridBagConstraints();
 		gbc_menuBarCoord.gridwidth = 3;
@@ -28,10 +28,10 @@ public class PainelConsultaRelatorio extends JPanel {
 		gbc_menuBarCoord.gridx = 0;
 		gbc_menuBarCoord.gridy = 0;
 		add(menuBarCoord, gbc_menuBarCoord);
-		
+
 		JMenu mnCadastro = new JMenu("Cadastro");
 		menuBarCoord.add(mnCadastro);
-		
+
 		JMenuItem miCadGabarito = new JMenuItem("Gabarito");
 		miCadGabarito.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -42,7 +42,7 @@ public class PainelConsultaRelatorio extends JPanel {
 			}
 		});
 		mnCadastro.add(miCadGabarito);
-		
+
 		JMenuItem miCadAluno = new JMenuItem("Aluno");
 		miCadAluno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -53,7 +53,7 @@ public class PainelConsultaRelatorio extends JPanel {
 			}
 		});
 		mnCadastro.add(miCadAluno);
-		
+
 		JMenuItem miCadDisciplina = new JMenuItem("Disciplina");
 		miCadDisciplina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,36 +64,28 @@ public class PainelConsultaRelatorio extends JPanel {
 			}
 		});
 		mnCadastro.add(miCadDisciplina);
-		
+
 		JMenu mnRelatorio = new JMenu("Relatório");
 		menuBarCoord.add(mnRelatorio);
-		
+
 		JMenuItem miRelatorioDisciplina = new JMenuItem("Por Disciplina");
 		/*
-		miRelatorioDisciplina.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelRelatorioDisciplina p = new PainelRelatorioDisciplina();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
-		*/
+		 * miRelatorioDisciplina.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { PainelRelatorioDisciplina p = new
+		 * PainelRelatorioDisciplina(); FramePatec.frame.setContentPane(p);
+		 * FramePatec.frame.revalidate(); FramePatec.frame.repaint(); } });
+		 */
 		mnRelatorio.add(miRelatorioDisciplina);
-		
+
 		JMenuItem miRelatorioAluno = new JMenuItem("Por Aluno");
 		/*
-		miRelatorioAluno.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelRelatorioAluno p = new PainelRelatorioAluno();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
-		*/
+		 * miRelatorioAluno.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { PainelRelatorioAluno p = new
+		 * PainelRelatorioAluno(); FramePatec.frame.setContentPane(p);
+		 * FramePatec.frame.revalidate(); FramePatec.frame.repaint(); } });
+		 */
 		mnRelatorio.add(miRelatorioAluno);
-		
+
 		JButton btnSair = new JButton("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -103,7 +95,7 @@ public class PainelConsultaRelatorio extends JPanel {
 				FramePatec.frame.repaint();
 			}
 		});
-		
+
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
