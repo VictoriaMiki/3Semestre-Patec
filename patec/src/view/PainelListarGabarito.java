@@ -1,16 +1,8 @@
 package view;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class PainelListarGabarito extends JPanel {
 
@@ -21,13 +13,14 @@ public class PainelListarGabarito extends JPanel {
 	 */
 	public PainelListarGabarito() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{450, 0};
+		gridBagLayout.columnWidths = new int[]{0, 450, 0, 0};
 		gridBagLayout.rowHeights = new int[]{28, 272, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		JMenuBar menuBar = new JMenuBar();
 		GridBagConstraints gbc_menuBar = new GridBagConstraints();
+		gbc_menuBar.gridwidth = 3;
 		gbc_menuBar.anchor = GridBagConstraints.NORTH;
 		gbc_menuBar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_menuBar.insets = new Insets(0, 0, 5, 0);
@@ -65,9 +58,25 @@ public class PainelListarGabarito extends JPanel {
 				FramePatec.frame.repaint();
 			}
 		});
+		
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelMenuCoordenador p = new PainelMenuCoordenador();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		GridBagConstraints gbc_btnVoltar = new GridBagConstraints();
+		gbc_btnVoltar.anchor = GridBagConstraints.NORTH;
+		gbc_btnVoltar.insets = new Insets(0, 0, 0, 5);
+		gbc_btnVoltar.gridx = 0;
+		gbc_btnVoltar.gridy = 1;
+		add(btnVoltar, gbc_btnVoltar);
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
 		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;
-		gbc_btnSair.gridx = 0;
+		gbc_btnSair.gridx = 2;
 		gbc_btnSair.gridy = 1;
 		add(btnSair, gbc_btnSair);
 	}
