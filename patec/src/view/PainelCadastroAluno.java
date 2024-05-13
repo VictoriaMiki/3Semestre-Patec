@@ -109,6 +109,14 @@ public class PainelCadastroAluno extends JPanel {
 		mnRelatorio.add(miRelatorioAluno);
 		
 		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelMenuCoordenador p = new PainelMenuCoordenador();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
 		GridBagConstraints gbc_btnVoltar = new GridBagConstraints();
 		gbc_btnVoltar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnVoltar.gridx = 0;
@@ -116,6 +124,14 @@ public class PainelCadastroAluno extends JPanel {
 		add(btnVoltar, gbc_btnVoltar);
 		
 		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelLogin p = new PainelLogin();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
 		gbc_btnSair.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSair.anchor = GridBagConstraints.NORTH;
