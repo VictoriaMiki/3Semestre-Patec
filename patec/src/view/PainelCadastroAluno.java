@@ -3,6 +3,10 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import net.sourceforge.jdatepicker.JDatePicker;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 public class PainelCadastroAluno extends JPanel {
 
@@ -261,6 +265,19 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_lblDataNascimentoAluno.gridy = 6;
 		containerCadastroAluno.add(lblDataNascimentoAluno, gbc_lblDataNascimentoAluno);
 
+		UtilDateModel model = new UtilDateModel();
+		JDatePanelImpl datePanel = new JDatePanelImpl(model);
+		JDatePickerImpl tftDataNascimentoAluno = new JDatePickerImpl(datePanel);
+		tftDataNascimentoAluno.getJFormattedTextField().setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_tftDataNascimentoAluno = new GridBagConstraints();
+		gbc_tftDataNascimentoAluno.gridwidth = 5;
+		gbc_tftDataNascimentoAluno.insets = new Insets(0, 0, 5, 0);
+		gbc_tftDataNascimentoAluno.fill = GridBagConstraints.BOTH;
+		gbc_tftDataNascimentoAluno.gridx = 1;
+		gbc_tftDataNascimentoAluno.gridy = 7;
+		containerCadastroAluno.add(tftDataNascimentoAluno, gbc_tftDataNascimentoAluno);
+		
+		/*
 		JFormattedTextField tftDataNascimentoAluno = new JFormattedTextField();
 		tftDataNascimentoAluno.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_tftDataNascimentoAluno = new GridBagConstraints();
@@ -270,7 +287,8 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_tftDataNascimentoAluno.gridx = 1;
 		gbc_tftDataNascimentoAluno.gridy = 7;
 		containerCadastroAluno.add(tftDataNascimentoAluno, gbc_tftDataNascimentoAluno);
-
+		*/
+		
 		JButton btnCadastrar = new JButton("Cadastrar");
 		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
 		gbc_btnCadastrar.gridwidth = 5;
