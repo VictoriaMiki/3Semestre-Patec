@@ -40,23 +40,23 @@ public class PainelMenuAluno extends JPanel {
 		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 1.0, 1.0 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-		
-				JButton btnSair = new JButton("Sair");
-				btnSair.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PainelLogin p = new PainelLogin();
-						FramePatec.frame.setContentPane(p);
-						FramePatec.frame.revalidate();
-						FramePatec.frame.repaint();
-					}
-				});
-				GridBagConstraints gbc_btnSair = new GridBagConstraints();
-				gbc_btnSair.anchor = GridBagConstraints.EAST;
-				gbc_btnSair.insets = new Insets(0, 0, 5, 0);
-				gbc_btnSair.gridx = 3;
-				gbc_btnSair.gridy = 0;
-				add(btnSair, gbc_btnSair);
-		
+
+		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelLogin p = new PainelLogin();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		GridBagConstraints gbc_btnSair = new GridBagConstraints();
+		gbc_btnSair.anchor = GridBagConstraints.EAST;
+		gbc_btnSair.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSair.gridx = 3;
+		gbc_btnSair.gridy = 0;
+		add(btnSair, gbc_btnSair);
+
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.ipadx = 10;
@@ -67,15 +67,15 @@ public class PainelMenuAluno extends JPanel {
 		add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		panel.setLayout(gbl_panel);
-		
-		JLabel lblNewLabel = new JLabel("Bem-vindo(a)!");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
+
+		JLabel lblBemVindo = new JLabel("Bem-vindo(a)!");
+		lblBemVindo.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblBemVindo = new GridBagConstraints();
+		gbc_lblBemVindo.anchor = GridBagConstraints.EAST;
+		gbc_lblBemVindo.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBemVindo.gridx = 0;
+		gbc_lblBemVindo.gridy = 0;
+		panel.add(lblBemVindo, gbc_lblBemVindo);
 
 		JPanel containerSelecionarAvaliacao = new JPanel();
 		containerSelecionarAvaliacao.setBackground(new Color(240, 240, 240));
@@ -86,8 +86,8 @@ public class PainelMenuAluno extends JPanel {
 		gbc_containerSelecionarAvaliacao.gridy = 1;
 		add(containerSelecionarAvaliacao, gbc_containerSelecionarAvaliacao);
 		GridBagLayout gbl_containerSelecionarAvaliacao = new GridBagLayout();
-		gbl_containerSelecionarAvaliacao.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
-		gbl_containerSelecionarAvaliacao.columnWidths = new int[]{10, 0, 0, 0};
+		gbl_containerSelecionarAvaliacao.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
+		gbl_containerSelecionarAvaliacao.columnWidths = new int[] { 10, 0, 0, 0 };
 		containerSelecionarAvaliacao.setLayout(gbl_containerSelecionarAvaliacao);
 
 		JComboBox<String> cbDisciplina = new JComboBox<String>(disciplinas);
@@ -103,39 +103,39 @@ public class PainelMenuAluno extends JPanel {
 				}
 			}
 		});
-				
-				JSeparator separator = new JSeparator();
-				separator.setForeground(new Color(0, 0, 0));
-				separator.setBackground(new Color(0, 0, 0));
-				separator.setOrientation(SwingConstants.VERTICAL);
-				GridBagConstraints gbc_separator = new GridBagConstraints();
-				gbc_separator.ipadx = 10;
-				gbc_separator.fill = GridBagConstraints.BOTH;
-				gbc_separator.gridheight = 6;
-				gbc_separator.insets = new Insets(0, 0, 0, 5);
-				gbc_separator.gridx = 0;
-				gbc_separator.gridy = 0;
-				containerSelecionarAvaliacao.add(separator, gbc_separator);
-		
-				JLabel lblSemestre = new JLabel("Semestre:");
-				lblSemestre.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				GridBagConstraints gbc_lblSemestre = new GridBagConstraints();
-				gbc_lblSemestre.gridwidth = 3;
-				gbc_lblSemestre.insets = new Insets(0, 0, 5, 0);
-				gbc_lblSemestre.anchor = GridBagConstraints.WEST;
-				gbc_lblSemestre.gridx = 1;
-				gbc_lblSemestre.gridy = 0;
-				containerSelecionarAvaliacao.add(lblSemestre, gbc_lblSemestre);
-		
-				JLabel lblDisciplina = new JLabel("Disciplina:");
-				lblDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				GridBagConstraints gbc_lblDisciplina = new GridBagConstraints();
-				gbc_lblDisciplina.gridwidth = 3;
-				gbc_lblDisciplina.insets = new Insets(0, 0, 5, 0);
-				gbc_lblDisciplina.anchor = GridBagConstraints.WEST;
-				gbc_lblDisciplina.gridx = 1;
-				gbc_lblDisciplina.gridy = 2;
-				containerSelecionarAvaliacao.add(lblDisciplina, gbc_lblDisciplina);
+
+		JSeparator separator = new JSeparator();
+		separator.setForeground(new Color(0, 0, 0));
+		separator.setBackground(new Color(0, 0, 0));
+		separator.setOrientation(SwingConstants.VERTICAL);
+		GridBagConstraints gbc_separator = new GridBagConstraints();
+		gbc_separator.ipadx = 10;
+		gbc_separator.fill = GridBagConstraints.BOTH;
+		gbc_separator.gridheight = 6;
+		gbc_separator.insets = new Insets(0, 0, 0, 5);
+		gbc_separator.gridx = 0;
+		gbc_separator.gridy = 0;
+		containerSelecionarAvaliacao.add(separator, gbc_separator);
+
+		JLabel lblSemestre = new JLabel("Semestre:");
+		lblSemestre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblSemestre = new GridBagConstraints();
+		gbc_lblSemestre.gridwidth = 3;
+		gbc_lblSemestre.insets = new Insets(0, 0, 5, 0);
+		gbc_lblSemestre.anchor = GridBagConstraints.WEST;
+		gbc_lblSemestre.gridx = 1;
+		gbc_lblSemestre.gridy = 0;
+		containerSelecionarAvaliacao.add(lblSemestre, gbc_lblSemestre);
+
+		JLabel lblDisciplina = new JLabel("Disciplina:");
+		lblDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblDisciplina = new GridBagConstraints();
+		gbc_lblDisciplina.gridwidth = 3;
+		gbc_lblDisciplina.insets = new Insets(0, 0, 5, 0);
+		gbc_lblDisciplina.anchor = GridBagConstraints.WEST;
+		gbc_lblDisciplina.gridx = 1;
+		gbc_lblDisciplina.gridy = 2;
+		containerSelecionarAvaliacao.add(lblDisciplina, gbc_lblDisciplina);
 		GridBagConstraints gbc_cbDisciplina = new GridBagConstraints();
 		gbc_cbDisciplina.insets = new Insets(0, 0, 5, 0);
 		gbc_cbDisciplina.gridwidth = 3;
@@ -191,21 +191,26 @@ public class PainelMenuAluno extends JPanel {
 		gbc_cbSemestre.gridx = 1;
 		gbc_cbSemestre.gridy = 1;
 		containerSelecionarAvaliacao.add(cbSemestre, gbc_cbSemestre);
-		
-				JButton btnRealizarAvaliacao = new JButton("Realizar Avaliação");
-				btnRealizarAvaliacao.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PainelFolhaDeRespostas p = new PainelFolhaDeRespostas();
-						FramePatec.frame.setContentPane(p);
-						FramePatec.frame.revalidate();
-						FramePatec.frame.repaint();
-					}
-				});
-				GridBagConstraints gbc_btnRealizarAvaliacao = new GridBagConstraints();
-				gbc_btnRealizarAvaliacao.gridwidth = 3;
-				gbc_btnRealizarAvaliacao.gridx = 1;
-				gbc_btnRealizarAvaliacao.gridy = 5;
-				containerSelecionarAvaliacao.add(btnRealizarAvaliacao, gbc_btnRealizarAvaliacao);
+
+		JButton btnRealizarAvaliacao = new JButton("Realizar Avaliação");
+		btnRealizarAvaliacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (cbDisciplina.getSelectedItem().toString() != "-- selecione uma disciplina --") {
+					PainelFolhaDeRespostas p = new PainelFolhaDeRespostas();
+					FramePatec.frame.setContentPane(p);
+					FramePatec.frame.revalidate();
+					FramePatec.frame.repaint();
+				} else {
+					JOptionPane.showMessageDialog(null, "Por favor, selecione uma disciplina.");
+				}
+			}
+		});
+		GridBagConstraints gbc_btnRealizarAvaliacao = new GridBagConstraints();
+		gbc_btnRealizarAvaliacao.gridwidth = 3;
+		gbc_btnRealizarAvaliacao.gridx = 1;
+		gbc_btnRealizarAvaliacao.gridy = 5;
+		containerSelecionarAvaliacao.add(btnRealizarAvaliacao, gbc_btnRealizarAvaliacao);
 	}
 
 }
