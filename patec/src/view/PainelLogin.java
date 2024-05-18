@@ -33,12 +33,12 @@ public class PainelLogin extends JPanel {
 		gbl_panel.rowWeights = new double[] { 0.0 };
 		panel.setLayout(gbl_panel);
 
-		JLabel lblNewLabel = new JLabel("Log-in");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblLogin = new JLabel("Log-in");
+		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblLogin = new GridBagConstraints();
+		gbc_lblLogin.gridx = 0;
+		gbc_lblLogin.gridy = 0;
+		panel.add(lblLogin, gbc_lblLogin);
 
 		loginContainer = new JPanel();
 		loginContainer.setBackground(new Color(240, 240, 240));
@@ -79,8 +79,60 @@ public class PainelLogin extends JPanel {
 		gbc_lblUsuario.gridy = 0;
 		loginContainer.add(lblUsuario, gbc_lblUsuario);
 
+		JLabel lblErroUsuarioSenha = new JLabel("Usuário e/ou senha inválido(s).");
+		lblErroUsuarioSenha.setForeground(new Color(255, 0, 0));
+		GridBagConstraints gbc_lblErroUsuarioSenha = new GridBagConstraints();
+		gbc_lblErroUsuarioSenha.anchor = GridBagConstraints.WEST;
+		gbc_lblErroUsuarioSenha.gridwidth = 4;
+		gbc_lblErroUsuarioSenha.insets = new Insets(0, 0, 5, 5);
+		gbc_lblErroUsuarioSenha.gridx = 1;
+		gbc_lblErroUsuarioSenha.gridy = 4;
+		loginContainer.add(lblErroUsuarioSenha, gbc_lblErroUsuarioSenha);
+		lblErroUsuarioSenha.setVisible(false);
+
+		JLabel lblSenha = new JLabel("Senha:");
+		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 20));
+		GridBagConstraints gbc_lblSenha = new GridBagConstraints();
+		gbc_lblSenha.gridwidth = 4;
+		gbc_lblSenha.fill = GridBagConstraints.VERTICAL;
+		gbc_lblSenha.anchor = GridBagConstraints.WEST;
+		gbc_lblSenha.insets = new Insets(0, 0, 5, 0);
+		gbc_lblSenha.gridx = 1;
+		gbc_lblSenha.gridy = 2;
+		loginContainer.add(lblSenha, gbc_lblSenha);
+
 		tfUsuario = new JTextField();
+		tfUsuario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblErroUsuarioSenha.setVisible(false);
+			}
+		});
 		tfUsuario.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		tfUsuario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					char[] senha = pfSenha.getPassword();
+
+					if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, senha)) {
+						Arrays.fill(senha, '0');
+						PainelMenuCoordenador p = new PainelMenuCoordenador();
+						FramePatec.frame.setContentPane(p);
+						FramePatec.frame.revalidate();
+						FramePatec.frame.repaint();
+					} else if (tfUsuario.getText().contentEquals("aluno") && senhaValida(true, senha)) {
+						Arrays.fill(senha, '0');
+						PainelMenuAluno p = new PainelMenuAluno();
+						FramePatec.frame.setContentPane(p);
+						FramePatec.frame.revalidate();
+						FramePatec.frame.repaint();
+					} else {
+						lblErroUsuarioSenha.setVisible(true);
+					}
+				}
+			}
+		});
 		GridBagConstraints gbc_tfUsuario = new GridBagConstraints();
 		gbc_tfUsuario.gridwidth = 4;
 		gbc_tfUsuario.fill = GridBagConstraints.BOTH;
@@ -90,6 +142,12 @@ public class PainelLogin extends JPanel {
 		loginContainer.add(tfUsuario, gbc_tfUsuario);
 
 		pfSenha = new JPasswordField();
+		pfSenha.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblErroUsuarioSenha.setVisible(false);
+			}
+		});
 		pfSenha.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		pfSenha.addKeyListener(new KeyAdapter() {
 			@Override
@@ -109,21 +167,12 @@ public class PainelLogin extends JPanel {
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
+					} else {
+						lblErroUsuarioSenha.setVisible(true);
 					}
 				}
 			}
 		});
-
-		JLabel lblSenha = new JLabel("Senha:");
-		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 20));
-		GridBagConstraints gbc_lblSenha = new GridBagConstraints();
-		gbc_lblSenha.gridwidth = 4;
-		gbc_lblSenha.fill = GridBagConstraints.VERTICAL;
-		gbc_lblSenha.anchor = GridBagConstraints.WEST;
-		gbc_lblSenha.insets = new Insets(0, 0, 5, 0);
-		gbc_lblSenha.gridx = 1;
-		gbc_lblSenha.gridy = 2;
-		loginContainer.add(lblSenha, gbc_lblSenha);
 		GridBagConstraints gbc_pfSenha = new GridBagConstraints();
 		gbc_pfSenha.gridwidth = 4;
 		gbc_pfSenha.fill = GridBagConstraints.BOTH;
@@ -149,11 +198,12 @@ public class PainelLogin extends JPanel {
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();
+				} else {
+					lblErroUsuarioSenha.setVisible(false);
 				}
 
 			}
 		});
-
 		GridBagConstraints gbc_btnEntrar = new GridBagConstraints();
 		gbc_btnEntrar.gridwidth = 4;
 		gbc_btnEntrar.anchor = GridBagConstraints.NORTH;
