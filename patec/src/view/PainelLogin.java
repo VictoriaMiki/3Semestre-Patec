@@ -199,7 +199,7 @@ public class PainelLogin extends JPanel {
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();
 				} else {
-					lblErroUsuarioSenha.setVisible(false);
+					lblErroUsuarioSenha.setVisible(true);
 				}
 
 			}
