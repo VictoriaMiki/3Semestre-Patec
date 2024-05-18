@@ -4,14 +4,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class PainelListarGabarito extends JPanel {
+public class PainelListarGabaritos extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Create the panel.
 	 */
-	public PainelListarGabarito() {
+	public PainelListarGabaritos() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 450, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 272, 0 };
