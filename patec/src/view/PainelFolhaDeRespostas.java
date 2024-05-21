@@ -1,6 +1,9 @@
 package view;
 
 import javax.swing.*;
+
+import model.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -13,45 +16,48 @@ public class PainelFolhaDeRespostas extends JPanel {
 	private final ButtonGroup grupoQuestaoQuatro = new ButtonGroup();
 	private final ButtonGroup grupoQuestaoCinco = new ButtonGroup();
 
+	private FolhaDeRespostas fdr = new FolhaDeRespostas();
+
 	/**
 	 * Create the panel.
 	 */
 	public PainelFolhaDeRespostas() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.rowHeights = new int[]{0, 265, 0};
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0};
-		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, 1.0};
-		gridBagLayout.columnWidths = new int[]{0, 0, 160, 0};
+		gridBagLayout.rowHeights = new int[] { 0, 265, 0 };
+		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 1.0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 1.0, 1.0 };
+		gridBagLayout.columnWidths = new int[] { 0, 0, 160, 0 };
 		setLayout(gridBagLayout);
-		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.ipadx = 5;
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 1;
-		add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		panel.setLayout(gbl_panel);
-		
-		JLabel lblNewLabel = new JLabel("Folha de");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
+
+		JPanel containerLabel = new JPanel();
+		GridBagConstraints gbc_containerLabel = new GridBagConstraints();
+		gbc_containerLabel.ipadx = 5;
+		gbc_containerLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_containerLabel.fill = GridBagConstraints.BOTH;
+		gbc_containerLabel.gridx = 1;
+		gbc_containerLabel.gridy = 1;
+		add(containerLabel, gbc_containerLabel);
+		GridBagLayout gbl_containerLabel = new GridBagLayout();
+		containerLabel.setLayout(gbl_containerLabel);
+
+		JLabel lblFolhaDe = new JLabel("Folha de");
+		lblFolhaDe.setFont(new Font("Tahoma", Font.BOLD, 40));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Respostas");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 40));
+		containerLabel.add(lblFolhaDe, gbc_lblNewLabel);
+
+		JLabel lblRespostas = new JLabel("Respostas");
+		lblRespostas.setFont(new Font("Tahoma", Font.BOLD, 40));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 1;
-		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		containerLabel.add(lblRespostas, gbc_lblNewLabel_1);
 
+		// Configurações da folha de respostas:
 		JPanel containerFolhaRespostas = new JPanel();
 		containerFolhaRespostas.setBackground(new Color(240, 240, 240));
 		GridBagConstraints gbc_containerFolhaRespostas = new GridBagConstraints();
@@ -69,7 +75,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 		gbl_containerFolhaRespostas.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		containerFolhaRespostas.setLayout(gbl_containerFolhaRespostas);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
 		separator.setBackground(new Color(0, 0, 0));
@@ -83,6 +89,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 		gbc_separator.gridy = 0;
 		containerFolhaRespostas.add(separator, gbc_separator);
 
+		// Labels das alternativas:
 		JLabel lblAlternativaA = new JLabel("A");
 		GridBagConstraints gbc_lblAlternativaA = new GridBagConstraints();
 		gbc_lblAlternativaA.insets = new Insets(0, 0, 5, 5);
@@ -118,6 +125,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 		gbc_lblAlternativaE.gridy = 0;
 		containerFolhaRespostas.add(lblAlternativaE, gbc_lblAlternativaE);
 
+		// Label e radio buttons da questão 1:
 		JLabel lblQuestaoUm = new JLabel("1.");
 		GridBagConstraints gbc_lblQuestaoUm = new GridBagConstraints();
 		gbc_lblQuestaoUm.insets = new Insets(0, 0, 5, 5);
@@ -126,6 +134,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(lblQuestaoUm, gbc_lblQuestaoUm);
 
 		JRadioButton rdbtnQuestaoUmA = new JRadioButton("");
+		rdbtnQuestaoUmA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta1('A');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmA);
 		GridBagConstraints gbc_rdbtnQuestaoUmA = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmA.insets = new Insets(0, 0, 5, 5);
@@ -134,6 +147,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoUmA, gbc_rdbtnQuestaoUmA);
 
 		JRadioButton rdbtnQuestaoUmB = new JRadioButton("");
+		rdbtnQuestaoUmB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta1('B');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmB);
 		GridBagConstraints gbc_rdbtnQuestaoUmB = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmB.insets = new Insets(0, 0, 5, 5);
@@ -142,6 +160,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoUmB, gbc_rdbtnQuestaoUmB);
 
 		JRadioButton rdbtnQuestaoUmC = new JRadioButton("");
+		rdbtnQuestaoUmC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta1('C');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmC);
 		GridBagConstraints gbc_rdbtnQuestaoUmC = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmC.insets = new Insets(0, 0, 5, 5);
@@ -150,6 +173,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoUmC, gbc_rdbtnQuestaoUmC);
 
 		JRadioButton rdbtnQuestaoUmD = new JRadioButton("");
+		rdbtnQuestaoUmD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta1('D');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmD);
 		GridBagConstraints gbc_rdbtnQuestaoUmD = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmD.insets = new Insets(0, 0, 5, 5);
@@ -158,6 +186,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoUmD, gbc_rdbtnQuestaoUmD);
 
 		JRadioButton rdbtnQuestaoUmE = new JRadioButton("");
+		rdbtnQuestaoUmE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta1('E');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmE);
 		GridBagConstraints gbc_rdbtnQuestaoUmE = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmE.insets = new Insets(0, 0, 5, 0);
@@ -165,6 +198,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 		gbc_rdbtnQuestaoUmE.gridy = 1;
 		containerFolhaRespostas.add(rdbtnQuestaoUmE, gbc_rdbtnQuestaoUmE);
 
+		// Label e radio buttons da questão 2:
 		JLabel lblQuestaoDois = new JLabel("2.");
 		GridBagConstraints gbc_lblQuestaoDois = new GridBagConstraints();
 		gbc_lblQuestaoDois.insets = new Insets(0, 0, 5, 5);
@@ -173,6 +207,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(lblQuestaoDois, gbc_lblQuestaoDois);
 
 		JRadioButton rdbtnQuestaoDoisA = new JRadioButton("");
+		rdbtnQuestaoDoisA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta2('A');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisA);
 		GridBagConstraints gbc_rdbtnQuestaoDoisA = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisA.insets = new Insets(0, 0, 5, 5);
@@ -181,6 +220,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoDoisA, gbc_rdbtnQuestaoDoisA);
 
 		JRadioButton rdbtnQuestaoDoisB = new JRadioButton("");
+		rdbtnQuestaoDoisB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta2('B');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisB);
 		GridBagConstraints gbc_rdbtnQuestaoDoisB = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisB.insets = new Insets(0, 0, 5, 5);
@@ -189,6 +233,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoDoisB, gbc_rdbtnQuestaoDoisB);
 
 		JRadioButton rdbtnQuestaoDoisC = new JRadioButton("");
+		rdbtnQuestaoDoisC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta2('C');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisC);
 		GridBagConstraints gbc_rdbtnQuestaoDoisC = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisC.insets = new Insets(0, 0, 5, 5);
@@ -197,6 +246,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoDoisC, gbc_rdbtnQuestaoDoisC);
 
 		JRadioButton rdbtnQuestaoDoisD = new JRadioButton("");
+		rdbtnQuestaoDoisD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta2('D');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisD);
 		GridBagConstraints gbc_rdbtnQuestaoDoisD = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisD.insets = new Insets(0, 0, 5, 5);
@@ -205,6 +259,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoDoisD, gbc_rdbtnQuestaoDoisD);
 
 		JRadioButton rdbtnQuestaoDoisE = new JRadioButton("");
+		rdbtnQuestaoDoisE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta2('E');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisE);
 		GridBagConstraints gbc_rdbtnQuestaoDoisE = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisE.insets = new Insets(0, 0, 5, 0);
@@ -212,6 +271,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 		gbc_rdbtnQuestaoDoisE.gridy = 2;
 		containerFolhaRespostas.add(rdbtnQuestaoDoisE, gbc_rdbtnQuestaoDoisE);
 
+		// Label e radio buttons da questão 3:
 		JLabel lblQuestaoTres = new JLabel("3.");
 		GridBagConstraints gbc_lblQuestaoTres = new GridBagConstraints();
 		gbc_lblQuestaoTres.insets = new Insets(0, 0, 5, 5);
@@ -220,6 +280,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(lblQuestaoTres, gbc_lblQuestaoTres);
 
 		JRadioButton rdbtnQuestaoTresA = new JRadioButton("");
+		rdbtnQuestaoTresA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta3('A');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresA);
 		GridBagConstraints gbc_rdbtnQuestaoTresA = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresA.insets = new Insets(0, 0, 5, 5);
@@ -228,6 +293,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoTresA, gbc_rdbtnQuestaoTresA);
 
 		JRadioButton rdbtnQuestaoTresB = new JRadioButton("");
+		rdbtnQuestaoTresB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta3('B');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresB);
 		GridBagConstraints gbc_rdbtnQuestaoTresB = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresB.insets = new Insets(0, 0, 5, 5);
@@ -236,6 +306,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoTresB, gbc_rdbtnQuestaoTresB);
 
 		JRadioButton rdbtnQuestaoTresC = new JRadioButton("");
+		rdbtnQuestaoTresC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta3('C');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresC);
 		GridBagConstraints gbc_rdbtnQuestaoTresC = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresC.insets = new Insets(0, 0, 5, 5);
@@ -244,6 +319,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoTresC, gbc_rdbtnQuestaoTresC);
 
 		JRadioButton rdbtnQuestaoTresD = new JRadioButton("");
+		rdbtnQuestaoTresD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta3('D');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresD);
 		GridBagConstraints gbc_rdbtnQuestaoTresD = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresD.insets = new Insets(0, 0, 5, 5);
@@ -252,6 +332,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoTresD, gbc_rdbtnQuestaoTresD);
 
 		JRadioButton rdbtnQuestaoTresE = new JRadioButton("");
+		rdbtnQuestaoTresE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta3('E');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresE);
 		GridBagConstraints gbc_rdbtnQuestaoTresE = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresE.insets = new Insets(0, 0, 5, 0);
@@ -259,6 +344,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 		gbc_rdbtnQuestaoTresE.gridy = 3;
 		containerFolhaRespostas.add(rdbtnQuestaoTresE, gbc_rdbtnQuestaoTresE);
 
+		// Label e radio buttons da questão 4:
 		JLabel lblQuestaoQuatro = new JLabel("4.");
 		GridBagConstraints gbc_lblQuestaoQuatro = new GridBagConstraints();
 		gbc_lblQuestaoQuatro.insets = new Insets(0, 0, 5, 5);
@@ -267,6 +353,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(lblQuestaoQuatro, gbc_lblQuestaoQuatro);
 
 		JRadioButton rdbtnQuestaoQuatroA = new JRadioButton("");
+		rdbtnQuestaoQuatroA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta4('A');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroA);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroA = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroA.insets = new Insets(0, 0, 5, 5);
@@ -275,6 +366,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoQuatroA, gbc_rdbtnQuestaoQuatroA);
 
 		JRadioButton rdbtnQuestaoQuatroB = new JRadioButton("");
+		rdbtnQuestaoQuatroB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta4('B');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroB);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroB = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroB.insets = new Insets(0, 0, 5, 5);
@@ -283,6 +379,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoQuatroB, gbc_rdbtnQuestaoQuatroB);
 
 		JRadioButton rdbtnQuestaoQuatroC = new JRadioButton("");
+		rdbtnQuestaoQuatroC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta4('C');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroC);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroC = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroC.insets = new Insets(0, 0, 5, 5);
@@ -291,6 +392,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoQuatroC, gbc_rdbtnQuestaoQuatroC);
 
 		JRadioButton rdbtnQuestaoQuatroD = new JRadioButton("");
+		rdbtnQuestaoQuatroD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta4('D');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroD);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroD = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroD.insets = new Insets(0, 0, 5, 5);
@@ -299,6 +405,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoQuatroD, gbc_rdbtnQuestaoQuatroD);
 
 		JRadioButton rdbtnQuestaoQuatroE = new JRadioButton("");
+		rdbtnQuestaoQuatroE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta4('E');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroE);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroE = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroE.insets = new Insets(0, 0, 5, 0);
@@ -306,6 +417,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 		gbc_rdbtnQuestaoQuatroE.gridy = 4;
 		containerFolhaRespostas.add(rdbtnQuestaoQuatroE, gbc_rdbtnQuestaoQuatroE);
 
+		// Label e radio buttons da questão 1:
 		JLabel lblQuestaoCinco = new JLabel("5.");
 		GridBagConstraints gbc_lblQuestaoCinco = new GridBagConstraints();
 		gbc_lblQuestaoCinco.insets = new Insets(0, 0, 5, 5);
@@ -314,6 +426,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(lblQuestaoCinco, gbc_lblQuestaoCinco);
 
 		JRadioButton rdbtnQuestaoCincoA = new JRadioButton("");
+		rdbtnQuestaoCincoA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta5('A');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoA);
 		GridBagConstraints gbc_rdbtnQuestaoCincoA = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoA.insets = new Insets(0, 0, 5, 5);
@@ -322,6 +439,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoCincoA, gbc_rdbtnQuestaoCincoA);
 
 		JRadioButton rdbtnQuestaoCincoB = new JRadioButton("");
+		rdbtnQuestaoCincoB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta5('B');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoB);
 		GridBagConstraints gbc_rdbtnQuestaoCincoB = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoB.insets = new Insets(0, 0, 5, 5);
@@ -330,6 +452,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoCincoB, gbc_rdbtnQuestaoCincoB);
 
 		JRadioButton rdbtnQuestaoCincoC = new JRadioButton("");
+		rdbtnQuestaoCincoC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta5('C');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoC);
 		GridBagConstraints gbc_rdbtnQuestaoCincoC = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoC.insets = new Insets(0, 0, 5, 5);
@@ -338,6 +465,11 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoCincoC, gbc_rdbtnQuestaoCincoC);
 
 		JRadioButton rdbtnQuestaoCincoD = new JRadioButton("");
+		rdbtnQuestaoCincoD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta5('D');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoD);
 		GridBagConstraints gbc_rdbtnQuestaoCincoD = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoD.insets = new Insets(0, 0, 5, 5);
@@ -346,37 +478,41 @@ public class PainelFolhaDeRespostas extends JPanel {
 		containerFolhaRespostas.add(rdbtnQuestaoCincoD, gbc_rdbtnQuestaoCincoD);
 
 		JRadioButton rdbtnQuestaoCincoE = new JRadioButton("");
+		rdbtnQuestaoCincoE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fdr.setResposta5('E');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoE);
 		GridBagConstraints gbc_rdbtnQuestaoCincoE = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoE.insets = new Insets(0, 0, 5, 0);
 		gbc_rdbtnQuestaoCincoE.gridx = 6;
 		gbc_rdbtnQuestaoCincoE.gridy = 5;
 		containerFolhaRespostas.add(rdbtnQuestaoCincoE, gbc_rdbtnQuestaoCincoE);
-		
-				JButton btnEntregar = new JButton("Entregar");
-				btnEntregar.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyPressed(KeyEvent e) {
-						PainelMenuAluno p = new PainelMenuAluno();
-						FramePatec.frame.setContentPane(p);
-						FramePatec.frame.revalidate();
-						FramePatec.frame.repaint();
-					}
-				});
-				btnEntregar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PainelMenuAluno p = new PainelMenuAluno();
-						FramePatec.frame.setContentPane(p);
-						FramePatec.frame.revalidate();
-						FramePatec.frame.repaint();
-					}
-				});
-				GridBagConstraints gbc_btnEntregar = new GridBagConstraints();
-				gbc_btnEntregar.fill = GridBagConstraints.VERTICAL;
-				gbc_btnEntregar.gridwidth = 8;
-				gbc_btnEntregar.gridx = 1;
-				gbc_btnEntregar.gridy = 7;
-				containerFolhaRespostas.add(btnEntregar, gbc_btnEntregar);
+
+		// Configuração do botão entregar:
+		JButton btnEntregar = new JButton("Entregar");
+		btnEntregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!Character.isAlphabetic(fdr.getResposta1()) || !Character.isAlphabetic(fdr.getResposta2())
+						|| !Character.isAlphabetic(fdr.getResposta3()) || !Character.isAlphabetic(fdr.getResposta4())
+						|| !Character.isAlphabetic(fdr.getResposta5())) {
+					JOptionPane.showMessageDialog(null, "Há questões não respondidas.");
+
+				} else {
+					PainelMenuAluno p = new PainelMenuAluno();
+					FramePatec.frame.setContentPane(p);
+					FramePatec.frame.revalidate();
+					FramePatec.frame.repaint();
+				}
+			}
+		});
+		GridBagConstraints gbc_btnEntregar = new GridBagConstraints();
+		gbc_btnEntregar.fill = GridBagConstraints.VERTICAL;
+		gbc_btnEntregar.gridwidth = 8;
+		gbc_btnEntregar.gridx = 1;
+		gbc_btnEntregar.gridy = 7;
+		containerFolhaRespostas.add(btnEntregar, gbc_btnEntregar);
 
 	}
 

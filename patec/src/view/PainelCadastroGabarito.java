@@ -2,12 +2,14 @@ package view;
 
 import javax.swing.*;
 
+import model.*;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;;
 
 public class PainelCadastroGabarito extends JPanel {
 
@@ -17,7 +19,8 @@ public class PainelCadastroGabarito extends JPanel {
 	private final ButtonGroup grupoQuestaoTres = new ButtonGroup();
 	private final ButtonGroup grupoQuestaoQuatro = new ButtonGroup();
 	private final ButtonGroup grupoQuestaoCinco = new ButtonGroup();
-	private JTextField tfDiaAvaliacao;
+
+	private GabaritoOficial go = new GabaritoOficial();
 
 	/**
 	 * Create the panel.
@@ -217,7 +220,8 @@ public class PainelCadastroGabarito extends JPanel {
 
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
-		JDatePickerImpl tftDataAvaliacao = new JDatePickerImpl(datePanel);
+		JDatePickerImpl tftDataAvaliacao = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		//JDatePickerImpl tftDataAvaliacao = new JDatePickerImpl(datePanel);
 		tftDataAvaliacao.getJFormattedTextField().setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_tftDataAvalicao = new GridBagConstraints();
 		gbc_tftDataAvalicao.gridwidth = 6;
@@ -310,6 +314,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(lblQuestaoUm, gbc_lblQuestaoUm);
 
 		JRadioButton rdbtnQuestaoUmA = new JRadioButton("");
+		rdbtnQuestaoUmA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao1('A');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmA);
 		GridBagConstraints gbc_rdbtnQuestaoUmA = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmA.insets = new Insets(0, 0, 5, 5);
@@ -318,6 +327,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoUmA, gbc_rdbtnQuestaoUmA);
 
 		JRadioButton rdbtnQuestaoUmB = new JRadioButton("");
+		rdbtnQuestaoUmB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao1('B');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmB);
 		GridBagConstraints gbc_rdbtnQuestaoUmB = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmB.insets = new Insets(0, 0, 5, 5);
@@ -326,6 +340,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoUmB, gbc_rdbtnQuestaoUmB);
 
 		JRadioButton rdbtnQuestaoUmC = new JRadioButton("");
+		rdbtnQuestaoUmC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao1('C');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmC);
 		GridBagConstraints gbc_rdbtnQuestaoUmC = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmC.insets = new Insets(0, 0, 5, 5);
@@ -334,6 +353,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoUmC, gbc_rdbtnQuestaoUmC);
 
 		JRadioButton rdbtnQuestaoUmD = new JRadioButton("");
+		rdbtnQuestaoUmD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao1('D');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmD);
 		GridBagConstraints gbc_rdbtnQuestaoUmD = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmD.insets = new Insets(0, 0, 5, 5);
@@ -342,6 +366,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoUmD, gbc_rdbtnQuestaoUmD);
 
 		JRadioButton rdbtnQuestaoUmE = new JRadioButton("");
+		rdbtnQuestaoUmE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao1('E');
+			}
+		});
 		grupoQuestaoUm.add(rdbtnQuestaoUmE);
 		GridBagConstraints gbc_rdbtnQuestaoUmE = new GridBagConstraints();
 		gbc_rdbtnQuestaoUmE.insets = new Insets(0, 0, 5, 0);
@@ -357,6 +386,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(lblQuestaoDois, gbc_lblQuestaoDois);
 
 		JRadioButton rdbtnQuestaoDoisA = new JRadioButton("");
+		rdbtnQuestaoDoisA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao2('A');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisA);
 		GridBagConstraints gbc_rdbtnQuestaoDoisA = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisA.insets = new Insets(0, 0, 5, 5);
@@ -365,6 +399,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoDoisA, gbc_rdbtnQuestaoDoisA);
 
 		JRadioButton rdbtnQuestaoDoisB = new JRadioButton("");
+		rdbtnQuestaoDoisB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao2('B');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisB);
 		GridBagConstraints gbc_rdbtnQuestaoDoisB = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisB.insets = new Insets(0, 0, 5, 5);
@@ -373,6 +412,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoDoisB, gbc_rdbtnQuestaoDoisB);
 
 		JRadioButton rdbtnQuestaoDoisC = new JRadioButton("");
+		rdbtnQuestaoDoisC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao2('C');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisC);
 		GridBagConstraints gbc_rdbtnQuestaoDoisC = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisC.insets = new Insets(0, 0, 5, 5);
@@ -381,6 +425,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoDoisC, gbc_rdbtnQuestaoDoisC);
 
 		JRadioButton rdbtnQuestaoDoisD = new JRadioButton("");
+		rdbtnQuestaoDoisD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao2('D');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisD);
 		GridBagConstraints gbc_rdbtnQuestaoDoisD = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisD.insets = new Insets(0, 0, 5, 5);
@@ -389,6 +438,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoDoisD, gbc_rdbtnQuestaoDoisD);
 
 		JRadioButton rdbtnQuestaoDoisE = new JRadioButton("");
+		rdbtnQuestaoDoisE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao2('E');
+			}
+		});
 		grupoQuestaoDois.add(rdbtnQuestaoDoisE);
 		GridBagConstraints gbc_rdbtnQuestaoDoisE = new GridBagConstraints();
 		gbc_rdbtnQuestaoDoisE.insets = new Insets(0, 0, 5, 0);
@@ -404,6 +458,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(lblQuestaoTres, gbc_lblQuestaoTres);
 
 		JRadioButton rdbtnQuestaoTresA = new JRadioButton("");
+		rdbtnQuestaoTresA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao3('A');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresA);
 		GridBagConstraints gbc_rdbtnQuestaoTresA = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresA.insets = new Insets(0, 0, 5, 5);
@@ -412,6 +471,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoTresA, gbc_rdbtnQuestaoTresA);
 
 		JRadioButton rdbtnQuestaoTresB = new JRadioButton("");
+		rdbtnQuestaoTresB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao3('B');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresB);
 		GridBagConstraints gbc_rdbtnQuestaoTresB = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresB.insets = new Insets(0, 0, 5, 5);
@@ -420,6 +484,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoTresB, gbc_rdbtnQuestaoTresB);
 
 		JRadioButton rdbtnQuestaoTresC = new JRadioButton("");
+		rdbtnQuestaoTresC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao3('C');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresC);
 		GridBagConstraints gbc_rdbtnQuestaoTresC = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresC.insets = new Insets(0, 0, 5, 5);
@@ -428,6 +497,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoTresC, gbc_rdbtnQuestaoTresC);
 
 		JRadioButton rdbtnQuestaoTresD = new JRadioButton("");
+		rdbtnQuestaoTresD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao3('D');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresD);
 		GridBagConstraints gbc_rdbtnQuestaoTresD = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresD.insets = new Insets(0, 0, 5, 5);
@@ -436,6 +510,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoTresD, gbc_rdbtnQuestaoTresD);
 
 		JRadioButton rdbtnQuestaoTresE = new JRadioButton("");
+		rdbtnQuestaoTresE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao3('E');
+			}
+		});
 		grupoQuestaoTres.add(rdbtnQuestaoTresE);
 		GridBagConstraints gbc_rdbtnQuestaoTresE = new GridBagConstraints();
 		gbc_rdbtnQuestaoTresE.insets = new Insets(0, 0, 5, 0);
@@ -451,6 +530,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(lblQuestaoQuatro, gbc_lblQuestaoQuatro);
 
 		JRadioButton rdbtnQuestaoQuatroA = new JRadioButton("");
+		rdbtnQuestaoQuatroA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao4('A');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroA);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroA = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroA.insets = new Insets(0, 0, 5, 5);
@@ -459,6 +543,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoQuatroA, gbc_rdbtnQuestaoQuatroA);
 
 		JRadioButton rdbtnQuestaoQuatroB = new JRadioButton("");
+		rdbtnQuestaoQuatroB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao4('B');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroB);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroB = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroB.insets = new Insets(0, 0, 5, 5);
@@ -467,6 +556,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoQuatroB, gbc_rdbtnQuestaoQuatroB);
 
 		JRadioButton rdbtnQuestaoQuatroC = new JRadioButton("");
+		rdbtnQuestaoQuatroC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao4('C');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroC);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroC = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroC.insets = new Insets(0, 0, 5, 5);
@@ -475,6 +569,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoQuatroC, gbc_rdbtnQuestaoQuatroC);
 
 		JRadioButton rdbtnQuestaoQuatroD = new JRadioButton("");
+		rdbtnQuestaoQuatroD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao4('D');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroD);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroD = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroD.insets = new Insets(0, 0, 5, 5);
@@ -483,6 +582,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoQuatroD, gbc_rdbtnQuestaoQuatroD);
 
 		JRadioButton rdbtnQuestaoQuatroE = new JRadioButton("");
+		rdbtnQuestaoQuatroE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao4('E');
+			}
+		});
 		grupoQuestaoQuatro.add(rdbtnQuestaoQuatroE);
 		GridBagConstraints gbc_rdbtnQuestaoQuatroE = new GridBagConstraints();
 		gbc_rdbtnQuestaoQuatroE.insets = new Insets(0, 0, 5, 0);
@@ -498,6 +602,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(lblQuestaoCinco, gbc_lblQuestaoCinco);
 
 		JRadioButton rdbtnQuestaoCincoA = new JRadioButton("");
+		rdbtnQuestaoCincoA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao5('A');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoA);
 		GridBagConstraints gbc_rdbtnQuestaoCincoA = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoA.insets = new Insets(0, 0, 5, 5);
@@ -506,6 +615,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoCincoA, gbc_rdbtnQuestaoCincoA);
 
 		JRadioButton rdbtnQuestaoCincoB = new JRadioButton("");
+		rdbtnQuestaoCincoB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao5('B');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoB);
 		GridBagConstraints gbc_rdbtnQuestaoCincoB = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoB.insets = new Insets(0, 0, 5, 5);
@@ -514,6 +628,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoCincoB, gbc_rdbtnQuestaoCincoB);
 
 		JRadioButton rdbtnQuestaoCincoC = new JRadioButton("");
+		rdbtnQuestaoCincoC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao5('C');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoC);
 		GridBagConstraints gbc_rdbtnQuestaoCincoC = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoC.insets = new Insets(0, 0, 5, 5);
@@ -522,6 +641,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoCincoC, gbc_rdbtnQuestaoCincoC);
 
 		JRadioButton rdbtnQuestaoCincoD = new JRadioButton("");
+		rdbtnQuestaoCincoD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao5('D');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoD);
 		GridBagConstraints gbc_rdbtnQuestaoCincoD = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoD.insets = new Insets(0, 0, 5, 5);
@@ -530,6 +654,11 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(rdbtnQuestaoCincoD, gbc_rdbtnQuestaoCincoD);
 
 		JRadioButton rdbtnQuestaoCincoE = new JRadioButton("");
+		rdbtnQuestaoCincoE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				go.setQuestao5('E');
+			}
+		});
 		grupoQuestaoCinco.add(rdbtnQuestaoCincoE);
 		GridBagConstraints gbc_rdbtnQuestaoCincoE = new GridBagConstraints();
 		gbc_rdbtnQuestaoCincoE.insets = new Insets(0, 0, 5, 0);
@@ -540,6 +669,17 @@ public class PainelCadastroGabarito extends JPanel {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (!Character.isAlphabetic(go.getQuestao1()) || !Character.isAlphabetic(go.getQuestao2())
+						|| !Character.isAlphabetic(go.getQuestao3()) || !Character.isAlphabetic(go.getQuestao4())
+						|| !Character.isAlphabetic(go.getQuestao5())) {
+					JOptionPane.showMessageDialog(null, "Há questões sem alternativas válidas.");
+				} else {
+					System.out.println(tftDataAvaliacao.getJFormattedTextField().getText().isBlank());
+					PainelMenuCoordenador p = new PainelMenuCoordenador();
+					FramePatec.frame.setContentPane(p);
+					FramePatec.frame.revalidate();
+					FramePatec.frame.repaint();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
