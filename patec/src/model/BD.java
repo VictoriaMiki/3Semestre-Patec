@@ -13,11 +13,12 @@ public class BD {
 	public PreparedStatement st = null;
 	public ResultSet rs = null;
 
-	private final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	private final String DATABASENAME = "patec";
-	private final String URL = "jdbc:mysql://localhost:3306/" + DATABASENAME;
-	private final String LOGIN = "root";
-	private final String SENHA = "";
+	private final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	private final String DATABASENAME = "PATEC";
+	private final String URL = "jdbc:sqlserver://localhost:1433;databasename=" + DATABASENAME
+			+ ";encrypt=true;trustServerCertificate=true;";
+	private final String LOGIN = "sa";
+	private final String SENHA = "AsaDeUrubuPenaDeGal1nha";
 
 	/**
 	 * Realiza a conexão com o banco de dados
@@ -66,8 +67,7 @@ public class BD {
 	}
 
 	// Criado apenas para testes:
-	
-	/*
+
 	public static void main(String[] args) {
 		BD bd = new BD();
 		bd.getConnection();
@@ -79,10 +79,10 @@ public class BD {
 							+ "WHERE GABARITO_OFICIAL.codigo_disciplina = 'MET100';");
 			ResultSet rs = bd.st.executeQuery();
 			while (rs.next()) {
-				String ra = rs.getString("ALUNO.ra");
-				String nomeAluno = rs.getString("ALUNO.nome_aluno");
-				String nota = rs.getString("FOLHA_DE_RESPOSTAS.nota");
-				String codigoDisciplina = rs.getString("GABARITO_OFICIAL.codigo_disciplina");
+				String ra = rs.getString("ra");
+				String nomeAluno = rs.getString("nome_aluno");
+				String nota = rs.getString("nota");
+				String codigoDisciplina = rs.getString("codigo_disciplina");
 
 				System.out.println(ra + " " + nomeAluno + " " + nota + " " + codigoDisciplina);
 			}
@@ -96,8 +96,8 @@ public class BD {
 
 			rs = bd.st.executeQuery();
 			while (rs.next()) {
-				String codigoDisciplina = rs.getString("GABARITO_OFICIAL.codigo_disciplina");
-				String nota = rs.getString("FOLHA_DE_RESPOSTAS.nota");
+				String codigoDisciplina = rs.getString("codigo_disciplina");
+				String nota = rs.getString("nota");
 
 				System.out.println(codigoDisciplina + " " + nota);
 			}
@@ -106,7 +106,5 @@ public class BD {
 		}
 		bd.close();
 	}
-	
-	*/
 
 }
