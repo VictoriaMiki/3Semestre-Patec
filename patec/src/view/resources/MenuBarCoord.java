@@ -17,9 +17,9 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelListarGabaritos p = new PainelListarGabaritos();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
@@ -28,9 +28,9 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroGabarito p = new PainelCadastroGabarito();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_1);
@@ -42,9 +42,9 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelListarAlunos p = new PainelListarAlunos();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_2);
@@ -53,9 +53,9 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroAluno p = new PainelCadastroAluno();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_3);
@@ -64,9 +64,9 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelRelatorioAluno p = new PainelRelatorioAluno();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_4);
@@ -78,9 +78,9 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelListarDisciplinas p = new PainelListarDisciplinas();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_5);
@@ -89,9 +89,9 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroDisciplina p = new PainelCadastroDisciplina();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_6);
@@ -100,9 +100,9 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelRelatorioDisciplina p = new PainelRelatorioDisciplina();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_7);

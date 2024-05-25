@@ -8,7 +8,11 @@ public class FramePatec extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	static FramePatec frame;
+	protected static FramePatec frame;
+
+	public static FramePatec getFrame() {
+		return frame;
+	}
 
 	/**
 	 * Launch the application.
