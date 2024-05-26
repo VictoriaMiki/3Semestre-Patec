@@ -22,6 +22,7 @@ public class FramePatec extends JFrame {
 			public void run() {
 				try {
 					frame = new FramePatec();
+					frame.setTitle("Patec - Log-in");
 					frame.setVisible(true);
 					PainelLogin p = new PainelLogin();
 					frame.setContentPane(p);
@@ -39,7 +40,7 @@ public class FramePatec extends JFrame {
 	 */
 	public FramePatec() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
