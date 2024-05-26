@@ -2,12 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import net.sourceforge.jdatepicker.JDatePicker;
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
-import view.resources.MenuBarCoord;
+import net.sourceforge.jdatepicker.impl.*;
+import view.resources.*;
 
 public class PainelCadastroAluno extends JPanel {
 
@@ -36,30 +32,14 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_bdf.gridy = 0;
 		add(bdf, gbc_bdf);
 
-		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelMenuCoordenador p = new PainelMenuCoordenador();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
+		BtnVoltar btnVoltar = new BtnVoltar("Voltar");
 		GridBagConstraints gbc_btnVoltar = new GridBagConstraints();
 		gbc_btnVoltar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnVoltar.gridx = 0;
 		gbc_btnVoltar.gridy = 1;
 		add(btnVoltar, gbc_btnVoltar);
 
-		JButton btnSair = new JButton("Sair");
-		btnSair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelLogin p = new PainelLogin();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
+		BtnSair btnSair = new BtnSair("Sair");
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
 		gbc_btnSair.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSair.gridx = 5;

@@ -1,11 +1,8 @@
 package view;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-
-import view.resources.BaseTable;
-import view.resources.MenuBarCoord;
+import view.resources.*;
 
 public class PainelListarGabaritos extends JPanel {
 
@@ -35,15 +32,7 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_mbc.gridy = 0;
 		add(mbc, gbc_mbc);
 
-		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelMenuCoordenador p = new PainelMenuCoordenador();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
+		BtnVoltar btnVoltar = new BtnVoltar("Voltar");
 		GridBagConstraints gbc_btnVoltar = new GridBagConstraints();
 		gbc_btnVoltar.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnVoltar.insets = new Insets(0, 0, 5, 5);
@@ -51,15 +40,7 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_btnVoltar.gridy = 1;
 		add(btnVoltar, gbc_btnVoltar);
 
-		JButton btnSair = new JButton("Sair");
-		btnSair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelLogin p = new PainelLogin();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
+		BtnSair btnSair = new BtnSair("Sair");
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
 		gbc_btnSair.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;

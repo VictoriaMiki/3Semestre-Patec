@@ -1,11 +1,8 @@
 package view;
 
-import javax.swing.*;
-
-import view.resources.MenuBarCoord;
-
 import java.awt.*;
-import java.awt.event.*;
+import javax.swing.*;
+import view.resources.*;
 
 public class PainelMenuCoordenador extends JPanel {
 
@@ -32,15 +29,7 @@ public class PainelMenuCoordenador extends JPanel {
 		gbc_bdf.gridy = 0;
 		add(bdf, gbc_bdf);
 
-		JButton btnSair = new JButton("Sair");
-		btnSair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelLogin p = new PainelLogin();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
+		BtnSair btnSair = new BtnSair("Sair");
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
 		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnSair.gridx = 0;

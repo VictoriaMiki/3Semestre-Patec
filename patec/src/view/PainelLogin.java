@@ -118,12 +118,14 @@ public class PainelLogin extends JPanel {
 					if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, senha)) {
 						Arrays.fill(senha, '0');
 						PainelMenuCoordenador p = new PainelMenuCoordenador();
+						FramePatec.frame.setTitle("Patec - Administrador");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
 					} else if (tfUsuario.getText().contentEquals("aluno") && senhaValida(true, senha)) {
 						Arrays.fill(senha, '0');
 						PainelMenuAluno p = new PainelMenuAluno();
+						FramePatec.frame.setTitle("Patec");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
@@ -158,12 +160,14 @@ public class PainelLogin extends JPanel {
 					if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, senha)) {
 						Arrays.fill(senha, '0');
 						PainelMenuCoordenador p = new PainelMenuCoordenador();
+						FramePatec.frame.setTitle("Patec - Administrador");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
 					} else if (tfUsuario.getText().contentEquals("aluno") && senhaValida(true, senha)) {
 						Arrays.fill(senha, '0');
 						PainelMenuAluno p = new PainelMenuAluno();
+						FramePatec.frame.setTitle("Patec");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
@@ -189,12 +193,14 @@ public class PainelLogin extends JPanel {
 				if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, senha)) {
 					Arrays.fill(senha, '0');
 					PainelMenuCoordenador p = new PainelMenuCoordenador();
+					FramePatec.frame.setTitle("Patec - Administrador");
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();
 				} else if (tfUsuario.getText().contentEquals("aluno") && senhaValida(true, senha)) {
 					Arrays.fill(senha, '0');
 					PainelMenuAluno p = new PainelMenuAluno();
+					FramePatec.frame.setTitle("Patec");
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();

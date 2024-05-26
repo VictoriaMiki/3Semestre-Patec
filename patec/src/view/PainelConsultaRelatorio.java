@@ -1,10 +1,8 @@
 package view;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-
-import view.resources.MenuBarCoord;
+import view.resources.*;
 
 public class PainelConsultaRelatorio extends JPanel {
 
@@ -31,36 +29,20 @@ public class PainelConsultaRelatorio extends JPanel {
 		gbc_bdf.gridy = 0;
 		add(bdf, gbc_bdf);
 
-		JButton btnSair = new JButton("Sair");
-		btnSair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelLogin p = new PainelLogin();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
+		BtnSair btnSair = new BtnSair("Sair");
+		GridBagConstraints gbc_btnSair = new GridBagConstraints();
+		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btnSair.gridx = 2;
+		gbc_btnSair.gridy = 1;
+		add(btnSair, gbc_btnSair);
 
-		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelMenuCoordenador p = new PainelMenuCoordenador();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
+		BtnVoltar btnVoltar = new BtnVoltar("Voltar");
 		GridBagConstraints gbc_btnVoltar = new GridBagConstraints();
 		gbc_btnVoltar.anchor = GridBagConstraints.NORTH;
 		gbc_btnVoltar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnVoltar.gridx = 0;
 		gbc_btnVoltar.gridy = 1;
 		add(btnVoltar, gbc_btnVoltar);
-		GridBagConstraints gbc_btnSair = new GridBagConstraints();
-		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;
-		gbc_btnSair.gridx = 2;
-		gbc_btnSair.gridy = 1;
-		add(btnSair, gbc_btnSair);
 	}
 
 }
