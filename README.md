@@ -57,6 +57,76 @@ Normalmente, importaríamos um projeto Java para o Eclipse. Entretanto, pelo fat
 
 ![](./img-docs/img-6.png)
 
+## Configurando o SQL Server:
+
+Para poder utilizar o projeto em conjunto com o SQL Server, é necessário configurá-lo para que a Patec seja capaz de acessar o banco de dados. Veja como fazer:
+
+### Primeiro passo: Configurar o usuário "sa":
+
+1. Abra o SQL Server. Quando a janela de conexão for exibida, realize a conexão utilizando a Autenticação do Windows, conforme exibido em amarelo. Em seguida, clique em "Conectar".
+
+![](./img-docs/img-7.png)
+
+2. Clique com o botão direito sobre a conexão (no exemplo, "MATHEUS\SQLEXPRESS (SQL Server 16.0.1115 - MATHEUS\rico_paixao)"), e em seguida clique em "Propriedades".
+
+![](./img-docs/img-8.png)
+
+3. Em "Segurança", selecione "Modo de Autenticação do SQL Server e do Windows", e clique em "OK".
+
+![](./img-docs/img-9.png)
+
+4. De volta à janela principal, clique em **Segurança > Logons > sa > Propriedades**.
+
+> [!NOTE]
+> O usuário "sa", que selecionamos, é o usuário padrão que SQL Server cria quando o instalamos. É por meio dele e de sua respectiva senha que realizaremos a conexão entre a Patec e o SQL Server.
+
+![](./img-docs/img-10.png)
+
+5. Insira a senha e a repita.
+
+![](./img-docs/img-11.png)
+
+6. Em "Status", selecione "Habilitado" na área "Logon", e clique em "OK".
+
+![](./img-docs/img-12.png)
+
+7. Clique novamente com o botão direito sobre a conexão, e clique em "Reiniciar".
+
+![](./img-docs/img-13.png)
+
+> [!NOTE]
+> Caso a janela de conexão não apareça, clique em **Conectar > Mecanismo de Banco de Dados**.
+>
+> ![](./img-docs/img-14.png)
+
+8. Altere a autenticação para "Autenticação do SQL Server", insira os dados de log-in e clique em "Conectar".
+
+![](./img-docs/img-15.png)
+
+### Segundo passo: Configurar o *localhost*:
+
+1. Abra o SQL Server Configuration Manager. Clique em **Configuração de Rede do SQL Server > Protocolos para SQLEXPRESS** e habilite o TCP/IP clicando com o botão direito e em "Habilitar".
+
+![](./img-docs/img-16.png)
+
+2. Clique com o botão direito novamente, e selecione "Propriedades".
+
+![](./img-docs/img-17.png)
+
+3. Clique em "Escutar Tudo", e selecione "Sim".
+
+![](./img-docs/img-18.png)
+
+4. Clique em "Endereços IP", role até o final da lista e você verá o IPAII. Em "Porta TCP", insira o valor 1433.
+
+![](./img-docs/img-19.png)
+
+5. Clique em "Aplicar", e em "OK".
+
+6. De volta à janela principal, clique em "Serviços do SQL Server", clique em "SQL Server (SQL EXPRESS)" com o botão direito e, por fim, clique em "Reiniciar".
+
+![](./img-docs/img-20.png)
+
 ## Sugestões de leitura/para assistir depois:
 
 - [Como escrever boas mensagens de commit: um guia prático do Git](https://www.freecodecamp.org/portuguese/news/como-escrever-boas-mensagens-de-commit-um-guia-pratico-do-git/) - por freeCodeCamp
