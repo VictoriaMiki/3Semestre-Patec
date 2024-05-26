@@ -1,4 +1,4 @@
-package view;
+package view.resources;
 
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import java.text.ParseException;
