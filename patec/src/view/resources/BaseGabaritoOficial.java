@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import model.GabaritoOficial;
 
+@SuppressWarnings("serial")
 public class BaseGabaritoOficial extends BaseFolhaDeRespostas {
 
 	public GabaritoOficial go = new GabaritoOficial();
