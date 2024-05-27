@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import view.*;
 
+@SuppressWarnings("serial")
 public class MenuBarCoord extends JMenuBar {
 
 	public MenuBarCoord() {
@@ -17,6 +18,7 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelListarGabaritos p = new PainelListarGabaritos();
+				FramePatec.getFrame().setTitle("Patec - Listar Gabaritos");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
@@ -28,6 +30,7 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroGabarito p = new PainelCadastroGabarito();
+				FramePatec.getFrame().setTitle("Patec - Cadastrar Gabarito");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
@@ -42,6 +45,7 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelListarAlunos p = new PainelListarAlunos();
+				FramePatec.getFrame().setTitle("Patec - Listar Alunos");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
@@ -53,6 +57,7 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroAluno p = new PainelCadastroAluno();
+				FramePatec.getFrame().setTitle("Patec - Cadastrar Aluno");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
@@ -78,6 +83,7 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelListarDisciplinas p = new PainelListarDisciplinas();
+				FramePatec.getFrame().setTitle("Patec - Listar Disciplinas");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
@@ -89,6 +95,7 @@ public class MenuBarCoord extends JMenuBar {
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroDisciplina p = new PainelCadastroDisciplina();
+				FramePatec.getFrame().setTitle("Patec - Cadastrar Disciplina");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
