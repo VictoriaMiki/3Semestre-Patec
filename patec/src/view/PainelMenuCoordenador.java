@@ -13,15 +13,14 @@ public class PainelMenuCoordenador extends JPanel {
 	 */
 	public PainelMenuCoordenador() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 450, 0 };
+		gridBagLayout.columnWidths = new int[] { 450 };
 		gridBagLayout.rowHeights = new int[] { 28, 272, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 1.0 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		MenuBarCoord bdf = new MenuBarCoord();
 		GridBagConstraints gbc_bdf = new GridBagConstraints();
-		gbc_bdf.gridwidth = 3;
 		gbc_bdf.anchor = GridBagConstraints.NORTH;
 		gbc_bdf.fill = GridBagConstraints.HORIZONTAL;
 		gbc_bdf.insets = new Insets(0, 0, 5, 0);

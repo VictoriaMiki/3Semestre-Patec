@@ -31,7 +31,7 @@ public class PainelConsultaRelatorio extends JPanel {
 
 		BtnSair btnSair = new BtnSair("Sair");
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
-		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btnSair.anchor = GridBagConstraints.NORTH;
 		gbc_btnSair.gridx = 2;
 		gbc_btnSair.gridy = 1;
 		add(btnSair, gbc_btnSair);
