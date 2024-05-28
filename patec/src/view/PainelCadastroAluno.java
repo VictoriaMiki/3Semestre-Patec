@@ -1,15 +1,22 @@
 package view;
 
 import javax.swing.*;
+
+import model.Aluno;
+import model.AlunoDAO;
+
 import java.awt.*;
 import net.sourceforge.jdatepicker.impl.*;
 import view.resources.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PainelCadastroAluno extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tfNomeAluno;
 	private JTextField tfRegistroAluno;
+	Aluno a = new Aluno();
 
 	/**
 	 * Create the panel.
@@ -175,7 +182,7 @@ public class PainelCadastroAluno extends JPanel {
 
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
-		JDatePickerImpl tftDataNascimentoAluno = new JDatePickerImpl(datePanel);
+		JDatePickerImpl tftDataNascimentoAluno = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		tftDataNascimentoAluno.getJFormattedTextField().setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_tftDataNascimentoAluno = new GridBagConstraints();
 		gbc_tftDataNascimentoAluno.gridwidth = 5;
@@ -198,6 +205,21 @@ public class PainelCadastroAluno extends JPanel {
 		*/
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				a.setRa(tfRegistroAluno.getText());
+				a.setCpf(ftfCpfAluno.getText());
+				a.setNomeAluno(tfNomeAluno.getText());
+				a.setDataNascimento(tftDataNascimentoAluno.getJFormattedTextField().getText());
+				AlunoDAO dao = new AlunoDAO();
+				dao.gravar(a);
+				JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!", "Cadastro concluído", JOptionPane.INFORMATION_MESSAGE);
+				PainelListarAlunos p = new PainelListarAlunos();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
+			}
+		});
 		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
 		gbc_btnCadastrar.gridwidth = 5;
 		gbc_btnCadastrar.gridx = 1;

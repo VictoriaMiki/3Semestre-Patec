@@ -1,19 +1,33 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import view.resources.BaseTable;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
+import model.AlunoDAO;
+import model.BD;
 import view.resources.BtnSair;
 import view.resources.BtnVoltar;
 import view.resources.MenuBarCoord;
+import view.resources.TableModelPatec;
 
 public class PainelListarAlunos extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaAlunos;
-	private String[] colunas = { "RA", "CPF", "Nome Completo", "Data de Nascimento" };
-	private Object[][] dados = { { null, null, null, null } };
+	private DefaultTableModel model;
+	private BD bd;
+	private AlunoDAO dao = new AlunoDAO();
 
 	/**
 	 * Create the panel.
@@ -59,7 +73,17 @@ public class PainelListarAlunos extends JPanel {
 		gbc_containerListaAlunos.gridy = 3;
 		add(containerListaAlunos, gbc_containerListaAlunos);
 
-		tabelaAlunos = new JTable(new BaseTable(colunas, dados));
+		tabelaAlunos = new JTable();
+		bd = new BD();
+		if (bd.getConnection()) {
+			carregarTabela();
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+			PainelMenuCoordenador p = new PainelMenuCoordenador();
+			FramePatec.getFrame().setContentPane(p);
+			FramePatec.getFrame().revalidate();
+			FramePatec.getFrame().repaint();
+		}
 		tabelaAlunos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		containerListaAlunos.setViewportView(tabelaAlunos);
 		tabelaAlunos.setFillsViewportHeight(true);
@@ -79,6 +103,14 @@ public class PainelListarAlunos extends JPanel {
 		panel.setLayout(gbl_panel);
 
 		JButton btnNewButton = new JButton("Cadastrar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelCadastroAluno p = new PainelCadastroAluno();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
+			}
+		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
@@ -95,11 +127,28 @@ public class PainelListarAlunos extends JPanel {
 		panel.add(btnNewButton_1, gbc_btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("Excluir");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(tabelaAlunos.getSelectedRow() != -1 && JOptionPane.showConfirmDialog(null, "Deseja excluir este registro?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION) == 0) {
+					dao.excluir(tabelaAlunos.getValueAt(tabelaAlunos.getSelectedRow(),  0));
+					PainelListarAlunos p = new PainelListarAlunos();
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
+			}
+		});
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.anchor = GridBagConstraints.SOUTH;
+		gbc_btnNewButton_2.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton_2.gridx = 0;
 		gbc_btnNewButton_2.gridy = 3;
 		panel.add(btnNewButton_2, gbc_btnNewButton_2);
+	}
+
+	private void carregarTabela() {
+		String sql = "SELECT * FROM ALUNO";
+		model = TableModelPatec.getModel(bd, sql);
+		tabelaAlunos.setModel(model);
 	}
 
 }
