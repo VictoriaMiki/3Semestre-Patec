@@ -2,6 +2,7 @@ package view.resources;
 
 import javax.swing.table.AbstractTableModel;
 
+@SuppressWarnings("serial")
 public class BaseTable extends AbstractTableModel {
 	private String[] columnNames = null;
 	private Object[][] data = null;

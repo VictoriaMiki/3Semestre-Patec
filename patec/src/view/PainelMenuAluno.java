@@ -45,7 +45,9 @@ public class PainelMenuAluno extends JPanel {
 
 		BtnSair btnSair = new BtnSair("Sair");
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
-		gbc_btnSair.anchor = GridBagConstraints.EAST;
+		gbc_btnSair.ipady = 10;
+		gbc_btnSair.ipadx = 10;
+		gbc_btnSair.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnSair.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSair.gridx = 3;
 		gbc_btnSair.gridy = 0;

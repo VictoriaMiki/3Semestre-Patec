@@ -1,10 +1,28 @@
 package view;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import model.BD;
 
 public class PainelLogin extends JPanel {
 
@@ -12,6 +30,7 @@ public class PainelLogin extends JPanel {
 	private JPanel loginContainer;
 	private JTextField tfUsuario;
 	private JPasswordField pfSenha;
+	private BD bd;
 
 	/**
 	 * Create the panel.
@@ -113,17 +132,20 @@ public class PainelLogin extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					char[] senha = pfSenha.getPassword();
-
-					if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, senha)) {
-						Arrays.fill(senha, '0');
+					String usuario = tfUsuario.getText();
+					String senha = new String(pfSenha.getPassword());
+					
+					if (usuario.isEmpty() || senha.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios", JOptionPane.WARNING_MESSAGE);
+					} else if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, pfSenha.getPassword())) {
+						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuCoordenador p = new PainelMenuCoordenador();
 						FramePatec.frame.setTitle("Patec - Administrador");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
-					} else if (tfUsuario.getText().contentEquals("aluno") && senhaValida(true, senha)) {
-						Arrays.fill(senha, '0');
+					} else if (validarSenha(usuario, senha)) {
+						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuAluno p = new PainelMenuAluno();
 						FramePatec.frame.setTitle("Patec");
 						FramePatec.frame.setContentPane(p);
@@ -155,17 +177,20 @@ public class PainelLogin extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					char[] senha = pfSenha.getPassword();
-
-					if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, senha)) {
-						Arrays.fill(senha, '0');
+					String usuario = tfUsuario.getText();
+					String senha = new String(pfSenha.getPassword());
+					
+					if (usuario.isEmpty() || senha.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios", JOptionPane.WARNING_MESSAGE);
+					} else if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, pfSenha.getPassword())) {
+						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuCoordenador p = new PainelMenuCoordenador();
 						FramePatec.frame.setTitle("Patec - Administrador");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
-					} else if (tfUsuario.getText().contentEquals("aluno") && senhaValida(true, senha)) {
-						Arrays.fill(senha, '0');
+					} else if (validarSenha(usuario, senha)) {
+						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuAluno p = new PainelMenuAluno();
 						FramePatec.frame.setTitle("Patec");
 						FramePatec.frame.setContentPane(p);
@@ -188,17 +213,20 @@ public class PainelLogin extends JPanel {
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				char[] senha = pfSenha.getPassword();
-
-				if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, senha)) {
-					Arrays.fill(senha, '0');
+				String usuario = tfUsuario.getText();
+				String senha = new String(pfSenha.getPassword());
+				
+				if (usuario.isEmpty() || senha.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios", JOptionPane.WARNING_MESSAGE);
+				} else if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, pfSenha.getPassword())) {
+					Arrays.fill(pfSenha.getPassword(), '0');
 					PainelMenuCoordenador p = new PainelMenuCoordenador();
 					FramePatec.frame.setTitle("Patec - Administrador");
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();
-				} else if (tfUsuario.getText().contentEquals("aluno") && senhaValida(true, senha)) {
-					Arrays.fill(senha, '0');
+				} else if (validarSenha(usuario, senha)) {
+					Arrays.fill(pfSenha.getPassword(), '0');
 					PainelMenuAluno p = new PainelMenuAluno();
 					FramePatec.frame.setTitle("Patec");
 					FramePatec.frame.setContentPane(p);
@@ -217,6 +245,45 @@ public class PainelLogin extends JPanel {
 		gbc_btnEntrar.gridy = 5;
 		loginContainer.add(btnEntrar, gbc_btnEntrar);
 
+	}
+
+	private boolean validarSenha(String cpf, String dataNascimento) {
+		bd = new BD();
+		String dia = new String();
+		String mes = new String();
+		String ano = new String();
+		boolean correto = true;
+
+		for (int i = 0; i < dataNascimento.length(); i++) {
+			if (i < 2) {
+				dia += dataNascimento.charAt(i);
+			} else if (i < 4) {
+				mes += dataNascimento.charAt(i);
+			} else {
+				ano += dataNascimento.charAt(i);
+			}
+		}
+
+		String dataFormatada = new String();
+		dataFormatada = dia + "-" + mes + "-" + ano;
+
+		String sql = "SET DATEFORMAT 'DMY'; SELECT * FROM ALUNO WHERE cpf = ? AND data_nascimento = ?;";
+		bd.getConnection();
+		try {
+			bd.st = bd.con.prepareStatement(sql);
+			bd.st.setString(1, cpf);
+			bd.st.setString(2, dataFormatada);
+			bd.rs = bd.st.executeQuery();
+			if (!bd.rs.next()) {
+				correto = false;
+			}
+
+		} catch (Exception e) {
+			correto = false;
+		} finally {
+			bd.close();
+		}
+		return correto;
 	}
 
 	private static boolean senhaValida(boolean isAluno, char[] input) {
