@@ -41,6 +41,7 @@ public class FramePatec extends JFrame {
 	public FramePatec() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setMinimumSize(new Dimension(720, 480));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
