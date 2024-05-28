@@ -1,15 +1,36 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
-import view.resources.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import model.Disciplina;
+import model.DisciplinaDAO;
+import view.resources.BtnSair;
+import view.resources.BtnVoltar;
+import view.resources.MenuBarCoord;
+import javax.swing.JComboBox;
 
 public class PainelCadastroDisciplina extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField tfCodDisciplina;
+	private JTextField tfNomeDisciplina;
+	private JComboBox<String> cbSemestre;
+	Disciplina d = new Disciplina();
+	private String[] semestres = {"1", "2", "3", "4", "5", "6"};
 
 	/**
 	 * Create the panel.
@@ -103,72 +124,88 @@ public class PainelCadastroDisciplina extends JPanel {
 		separator.setForeground(new Color(0, 0, 0));
 		separator.setBackground(new Color(0, 0, 0));
 
-		JLabel lblNewLabel = new JLabel("Código da disciplina:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 0;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblCodDisciplina = new JLabel("Código da disciplina:");
+		lblCodDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblCodDisciplina = new GridBagConstraints();
+		gbc_lblCodDisciplina.gridwidth = 4;
+		gbc_lblCodDisciplina.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCodDisciplina.anchor = GridBagConstraints.WEST;
+		gbc_lblCodDisciplina.gridx = 1;
+		gbc_lblCodDisciplina.gridy = 0;
+		panel.add(lblCodDisciplina, gbc_lblCodDisciplina);
 
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridwidth = 4;
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		tfCodDisciplina = new JTextField();
+		tfCodDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_tfCodDisciplina = new GridBagConstraints();
+		gbc_tfCodDisciplina.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfCodDisciplina.gridwidth = 4;
+		gbc_tfCodDisciplina.insets = new Insets(0, 0, 5, 0);
+		gbc_tfCodDisciplina.gridx = 1;
+		gbc_tfCodDisciplina.gridy = 1;
+		panel.add(tfCodDisciplina, gbc_tfCodDisciplina);
+		tfCodDisciplina.setColumns(10);
 
-		JLabel lblNewLabel_1 = new JLabel("Nome da disciplina:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 2;
-		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JLabel lblNomeDisciplina = new JLabel("Nome da disciplina:");
+		lblNomeDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblNomeDisciplina = new GridBagConstraints();
+		gbc_lblNomeDisciplina.gridwidth = 4;
+		gbc_lblNomeDisciplina.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNomeDisciplina.anchor = GridBagConstraints.WEST;
+		gbc_lblNomeDisciplina.gridx = 1;
+		gbc_lblNomeDisciplina.gridy = 2;
+		panel.add(lblNomeDisciplina, gbc_lblNomeDisciplina);
 
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.gridwidth = 4;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 3;
-		panel.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		tfNomeDisciplina = new JTextField();
+		tfNomeDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_tfNomeDisciplina = new GridBagConstraints();
+		gbc_tfNomeDisciplina.gridwidth = 4;
+		gbc_tfNomeDisciplina.insets = new Insets(0, 0, 5, 0);
+		gbc_tfNomeDisciplina.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfNomeDisciplina.gridx = 1;
+		gbc_tfNomeDisciplina.gridy = 3;
+		panel.add(tfNomeDisciplina, gbc_tfNomeDisciplina);
+		tfNomeDisciplina.setColumns(10);
 
-		JLabel lblNewLabel_2 = new JLabel("Semestre:");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_2.gridx = 1;
-		gbc_lblNewLabel_2.gridy = 4;
-		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		JLabel lblSemestre = new JLabel("Semestre:");
+		lblSemestre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblSemestre = new GridBagConstraints();
+		gbc_lblSemestre.gridwidth = 4;
+		gbc_lblSemestre.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSemestre.anchor = GridBagConstraints.WEST;
+		gbc_lblSemestre.gridx = 1;
+		gbc_lblSemestre.gridy = 4;
+		panel.add(lblSemestre, gbc_lblSemestre);
 
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.gridwidth = 4;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 5;
-		panel.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		cbSemestre = new JComboBox<String>(semestres);
+		cbSemestre.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_cbSemestre = new GridBagConstraints();
+		gbc_cbSemestre.gridwidth = 4;
+		gbc_cbSemestre.insets = new Insets(0, 0, 5, 0);
+		gbc_cbSemestre.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbSemestre.gridx = 1;
+		gbc_cbSemestre.gridy = 5;
+		panel.add(cbSemestre, gbc_cbSemestre);
 
-		JButton btnNewButton_3 = new JButton("Cadastrar");
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.gridwidth = 4;
-		gbc_btnNewButton_3.gridx = 1;
-		gbc_btnNewButton_3.gridy = 7;
-		panel.add(btnNewButton_3, gbc_btnNewButton_3);
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				d.setCodigoDisciplina(tfCodDisciplina.getText());
+				d.setNomeDisciplina(tfNomeDisciplina.getText());
+				d.setSemestreDisciplina(Integer.parseInt(cbSemestre.getSelectedItem().toString()));
+				DisciplinaDAO dao = new DisciplinaDAO();
+				dao.gravar(d);
+				JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!", "Cadastro concluído", JOptionPane.INFORMATION_MESSAGE);
+				PainelListarDisciplinas p = new PainelListarDisciplinas();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
+			}
+		});
+		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
+		gbc_btnCadastrar.gridwidth = 4;
+		gbc_btnCadastrar.gridx = 1;
+		gbc_btnCadastrar.gridy = 7;
+		panel.add(btnCadastrar, gbc_btnCadastrar);
 	}
 
 }

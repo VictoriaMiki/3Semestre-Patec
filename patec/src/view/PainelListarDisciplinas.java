@@ -1,15 +1,33 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
-import view.resources.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
+import model.BD;
+import model.DisciplinaDAO;
+import view.resources.BtnSair;
+import view.resources.BtnVoltar;
+import view.resources.MenuBarCoord;
+import view.resources.TableModelPatec;
 
 public class PainelListarDisciplinas extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaDisciplinas;
-	private String[] colunas = { "Código", "Nome", "Semestre" };
-	private Object[][] dados = { { null, null, null } };
+	private DefaultTableModel model;
+	private BD bd;
+	private DisciplinaDAO dao = new DisciplinaDAO();
 
 	/**
 	 * Create the panel.
@@ -55,7 +73,17 @@ public class PainelListarDisciplinas extends JPanel {
 		gbc_containerListaDisciplinas.gridy = 3;
 		add(containerListaDisciplinas, gbc_containerListaDisciplinas);
 
-		tabelaDisciplinas = new JTable(new BaseTable(colunas, dados));
+		tabelaDisciplinas = new JTable();
+		bd = new BD();
+		if (bd.getConnection()) {
+			carregarTabela();
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+			PainelMenuCoordenador p = new PainelMenuCoordenador();
+			FramePatec.getFrame().setContentPane(p);
+			FramePatec.getFrame().revalidate();
+			FramePatec.getFrame().repaint();
+		}
 		tabelaDisciplinas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		containerListaDisciplinas.setViewportView(tabelaDisciplinas);
 		tabelaDisciplinas.setFillsViewportHeight(true);
@@ -74,27 +102,53 @@ public class PainelListarDisciplinas extends JPanel {
 		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		JButton btnNewButton = new JButton("Cadastrar");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelCadastroDisciplina p = new PainelCadastroDisciplina();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
+			}
+		});
+		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
+		gbc_btnCadastrar.fill = GridBagConstraints.BOTH;
+		gbc_btnCadastrar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnCadastrar.gridx = 0;
+		gbc_btnCadastrar.gridy = 1;
+		panel.add(btnCadastrar, gbc_btnCadastrar);
 
-		JButton btnNewButton_1 = new JButton("Editar");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 2;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+		JButton btnEditar = new JButton("Editar");
+		GridBagConstraints gbc_btnEditar = new GridBagConstraints();
+		gbc_btnEditar.fill = GridBagConstraints.BOTH;
+		gbc_btnEditar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnEditar.gridx = 0;
+		gbc_btnEditar.gridy = 2;
+		panel.add(btnEditar, gbc_btnEditar);
 
-		JButton btnNewButton_2 = new JButton("Excluir");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_2.gridx = 0;
-		gbc_btnNewButton_2.gridy = 3;
-		panel.add(btnNewButton_2, gbc_btnNewButton_2);
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tabelaDisciplinas.getSelectedRow() != -1 && JOptionPane.showConfirmDialog(null,
+						"Deseja excluir este registro?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION) == 0) {
+					dao.excluir(tabelaDisciplinas.getValueAt(tabelaDisciplinas.getSelectedRow(), 0));
+					PainelListarDisciplinas p = new PainelListarDisciplinas();
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
+			}
+		});
+		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
+		gbc_btnExcluir.fill = GridBagConstraints.BOTH;
+		gbc_btnExcluir.gridx = 0;
+		gbc_btnExcluir.gridy = 3;
+		panel.add(btnExcluir, gbc_btnExcluir);
+	}
+
+	private void carregarTabela() {
+		String sql = "SELECT * FROM DISCIPLINA";
+		model = TableModelPatec.getModel(bd, sql);
+		tabelaDisciplinas.setModel(model);
 	}
 }
