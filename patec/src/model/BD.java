@@ -16,9 +16,9 @@ public class BD {
 	private final String SENHA = "PatecAdmin1";
 
 	/**
-	 * Realiza a conexão com o banco de dados
+	 * Realiza a conexão com o banco de dados.
 	 * 
-	 * @return - true em caso de sucesso, ou false caso contrário
+	 * @return {@code true} em caso de sucesso, ou {@code false} caso contrário.
 	 */
 	public boolean getConnection() {
 		try {
@@ -37,7 +37,7 @@ public class BD {
 	}
 
 	/**
-	 * Encerra a conexão e libera os objetos utilizados
+	 * Encerra a conexão e libera os objetos utilizados.
 	 */
 	public void close() {
 		try {
