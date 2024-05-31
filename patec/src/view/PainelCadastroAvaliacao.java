@@ -31,12 +31,12 @@ import view.resources.MenuBarCoord;
 public class PainelCadastroAvaliacao extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField tfCodigoAvaliação;
+	//private JTextField tfCodigoAvaliação;
 	private JTextField tfAnoAvaliacao;
 	private JComboBox<String> cbSemestre;
 	private String[] semestres = {"1", "2"};
 	private JComboBox<String> cbTipoAvaliacao;
-	private String[] tipoAvaliacao = {"1ºBIM - SÁBADO", "2ºBIM - SÁBADO", "1ºBIM - SEGUNDA-FEIRA", "2ºBIM - SEGUNDA-FEIRA", "FINAL"};
+	private String[] tipoAvaliacao = {"1°BIM - SÁBADO", "2°BIM - SÁBADO", "1°BIM - SEGUNDA-FEIRA", "2°BIM - SEGUNDA-FEIRA", "FINAL"};
 	Avaliacao a = new Avaliacao();
 	
 	/**
@@ -129,7 +129,7 @@ public class PainelCadastroAvaliacao extends JPanel {
 		gbc_separator.gridy = 0;
 		containerCadastroAvaliacao.add(separator, gbc_separator);
 
-		JLabel lblCodigoAvaliacao = new JLabel("Código da Avaliação:");
+		/**JLabel lblCodigoAvaliacao = new JLabel("Código da Avaliação:");
 		lblCodigoAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblCodigoAvaliacao = new GridBagConstraints();
 		gbc_lblCodigoAvaliacao.gridwidth = 2;
@@ -148,7 +148,7 @@ public class PainelCadastroAvaliacao extends JPanel {
 		gbc_tfCodigoAvaliação.gridx = 1;
 		gbc_tfCodigoAvaliação.gridy = 1;
 		containerCadastroAvaliacao.add(tfCodigoAvaliação, gbc_tfCodigoAvaliação);
-		tfCodigoAvaliação.setColumns(10);
+		tfCodigoAvaliação.setColumns(10);*/
 
 		JLabel lblAnoAvaliacao = new JLabel("Ano da Avaliação:");
 		lblAnoAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -214,12 +214,13 @@ public class PainelCadastroAvaliacao extends JPanel {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				a.setCodigoAvaliacao(Integer.parseInt(tfCodigoAvaliação.getText()));
+				//a.setCodigoAvaliacao(Integer.parseInt(tfCodigoAvaliação.getText()));
 				a.setAnoAvaliacao(Integer.parseInt(tfAnoAvaliacao.getText()));
 				a.setSemestreAvaliacao(Integer.parseInt(cbSemestre.getSelectedItem().toString()));
 				a.setTipoAvaliacao(cbTipoAvaliacao.getSelectedItem().toString());
 				AvaliacaoDAO dao = new AvaliacaoDAO();
-				dao.gravar(a);
+				
+				System.out.println(dao.gravar(a));
 				JOptionPane.showMessageDialog(null, "Avaliação cadastrada com sucesso!", "Cadastro concluído", JOptionPane.INFORMATION_MESSAGE);
 				PainelListarAvaliacoes p = new PainelListarAvaliacoes();
 				FramePatec.getFrame().setContentPane(p);

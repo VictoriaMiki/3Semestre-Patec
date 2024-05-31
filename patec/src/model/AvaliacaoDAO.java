@@ -12,15 +12,15 @@ public class AvaliacaoDAO {
 	}
 		
 	public String gravar(Avaliacao a) {
-		sql = "INSERT INTO AVALIACAO VALUES (?, ?, ?, ?)";
-		men = "Disciplina inserida com sucesso!";
+		sql = "INSERT INTO AVALIACAO VALUES (?, ?, ?)";
+		men = "Avaliação inserida com sucesso!";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
-			bd.st.setInt(1, a.getCodigoAvaliacao());
-			bd.st.setInt(2, a.getAnoAvaliacao());
-			bd.st.setInt(3, a.getSemestreAvaliacao());
-			bd.st.setString(4, a.getTipoAvaliacao());
+			//bd.st.setInt(1, a.getCodigoAvaliacao());
+			bd.st.setInt(1, a.getAnoAvaliacao());
+			bd.st.setInt(2, a.getSemestreAvaliacao());
+			bd.st.setString(3, a.getTipoAvaliacao());
 			int n = bd.st.executeUpdate();
 			System.out.println("Linhas inseridas: " + n);
 		} catch(SQLException e) {
@@ -39,7 +39,7 @@ public class AvaliacaoDAO {
 					men = "Avaliação não encontrada!";
 				}
 			} catch (SQLException e2) {
-				men = "Falha" + e2;
+				men = "Falha" + e;
 				System.out.println(men);
 			}
 		} finally {
