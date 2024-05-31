@@ -1,9 +1,15 @@
 package model;
 
+import java.sql.SQLException;
+
 public class AvaliacaoDAO {
 
-	public AvaliacaoDAO() {
-		// TODO Auto-generated constructor stub
+		private BD bd;
+		private String sql, men;
+
+		public AvaliacaoDAO() {
+			bd = new BD();
+		}
 	}
 
-}
+
