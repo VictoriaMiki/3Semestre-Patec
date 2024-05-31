@@ -22,6 +22,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import model.Aluno;
 import model.BD;
 
 public class PainelLogin extends JPanel {
@@ -31,6 +32,7 @@ public class PainelLogin extends JPanel {
 	private JTextField tfUsuario;
 	private JPasswordField pfSenha;
 	private BD bd;
+	private Aluno a = null;
 
 	/**
 	 * Create the panel.
@@ -134,10 +136,12 @@ public class PainelLogin extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					String usuario = tfUsuario.getText();
 					String senha = new String(pfSenha.getPassword());
-					
+
 					if (usuario.isEmpty() || senha.isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios", JOptionPane.WARNING_MESSAGE);
-					} else if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, pfSenha.getPassword())) {
+						JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
+								JOptionPane.WARNING_MESSAGE);
+					} else if (tfUsuario.getText().contentEquals("coordenador")
+							&& senhaValida(false, pfSenha.getPassword())) {
 						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuCoordenador p = new PainelMenuCoordenador();
 						FramePatec.frame.setTitle("Patec - Administrador");
@@ -146,7 +150,7 @@ public class PainelLogin extends JPanel {
 						FramePatec.frame.repaint();
 					} else if (validarSenha(usuario, senha)) {
 						Arrays.fill(pfSenha.getPassword(), '0');
-						PainelMenuAluno p = new PainelMenuAluno();
+						PainelMenuAluno p = new PainelMenuAluno(a);
 						FramePatec.frame.setTitle("Patec");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
@@ -179,10 +183,12 @@ public class PainelLogin extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					String usuario = tfUsuario.getText();
 					String senha = new String(pfSenha.getPassword());
-					
+
 					if (usuario.isEmpty() || senha.isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios", JOptionPane.WARNING_MESSAGE);
-					} else if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, pfSenha.getPassword())) {
+						JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
+								JOptionPane.WARNING_MESSAGE);
+					} else if (tfUsuario.getText().contentEquals("coordenador")
+							&& senhaValida(false, pfSenha.getPassword())) {
 						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuCoordenador p = new PainelMenuCoordenador();
 						FramePatec.frame.setTitle("Patec - Administrador");
@@ -191,7 +197,7 @@ public class PainelLogin extends JPanel {
 						FramePatec.frame.repaint();
 					} else if (validarSenha(usuario, senha)) {
 						Arrays.fill(pfSenha.getPassword(), '0');
-						PainelMenuAluno p = new PainelMenuAluno();
+						PainelMenuAluno p = new PainelMenuAluno(a);
 						FramePatec.frame.setTitle("Patec");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
@@ -215,10 +221,12 @@ public class PainelLogin extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String usuario = tfUsuario.getText();
 				String senha = new String(pfSenha.getPassword());
-				
+
 				if (usuario.isEmpty() || senha.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios", JOptionPane.WARNING_MESSAGE);
-				} else if (tfUsuario.getText().contentEquals("coordenador") && senhaValida(false, pfSenha.getPassword())) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
+							JOptionPane.WARNING_MESSAGE);
+				} else if (tfUsuario.getText().contentEquals("coordenador")
+						&& senhaValida(false, pfSenha.getPassword())) {
 					Arrays.fill(pfSenha.getPassword(), '0');
 					PainelMenuCoordenador p = new PainelMenuCoordenador();
 					FramePatec.frame.setTitle("Patec - Administrador");
@@ -227,7 +235,7 @@ public class PainelLogin extends JPanel {
 					FramePatec.frame.repaint();
 				} else if (validarSenha(usuario, senha)) {
 					Arrays.fill(pfSenha.getPassword(), '0');
-					PainelMenuAluno p = new PainelMenuAluno();
+					PainelMenuAluno p = new PainelMenuAluno(a);
 					FramePatec.frame.setTitle("Patec");
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
@@ -274,7 +282,10 @@ public class PainelLogin extends JPanel {
 			bd.st.setString(1, cpf);
 			bd.st.setString(2, dataFormatada);
 			bd.rs = bd.st.executeQuery();
-			if (!bd.rs.next()) {
+			if (bd.rs.next()) {
+				a = new Aluno(bd.rs.getString("ra"), bd.rs.getString("cpf"), bd.rs.getString("nome_aluno"),
+						bd.rs.getString("data_nascimento"));
+			} else {
 				correto = false;
 			}
 

@@ -14,12 +14,15 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import model.Aluno;
 import model.AlunoDAO;
 import model.BD;
 import view.resources.BtnSair;
 import view.resources.BtnVoltar;
 import view.resources.MenuBarCoord;
 import view.resources.TableModelPatec;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class PainelListarAlunos extends JPanel {
 
@@ -65,6 +68,26 @@ public class PainelListarAlunos extends JPanel {
 		gbc_btnSair.gridy = 1;
 		add(btnSair, gbc_btnSair);
 
+		JPanel containerLabel = new JPanel();
+		GridBagConstraints gbc_containerLabel = new GridBagConstraints();
+		gbc_containerLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_containerLabel.fill = GridBagConstraints.BOTH;
+		gbc_containerLabel.gridx = 1;
+		gbc_containerLabel.gridy = 2;
+		add(containerLabel, gbc_containerLabel);
+		GridBagLayout gbl_containerLabel = new GridBagLayout();
+		gbl_containerLabel.rowWeights = new double[] { 1.0 };
+		gbl_containerLabel.columnWeights = new double[] { 1.0 };
+		containerLabel.setLayout(gbl_containerLabel);
+
+		JLabel lblAluno = new JLabel("Alunos");
+		lblAluno.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblAluno = new GridBagConstraints();
+		gbc_lblAluno.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblAluno.gridx = 0;
+		gbc_lblAluno.gridy = 0;
+		containerLabel.add(lblAluno, gbc_lblAluno);
+
 		JScrollPane containerListaAlunos = new JScrollPane();
 		GridBagConstraints gbc_containerListaAlunos = new GridBagConstraints();
 		gbc_containerListaAlunos.insets = new Insets(0, 0, 5, 5);
@@ -88,22 +111,22 @@ public class PainelListarAlunos extends JPanel {
 		containerListaAlunos.setViewportView(tabelaAlunos);
 		tabelaAlunos.setFillsViewportHeight(true);
 
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 3;
-		add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 0, 0 };
-		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panel.setLayout(gbl_panel);
+		JPanel containerButtons = new JPanel();
+		GridBagConstraints gbc_containerButtons = new GridBagConstraints();
+		gbc_containerButtons.insets = new Insets(0, 0, 5, 5);
+		gbc_containerButtons.fill = GridBagConstraints.BOTH;
+		gbc_containerButtons.gridx = 2;
+		gbc_containerButtons.gridy = 3;
+		add(containerButtons, gbc_containerButtons);
+		GridBagLayout gbl_containerButtons = new GridBagLayout();
+		gbl_containerButtons.columnWidths = new int[] { 0, 0 };
+		gbl_containerButtons.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_containerButtons.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+		gbl_containerButtons.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		containerButtons.setLayout(gbl_containerButtons);
 
-		JButton btnNewButton = new JButton("Cadastrar");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroAluno p = new PainelCadastroAluno();
 				FramePatec.getFrame().setContentPane(p);
@@ -111,26 +134,39 @@ public class PainelListarAlunos extends JPanel {
 				FramePatec.getFrame().repaint();
 			}
 		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
+		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
+		gbc_btnCadastrar.fill = GridBagConstraints.BOTH;
+		gbc_btnCadastrar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnCadastrar.gridx = 0;
+		gbc_btnCadastrar.gridy = 1;
+		containerButtons.add(btnCadastrar, gbc_btnCadastrar);
 
-		JButton btnNewButton_1 = new JButton("Editar");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 2;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
-
-		JButton btnNewButton_2 = new JButton("Excluir");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(tabelaAlunos.getSelectedRow() != -1 && JOptionPane.showConfirmDialog(null, "Deseja excluir este registro?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION) == 0) {
-					dao.excluir(tabelaAlunos.getValueAt(tabelaAlunos.getSelectedRow(),  0));
+				PainelEditarAluno p = new PainelEditarAluno(
+						new Aluno(tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 0).toString(),
+								tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 1).toString(),
+								tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 2).toString(),
+								tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 3).toString()));
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
+			}
+		});
+		GridBagConstraints gbc_btnEditar = new GridBagConstraints();
+		gbc_btnEditar.fill = GridBagConstraints.BOTH;
+		gbc_btnEditar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnEditar.gridx = 0;
+		gbc_btnEditar.gridy = 2;
+		containerButtons.add(btnEditar, gbc_btnEditar);
+
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tabelaAlunos.getSelectedRow() != -1 && JOptionPane.showConfirmDialog(null,
+						"Deseja excluir este registro?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION) == 0) {
+					dao.excluir(tabelaAlunos.getValueAt(tabelaAlunos.getSelectedRow(), 0));
 					PainelListarAlunos p = new PainelListarAlunos();
 					FramePatec.getFrame().setContentPane(p);
 					FramePatec.getFrame().revalidate();
@@ -138,11 +174,11 @@ public class PainelListarAlunos extends JPanel {
 				}
 			}
 		});
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_2.gridx = 0;
-		gbc_btnNewButton_2.gridy = 3;
-		panel.add(btnNewButton_2, gbc_btnNewButton_2);
+		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
+		gbc_btnExcluir.fill = GridBagConstraints.BOTH;
+		gbc_btnExcluir.gridx = 0;
+		gbc_btnExcluir.gridy = 3;
+		containerButtons.add(btnExcluir, gbc_btnExcluir);
 	}
 
 	private void carregarTabela() {

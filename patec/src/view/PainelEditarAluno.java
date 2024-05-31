@@ -1,27 +1,42 @@
 package view;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import model.Aluno;
 import model.AlunoDAO;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import view.resources.BtnSair;
+import view.resources.BtnVoltar;
+import view.resources.DateLabelFormatter;
+import view.resources.MenuBarCoord;
 
-import java.awt.*;
-import net.sourceforge.jdatepicker.impl.*;
-import view.resources.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class PainelCadastroAluno extends JPanel {
+public class PainelEditarAluno extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tfNomeAluno;
 	private JTextField tfRegistroAluno;
-	private Aluno a = new Aluno();
 
 	/**
 	 * Create the panel.
 	 */
-	public PainelCadastroAluno() {
+	public PainelEditarAluno(Aluno a) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 66, 0, 100, 150, 0, 66, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 0, 230, 0, 0 };
@@ -53,48 +68,48 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_btnSair.gridy = 1;
 		add(btnSair, gbc_btnSair);
 
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(240, 240, 240));
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.ipadx = 10;
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 3;
-		add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		panel.setLayout(gbl_panel);
+		JPanel containerLabels = new JPanel();
+		containerLabels.setBackground(new Color(240, 240, 240));
+		GridBagConstraints gbc_containerLabels = new GridBagConstraints();
+		gbc_containerLabels.ipadx = 10;
+		gbc_containerLabels.insets = new Insets(0, 0, 5, 5);
+		gbc_containerLabels.fill = GridBagConstraints.BOTH;
+		gbc_containerLabels.gridx = 2;
+		gbc_containerLabels.gridy = 3;
+		add(containerLabels, gbc_containerLabels);
+		GridBagLayout gbl_containerLabels = new GridBagLayout();
+		containerLabels.setLayout(gbl_containerLabels);
 
-		JLabel lblNewLabel = new JLabel("Cadastrar");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblNewLabel.setBackground(new Color(128, 255, 255));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 0;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblEditar = new JLabel("Editar");
+		lblEditar.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblEditar.setBackground(new Color(128, 255, 255));
+		GridBagConstraints gbc_lblEditar = new GridBagConstraints();
+		gbc_lblEditar.anchor = GridBagConstraints.EAST;
+		gbc_lblEditar.insets = new Insets(0, 0, 5, 0);
+		gbc_lblEditar.gridx = 1;
+		gbc_lblEditar.gridy = 0;
+		containerLabels.add(lblEditar, gbc_lblEditar);
 
-		JLabel lblNewLabel_1 = new JLabel("Aluno");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 40));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 1;
-		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JLabel lblAluno = new JLabel("Aluno");
+		lblAluno.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblAluno = new GridBagConstraints();
+		gbc_lblAluno.anchor = GridBagConstraints.EAST;
+		gbc_lblAluno.gridx = 1;
+		gbc_lblAluno.gridy = 1;
+		containerLabels.add(lblAluno, gbc_lblAluno);
 
-		JPanel containerCadastroAluno = new JPanel();
-		containerCadastroAluno.setBackground(new Color(240, 240, 240));
-		GridBagConstraints gbc_containerCadastroAluno = new GridBagConstraints();
-		gbc_containerCadastroAluno.insets = new Insets(0, 0, 5, 5);
-		gbc_containerCadastroAluno.fill = GridBagConstraints.BOTH;
-		gbc_containerCadastroAluno.gridx = 3;
-		gbc_containerCadastroAluno.gridy = 3;
-		add(containerCadastroAluno, gbc_containerCadastroAluno);
-		GridBagLayout gbl_containerCadastroAluno = new GridBagLayout();
-		gbl_containerCadastroAluno.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
-		gbl_containerCadastroAluno.columnWidths = new int[] { 0, 5, 0, 0, 0, 0 };
-		containerCadastroAluno.setLayout(gbl_containerCadastroAluno);
+		JPanel containerEdicaoAluno = new JPanel();
+		containerEdicaoAluno.setBackground(new Color(240, 240, 240));
+		GridBagConstraints gbc_containerEdicaoAluno = new GridBagConstraints();
+		gbc_containerEdicaoAluno.insets = new Insets(0, 0, 5, 5);
+		gbc_containerEdicaoAluno.fill = GridBagConstraints.BOTH;
+		gbc_containerEdicaoAluno.gridx = 3;
+		gbc_containerEdicaoAluno.gridy = 3;
+		add(containerEdicaoAluno, gbc_containerEdicaoAluno);
+		GridBagLayout gbl_containerEdicaoAluno = new GridBagLayout();
+		gbl_containerEdicaoAluno.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
+		gbl_containerEdicaoAluno.columnWidths = new int[] { 0, 5, 0, 0, 0, 0 };
+		containerEdicaoAluno.setLayout(gbl_containerEdicaoAluno);
 
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(0, 0, 0));
@@ -106,7 +121,7 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_separator.insets = new Insets(0, 0, 0, 5);
 		gbc_separator.gridx = 0;
 		gbc_separator.gridy = 0;
-		containerCadastroAluno.add(separator, gbc_separator);
+		containerEdicaoAluno.add(separator, gbc_separator);
 
 		JLabel lblNomeAluno = new JLabel("Nome:");
 		lblNomeAluno.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -116,17 +131,18 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_lblNomeAluno.anchor = GridBagConstraints.WEST;
 		gbc_lblNomeAluno.gridx = 1;
 		gbc_lblNomeAluno.gridy = 0;
-		containerCadastroAluno.add(lblNomeAluno, gbc_lblNomeAluno);
+		containerEdicaoAluno.add(lblNomeAluno, gbc_lblNomeAluno);
 
 		tfNomeAluno = new JTextField();
 		tfNomeAluno.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		tfNomeAluno.setText(a.getNomeAluno());
 		GridBagConstraints gbc_tfNomeAluno = new GridBagConstraints();
 		gbc_tfNomeAluno.fill = GridBagConstraints.BOTH;
 		gbc_tfNomeAluno.gridwidth = 5;
 		gbc_tfNomeAluno.insets = new Insets(0, 0, 5, 0);
 		gbc_tfNomeAluno.gridx = 1;
 		gbc_tfNomeAluno.gridy = 1;
-		containerCadastroAluno.add(tfNomeAluno, gbc_tfNomeAluno);
+		containerEdicaoAluno.add(tfNomeAluno, gbc_tfNomeAluno);
 		tfNomeAluno.setColumns(10);
 
 		JLabel lblRegistroAluno = new JLabel("RA:");
@@ -137,17 +153,19 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_lblRegistroAluno.anchor = GridBagConstraints.WEST;
 		gbc_lblRegistroAluno.gridx = 1;
 		gbc_lblRegistroAluno.gridy = 2;
-		containerCadastroAluno.add(lblRegistroAluno, gbc_lblRegistroAluno);
+		containerEdicaoAluno.add(lblRegistroAluno, gbc_lblRegistroAluno);
 
 		tfRegistroAluno = new JTextField();
+		tfRegistroAluno.setEditable(false);
 		tfRegistroAluno.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		tfRegistroAluno.setText(a.getRa());
 		GridBagConstraints gbc_tfRegistroAluno = new GridBagConstraints();
 		gbc_tfRegistroAluno.gridwidth = 5;
 		gbc_tfRegistroAluno.insets = new Insets(0, 0, 5, 0);
 		gbc_tfRegistroAluno.fill = GridBagConstraints.BOTH;
 		gbc_tfRegistroAluno.gridx = 1;
 		gbc_tfRegistroAluno.gridy = 3;
-		containerCadastroAluno.add(tfRegistroAluno, gbc_tfRegistroAluno);
+		containerEdicaoAluno.add(tfRegistroAluno, gbc_tfRegistroAluno);
 		tfRegistroAluno.setColumns(10);
 
 		JLabel lblCpfAluno = new JLabel("CPF:");
@@ -158,17 +176,18 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_lblCpfAluno.anchor = GridBagConstraints.WEST;
 		gbc_lblCpfAluno.gridx = 1;
 		gbc_lblCpfAluno.gridy = 4;
-		containerCadastroAluno.add(lblCpfAluno, gbc_lblCpfAluno);
+		containerEdicaoAluno.add(lblCpfAluno, gbc_lblCpfAluno);
 
 		JFormattedTextField ftfCpfAluno = new JFormattedTextField();
 		ftfCpfAluno.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		ftfCpfAluno.setText(a.getCpf());
 		GridBagConstraints gbc_ftfCpfAluno = new GridBagConstraints();
 		gbc_ftfCpfAluno.gridwidth = 5;
 		gbc_ftfCpfAluno.insets = new Insets(0, 0, 5, 0);
 		gbc_ftfCpfAluno.fill = GridBagConstraints.BOTH;
 		gbc_ftfCpfAluno.gridx = 1;
 		gbc_ftfCpfAluno.gridy = 5;
-		containerCadastroAluno.add(ftfCpfAluno, gbc_ftfCpfAluno);
+		containerEdicaoAluno.add(ftfCpfAluno, gbc_ftfCpfAluno);
 
 		JLabel lblDataNascimentoAluno = new JLabel("Data de nasc.:");
 		lblDataNascimentoAluno.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -178,34 +197,35 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_lblDataNascimentoAluno.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDataNascimentoAluno.gridx = 1;
 		gbc_lblDataNascimentoAluno.gridy = 6;
-		containerCadastroAluno.add(lblDataNascimentoAluno, gbc_lblDataNascimentoAluno);
+		containerEdicaoAluno.add(lblDataNascimentoAluno, gbc_lblDataNascimentoAluno);
 
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
 		JDatePickerImpl tftDataNascimentoAluno = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		tftDataNascimentoAluno.getJFormattedTextField().setFont(new Font("Tahoma", Font.PLAIN, 18));
+		tftDataNascimentoAluno.getJFormattedTextField().setText(a.getDataNascimento());
 		GridBagConstraints gbc_tftDataNascimentoAluno = new GridBagConstraints();
 		gbc_tftDataNascimentoAluno.gridwidth = 5;
 		gbc_tftDataNascimentoAluno.insets = new Insets(0, 0, 5, 0);
 		gbc_tftDataNascimentoAluno.fill = GridBagConstraints.BOTH;
 		gbc_tftDataNascimentoAluno.gridx = 1;
 		gbc_tftDataNascimentoAluno.gridy = 7;
-		containerCadastroAluno.add(tftDataNascimentoAluno, gbc_tftDataNascimentoAluno);
-		
+		containerEdicaoAluno.add(tftDataNascimentoAluno, gbc_tftDataNascimentoAluno);
+
 		/*
-		JFormattedTextField tftDataNascimentoAluno = new JFormattedTextField();
-		tftDataNascimentoAluno.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		GridBagConstraints gbc_tftDataNascimentoAluno = new GridBagConstraints();
-		gbc_tftDataNascimentoAluno.gridwidth = 5;
-		gbc_tftDataNascimentoAluno.insets = new Insets(0, 0, 5, 0);
-		gbc_tftDataNascimentoAluno.fill = GridBagConstraints.BOTH;
-		gbc_tftDataNascimentoAluno.gridx = 1;
-		gbc_tftDataNascimentoAluno.gridy = 7;
-		containerCadastroAluno.add(tftDataNascimentoAluno, gbc_tftDataNascimentoAluno);
-		*/
-		
-		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.addActionListener(new ActionListener() {
+		 * JFormattedTextField tftDataNascimentoAluno = new JFormattedTextField();
+		 * tftDataNascimentoAluno.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		 * GridBagConstraints gbc_tftDataNascimentoAluno = new GridBagConstraints();
+		 * gbc_tftDataNascimentoAluno.gridwidth = 5; gbc_tftDataNascimentoAluno.insets =
+		 * new Insets(0, 0, 5, 0); gbc_tftDataNascimentoAluno.fill =
+		 * GridBagConstraints.BOTH; gbc_tftDataNascimentoAluno.gridx = 1;
+		 * gbc_tftDataNascimentoAluno.gridy = 7;
+		 * containerCadastroAluno.add(tftDataNascimentoAluno,
+		 * gbc_tftDataNascimentoAluno);
+		 */
+
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				a.setRa(tfRegistroAluno.getText());
 				a.setCpf(ftfCpfAluno.getText());
@@ -213,18 +233,19 @@ public class PainelCadastroAluno extends JPanel {
 				a.setDataNascimento(tftDataNascimentoAluno.getJFormattedTextField().getText());
 				AlunoDAO dao = new AlunoDAO();
 				dao.gravar(a);
-				JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!", "Cadastro concluído", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, dao.gravar(a), "Edição concluída",
+						JOptionPane.INFORMATION_MESSAGE);
 				PainelListarAlunos p = new PainelListarAlunos();
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
 			}
 		});
-		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
-		gbc_btnCadastrar.gridwidth = 5;
-		gbc_btnCadastrar.gridx = 1;
-		gbc_btnCadastrar.gridy = 9;
-		containerCadastroAluno.add(btnCadastrar, gbc_btnCadastrar);
+		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
+		gbc_btnSalvar.gridwidth = 5;
+		gbc_btnSalvar.gridx = 1;
+		gbc_btnSalvar.gridy = 9;
+		containerEdicaoAluno.add(btnSalvar, gbc_btnSalvar);
 	}
 
 }
