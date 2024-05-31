@@ -16,9 +16,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import model.BD;
-import model.Disciplina;
 import model.DisciplinaDAO;
+import util.BD;
 import view.resources.BtnSair;
 import view.resources.BtnVoltar;
 import view.resources.MenuBarCoord;

@@ -7,6 +7,7 @@ public class FolhaDeRespostas {
 	private char resposta3;
 	private char resposta4;
 	private char resposta5;
+	private int nota;
 
 	private int codigoGabarito;
 	private String raAluno;
@@ -15,13 +16,14 @@ public class FolhaDeRespostas {
 	};
 
 	public FolhaDeRespostas(int codigoRespostas, char resposta1, char resposta2, char resposta3, char resposta4,
-			char resposta5, int codigoGabarito, String raAluno) {
+			char resposta5, int nota, int codigoGabarito, String raAluno) {
 		this.codigoRespostas = codigoRespostas;
 		this.resposta1 = resposta1;
 		this.resposta2 = resposta2;
 		this.resposta3 = resposta3;
 		this.resposta4 = resposta4;
 		this.resposta5 = resposta5;
+		this.nota = nota;
 		this.codigoGabarito = codigoGabarito;
 		this.raAluno = raAluno;
 	}
@@ -72,6 +74,14 @@ public class FolhaDeRespostas {
 
 	public void setResposta5(char resposta5) {
 		this.resposta5 = resposta5;
+	}
+	
+	public int getNota() {
+		return nota;
+	}
+
+	public void setNota(int nota) {
+		this.nota = nota;
 	}
 
 	public int getCodigoGabarito() {

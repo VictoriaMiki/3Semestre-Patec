@@ -8,7 +8,7 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import model.BD;
+import util.BD;
 
 public class TableModelPatec {
 

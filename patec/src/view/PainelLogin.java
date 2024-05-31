@@ -22,8 +22,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import util.BD;
 import model.Aluno;
-import model.BD;
 
 public class PainelLogin extends JPanel {
 
