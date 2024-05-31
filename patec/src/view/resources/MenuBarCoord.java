@@ -11,11 +11,11 @@ public class MenuBarCoord extends JMenuBar {
 		JMenuBar menuBar = new JMenuBar();
 		add(menuBar);
 
-		JMenu mnNewMenu = new JMenu("Gabarito");
-		menuBar.add(mnNewMenu);
+		JMenu mnGabarito = new JMenu("Gabarito");
+		menuBar.add(mnGabarito);
 
-		JMenuItem mntmNewMenuItem = new JMenuItem("Listar");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
+		JMenuItem miListarGabaritos = new JMenuItem("Listar");
+		miListarGabaritos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelListarGabaritos p = new PainelListarGabaritos();
 				FramePatec.getFrame().setTitle("Patec - Listar Gabaritos");
@@ -24,10 +24,10 @@ public class MenuBarCoord extends JMenuBar {
 				FramePatec.getFrame().repaint();
 			}
 		});
-		mnNewMenu.add(mntmNewMenuItem);
+		mnGabarito.add(miListarGabaritos);
 
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Cadastrar");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+		JMenuItem miCadastrarGabarito = new JMenuItem("Cadastrar");
+		miCadastrarGabarito.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroGabarito p = new PainelCadastroGabarito();
 				FramePatec.getFrame().setTitle("Patec - Cadastrar Gabarito");
@@ -36,13 +36,13 @@ public class MenuBarCoord extends JMenuBar {
 				FramePatec.getFrame().repaint();
 			}
 		});
-		mnNewMenu.add(mntmNewMenuItem_1);
+		mnGabarito.add(miCadastrarGabarito);
 
-		JMenu mnNewMenu_1 = new JMenu("Aluno");
-		menuBar.add(mnNewMenu_1);
+		JMenu mnAluno = new JMenu("Aluno");
+		menuBar.add(mnAluno);
 
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Listar");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+		JMenuItem miListarAlunos = new JMenuItem("Listar");
+		miListarAlunos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelListarAlunos p = new PainelListarAlunos();
 				FramePatec.getFrame().setTitle("Patec - Listar Alunos");
@@ -51,10 +51,10 @@ public class MenuBarCoord extends JMenuBar {
 				FramePatec.getFrame().repaint();
 			}
 		});
-		mnNewMenu_1.add(mntmNewMenuItem_2);
+		mnAluno.add(miListarAlunos);
 
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Cadastrar");
-		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+		JMenuItem miCadastrarAluno = new JMenuItem("Cadastrar");
+		miCadastrarAluno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroAluno p = new PainelCadastroAluno();
 				FramePatec.getFrame().setTitle("Patec - Cadastrar Aluno");
@@ -63,24 +63,13 @@ public class MenuBarCoord extends JMenuBar {
 				FramePatec.getFrame().repaint();
 			}
 		});
-		mnNewMenu_1.add(mntmNewMenuItem_3);
+		mnAluno.add(miCadastrarAluno);
 
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Obter Relatório");
-		mntmNewMenuItem_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelRelatorioAluno p = new PainelRelatorioAluno();
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
-			}
-		});
-		mnNewMenu_1.add(mntmNewMenuItem_4);
+		JMenu mnDisciplina = new JMenu("Disciplina");
+		menuBar.add(mnDisciplina);
 
-		JMenu mnNewMenu_2 = new JMenu("Disciplina");
-		menuBar.add(mnNewMenu_2);
-
-		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Listar");
-		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+		JMenuItem miListarDisciplinas = new JMenuItem("Listar");
+		miListarDisciplinas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelListarDisciplinas p = new PainelListarDisciplinas();
 				FramePatec.getFrame().setTitle("Patec - Listar Disciplinas");
@@ -89,10 +78,10 @@ public class MenuBarCoord extends JMenuBar {
 				FramePatec.getFrame().repaint();
 			}
 		});
-		mnNewMenu_2.add(mntmNewMenuItem_5);
+		mnDisciplina.add(miListarDisciplinas);
 
-		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Cadastrar");
-		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+		JMenuItem miCadastrarDisciplina = new JMenuItem("Cadastrar");
+		miCadastrarDisciplina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroDisciplina p = new PainelCadastroDisciplina();
 				FramePatec.getFrame().setTitle("Patec - Cadastrar Disciplina");
@@ -101,21 +90,10 @@ public class MenuBarCoord extends JMenuBar {
 				FramePatec.getFrame().repaint();
 			}
 		});
-		mnNewMenu_2.add(mntmNewMenuItem_6);
+		mnDisciplina.add(miCadastrarDisciplina);
 
-		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Obter Relatório");
-		mntmNewMenuItem_7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelRelatorioDisciplina p = new PainelRelatorioDisciplina();
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
-			}
-		});
-		mnNewMenu_2.add(mntmNewMenuItem_7);
-
-		JMenu mnNewMenu_3 = new JMenu("Avaliação");
-		menuBar.add(mnNewMenu_3);
+		JMenu mnAvaliacao = new JMenu("Avaliação");
+		menuBar.add(mnAvaliacao);
 
 		/*
 		 * JMenuItem mntmNewMenuItem_8 = new JMenuItem("Listar");
@@ -132,6 +110,18 @@ public class MenuBarCoord extends JMenuBar {
 		 * FramePatec.frame.revalidate(); FramePatec.frame.repaint(); } });
 		 * mnNewMenu_3.add(mntmNewMenuItem_9);
 		 */
+
+		JMenu mnMenuRelatorio = new JMenu("Relatório");
+		mnMenuRelatorio.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				PainelConsultaRelatorio p = new PainelConsultaRelatorio();
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
+			}
+		});
+		menuBar.add(mnMenuRelatorio);
 	}
 
 }

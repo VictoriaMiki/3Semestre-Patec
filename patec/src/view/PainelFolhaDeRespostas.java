@@ -17,7 +17,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PainelFolhaDeRespostas() {
+	public PainelFolhaDeRespostas(Aluno a, Disciplina d) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[] { 0, 265, 0 };
 		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 1.0 };
@@ -257,7 +257,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 					JOptionPane.showMessageDialog(null, "Há questões não respondidas.", "Aviso",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
-					PainelMenuAluno p = new PainelMenuAluno();
+					PainelMenuAluno p = new PainelMenuAluno(a);
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();

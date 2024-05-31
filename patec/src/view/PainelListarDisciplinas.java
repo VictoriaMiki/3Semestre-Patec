@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -65,6 +67,28 @@ public class PainelListarDisciplinas extends JPanel {
 		gbc_btnSair.gridy = 1;
 		add(btnSair, gbc_btnSair);
 
+		JPanel containerLabels = new JPanel();
+		GridBagConstraints gbc_containerLabels = new GridBagConstraints();
+		gbc_containerLabels.insets = new Insets(0, 0, 5, 5);
+		gbc_containerLabels.fill = GridBagConstraints.BOTH;
+		gbc_containerLabels.gridx = 1;
+		gbc_containerLabels.gridy = 2;
+		add(containerLabels, gbc_containerLabels);
+		GridBagLayout gbl_containerLabels = new GridBagLayout();
+		gbl_containerLabels.columnWidths = new int[] { 0, 0 };
+		gbl_containerLabels.rowHeights = new int[] { 0, 0 };
+		gbl_containerLabels.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_containerLabels.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		containerLabels.setLayout(gbl_containerLabels);
+
+		JLabel lblDisciplinas = new JLabel("Disciplinas");
+		lblDisciplinas.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblDisciplinas = new GridBagConstraints();
+		gbc_lblDisciplinas.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblDisciplinas.gridx = 0;
+		gbc_lblDisciplinas.gridy = 0;
+		containerLabels.add(lblDisciplinas, gbc_lblDisciplinas);
+
 		JScrollPane containerListaDisciplinas = new JScrollPane();
 		GridBagConstraints gbc_containerListaDisciplinas = new GridBagConstraints();
 		gbc_containerListaDisciplinas.insets = new Insets(0, 0, 5, 5);
@@ -88,19 +112,19 @@ public class PainelListarDisciplinas extends JPanel {
 		containerListaDisciplinas.setViewportView(tabelaDisciplinas);
 		tabelaDisciplinas.setFillsViewportHeight(true);
 
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 3;
-		add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 0, 0 };
-		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panel.setLayout(gbl_panel);
+		JPanel containerButtons = new JPanel();
+		GridBagConstraints gbc_containerButtons = new GridBagConstraints();
+		gbc_containerButtons.insets = new Insets(0, 0, 5, 5);
+		gbc_containerButtons.fill = GridBagConstraints.BOTH;
+		gbc_containerButtons.gridx = 2;
+		gbc_containerButtons.gridy = 3;
+		add(containerButtons, gbc_containerButtons);
+		GridBagLayout gbl_containerButtons = new GridBagLayout();
+		gbl_containerButtons.columnWidths = new int[] { 0, 0 };
+		gbl_containerButtons.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_containerButtons.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+		gbl_containerButtons.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		containerButtons.setLayout(gbl_containerButtons);
 
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
@@ -116,15 +140,27 @@ public class PainelListarDisciplinas extends JPanel {
 		gbc_btnCadastrar.insets = new Insets(0, 0, 5, 0);
 		gbc_btnCadastrar.gridx = 0;
 		gbc_btnCadastrar.gridy = 1;
-		panel.add(btnCadastrar, gbc_btnCadastrar);
+		containerButtons.add(btnCadastrar, gbc_btnCadastrar);
 
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelEditarDisciplina p = new PainelEditarDisciplina(new Disciplina(
+						tabelaDisciplinas.getModel().getValueAt(tabelaDisciplinas.getSelectedRow(), 0).toString(),
+						tabelaDisciplinas.getModel().getValueAt(tabelaDisciplinas.getSelectedRow(), 1).toString(),
+						Integer.parseInt(tabelaDisciplinas.getModel().getValueAt(tabelaDisciplinas.getSelectedRow(), 2)
+								.toString())));
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
+			}
+		});
 		GridBagConstraints gbc_btnEditar = new GridBagConstraints();
 		gbc_btnEditar.fill = GridBagConstraints.BOTH;
 		gbc_btnEditar.insets = new Insets(0, 0, 5, 0);
 		gbc_btnEditar.gridx = 0;
 		gbc_btnEditar.gridy = 2;
-		panel.add(btnEditar, gbc_btnEditar);
+		containerButtons.add(btnEditar, gbc_btnEditar);
 
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
@@ -143,7 +179,7 @@ public class PainelListarDisciplinas extends JPanel {
 		gbc_btnExcluir.fill = GridBagConstraints.BOTH;
 		gbc_btnExcluir.gridx = 0;
 		gbc_btnExcluir.gridy = 3;
-		panel.add(btnExcluir, gbc_btnExcluir);
+		containerButtons.add(btnExcluir, gbc_btnExcluir);
 	}
 
 	private void carregarTabela() {
