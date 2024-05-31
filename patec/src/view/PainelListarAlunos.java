@@ -15,7 +15,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import model.AlunoDAO;
-import model.BD;
+import util.BD;
 import view.resources.BtnSair;
 import view.resources.BtnVoltar;
 import view.resources.MenuBarCoord;

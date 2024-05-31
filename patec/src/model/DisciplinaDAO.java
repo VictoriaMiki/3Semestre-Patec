@@ -2,6 +2,8 @@ package model;
 
 import java.sql.SQLException;
 
+import util.BD;
+
 public class DisciplinaDAO {
 
 	private BD bd;

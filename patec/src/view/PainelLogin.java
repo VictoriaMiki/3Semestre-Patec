@@ -22,7 +22,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import model.BD;
+import util.BD;
 
 public class PainelLogin extends JPanel {
 
