@@ -116,22 +116,30 @@ public class MenuBarCoord extends JMenuBar {
 
 		JMenu mnNewMenu_3 = new JMenu("Avaliação");
 		menuBar.add(mnNewMenu_3);
-
-		/*
-		 * JMenuItem mntmNewMenuItem_8 = new JMenuItem("Listar");
-		 * mntmNewMenuItem_8.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { PainelListarAvaliacoes p = new
-		 * PainelListarAvaliacoes(); FramePatec.frame.setContentPane(p);
-		 * FramePatec.frame.revalidate(); FramePatec.frame.repaint(); } });
-		 * mnNewMenu_3.add(mntmNewMenuItem_8);
-		 * 
-		 * JMenuItem mntmNewMenuItem_9 = new JMenuItem("Cadastrar");
-		 * mntmNewMenuItem_9.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { PainelListarAvaliacoes p = new
-		 * PainelListarAvaliacoes(); FramePatec.frame.setContentPane(p);
-		 * FramePatec.frame.revalidate(); FramePatec.frame.repaint(); } });
-		 * mnNewMenu_3.add(mntmNewMenuItem_9);
-		 */
+		
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Listar");
+		mntmNewMenuItem_8.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) { 
+				PainelListarAvaliacoes p = new PainelListarAvaliacoes();
+				FramePatec.getFrame().setTitle("Patec - Listar Avaliações");
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
+				}
+			});
+		  mnNewMenu_3.add(mntmNewMenuItem_8);
+		 
+		  JMenuItem mntmNewMenuItem_9 = new JMenuItem("Cadastrar");
+		  mntmNewMenuItem_9.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent e) {
+				 PainelCadastroAvaliacao p = new PainelCadastroAvaliacao(); 
+				 FramePatec.getFrame().setTitle("Patec - Cadastrar Avaliação");
+				 FramePatec.getFrame().setContentPane(p);
+				 FramePatec.getFrame().revalidate();
+				 FramePatec.getFrame().repaint();
+			  	 } 
+			  });
+		  mnNewMenu_3.add(mntmNewMenuItem_9);
 	}
 
 }
