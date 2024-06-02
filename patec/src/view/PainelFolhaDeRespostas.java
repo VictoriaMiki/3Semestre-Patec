@@ -7,6 +7,7 @@ import view.resources.BaseFolhaDeRespostas;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Map;
 
 public class PainelFolhaDeRespostas extends JPanel {
 
@@ -17,7 +18,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PainelFolhaDeRespostas(Aluno a, Disciplina d) {
+	public PainelFolhaDeRespostas(Aluno a, Map<String, Object> obj) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[] { 0, 265, 0 };
 		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 1.0 };
@@ -48,10 +49,20 @@ public class PainelFolhaDeRespostas extends JPanel {
 		JLabel lblRespostas = new JLabel("Respostas");
 		lblRespostas.setFont(new Font("Tahoma", Font.BOLD, 40));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 1;
 		containerLabel.add(lblRespostas, gbc_lblNewLabel_1);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setText((String)obj.get("nomeDisciplina"));
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_2.gridx = 0;
+		gbc_lblNewLabel_2.gridy = 4;
+		containerLabel.add(lblNewLabel, gbc_lblNewLabel_2);
 
 		// Configurações da folha de respostas:
 		JPanel containerFolhaRespostas = new JPanel();
@@ -257,6 +268,38 @@ public class PainelFolhaDeRespostas extends JPanel {
 					JOptionPane.showMessageDialog(null, "Há questões não respondidas.", "Aviso",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
+					fdr.setRaAluno(a.getRa());
+					fdr.setCodigoGabarito((int) obj.get("codigoGabarito"));
+					
+					GabaritoOficialDAO goDAO = new GabaritoOficialDAO();
+					GabaritoOficial go = new GabaritoOficial();
+					
+					go = goDAO.getGabaritoParaCorrecao(fdr.getCodigoGabarito());
+					
+					int nota = 0;
+					if (go.getQuestao1() == fdr.getResposta1()) {
+						nota = nota + 2;
+					}
+					if (go.getQuestao2() == fdr.getResposta2()) {
+						nota = nota + 2;
+					}
+					if (go.getQuestao3() == fdr.getResposta3()) {
+						nota = nota + 2;
+					}
+					if (go.getQuestao4() == fdr.getResposta4()) {
+						nota = nota + 2;
+					}
+					if (go.getQuestao5() == fdr.getResposta5()) {
+						nota = nota + 2;
+					}
+					fdr.setNota(nota);
+					
+					FolhaDeRespostasDAO fdrDAO = new FolhaDeRespostasDAO();
+					
+					fdrDAO.gravar(fdr);
+					
+					JOptionPane.showMessageDialog(null, "Folha de Resposta enviada com sucesso!", "Folha de Resposta Concluída", JOptionPane.INFORMATION_MESSAGE);
+
 					PainelMenuAluno p = new PainelMenuAluno(a);
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
