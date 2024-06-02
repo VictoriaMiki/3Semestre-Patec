@@ -12,7 +12,9 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,8 +25,8 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import model.Aluno;
-import model.BD;
 import model.Disciplina;
+import util.BD;
 import view.resources.BtnSair;
 
 public class PainelMenuAluno extends JPanel {
@@ -147,8 +149,8 @@ public class PainelMenuAluno extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (cbDisciplina.getSelectedItem().toString() != "-- selecione uma disciplina --") {
-						lerDisciplina(cbDisciplina.getSelectedItem().toString());
-						PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, d);
+						Map<String, Object> obj = new HashMap<>(lerDisciplina(cbDisciplina.getSelectedItem().toString()));
+						PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, obj);
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
@@ -260,11 +262,16 @@ public class PainelMenuAluno extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				if (cbDisciplina.getSelectedItem().toString() != "-- selecione uma disciplina --") {
-					lerDisciplina(cbDisciplina.getSelectedItem().toString());
-					PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, d);
-					FramePatec.frame.setContentPane(p);
-					FramePatec.frame.revalidate();
-					FramePatec.frame.repaint();
+					Map<String, Object> obj = new HashMap<>(lerDisciplina(cbDisciplina.getSelectedItem().toString()));
+					
+					if (verificarStatus(obj, a)) {
+						JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");
+					} else {
+						PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, obj);
+						FramePatec.frame.setContentPane(p);
+						FramePatec.frame.revalidate();
+						FramePatec.frame.repaint();
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Por favor, selecione uma disciplina.");
 				}
@@ -277,18 +284,25 @@ public class PainelMenuAluno extends JPanel {
 		containerSelecionarAvaliacao.add(btnRealizarAvaliacao, gbc_btnRealizarAvaliacao);
 	}
 	
-	private void lerDisciplina (String disciplina) {
+	private Map<String, Object> lerDisciplina (String disciplina) {
 		BD bd = new BD();
+		Map<String, Object> obj = new HashMap<>();
+		
 		if (bd.getConnection()) {
-			String sql = "SELECT * FROM DISCIPLINA WHERE nome_disciplina = ?";
+			String sql = "SELECT TOP 1 D.*, G.cod_gabarito, A.data_avaliacao " +
+	                 "FROM DISCIPLINA D " +
+	                 "JOIN GABARITO_OFICIAL G ON D.cod_disciplina = G.codigo_disciplina " +
+	                 "JOIN AVALIACAO A ON G.codigo_avaliacao = A.codigo_avaliacao " + 
+	                 "WHERE D.nome_disciplina = ? AND DATEPART(DAYOFYEAR,A.data_avaliacao) >= DATEPART(DAYOFYEAR,GETDATE())" + 
+	                 "ORDER BY A.data_avaliacao ASC";
 			try {
 				bd.st = bd.con.prepareStatement(sql);
 				bd.st.setString(1, disciplina);
 				bd.rs = bd.st.executeQuery();
 				while (bd.rs.next()) {
-					d.setCodigoDisciplina(bd.rs.getString("cod_disciplina"));
-					d.setNomeDisciplina(bd.rs.getString("nome_disciplina"));
-					d.setSemestreDisciplina(bd.rs.getInt("semestre_disciplina"));
+					obj.put("nomeDisciplina", bd.rs.getString("nome_disciplina"));
+		            obj.put("codDisciplina", bd.rs.getString("cod_disciplina"));
+		            obj.put("codigoGabarito", bd.rs.getInt("cod_gabarito"));
 				}
 			} catch (SQLException e) {
 				System.out.println(e);
@@ -298,7 +312,8 @@ public class PainelMenuAluno extends JPanel {
 		} else {
 			System.out.println("Falha na conexão.");
 		}
-				
+			
+		return obj;
 	}
 
 	private void listarProvas(String ra, int semestre) {
@@ -325,6 +340,33 @@ public class PainelMenuAluno extends JPanel {
 		} else {
 			System.out.println("Falha na conexão.");
 		}
+	}
+	
+	private boolean verificarStatus(Map<String, Object> obj, Aluno a) {
+		BD bd = new BD();
+		boolean provaRealizada = true;
+		if (bd.getConnection()) {
+			String sql = "SELECT * FROM FOLHA_DE_RESPOSTAS " +
+					"WHERE codigo_gabarito = ? AND ra = ?";
+			try {
+				bd.st = bd.con.prepareStatement(sql);
+				bd.st.setInt(1, (int) obj.get("codigoGabarito"));
+				bd.st.setString(2, a.getRa());
+				bd.rs = bd.st.executeQuery();
+
+				if (!bd.rs.next()) {
+					provaRealizada = false;
+				}
+			} catch (SQLException e) {
+				System.out.println(e);
+			} finally {
+				bd.close();
+			}
+		} else {
+			System.out.println("Falha na conexão.");
+		}
+		
+		return provaRealizada;
 	}
 
 }
