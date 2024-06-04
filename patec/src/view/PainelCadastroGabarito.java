@@ -24,7 +24,7 @@ public class PainelCadastroGabarito extends JPanel {
 		gridBagLayout.columnWidths = new int[] { 66, 0, 100, 150, 0, 66, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 230, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		MenuBarCoord bdf = new MenuBarCoord();
