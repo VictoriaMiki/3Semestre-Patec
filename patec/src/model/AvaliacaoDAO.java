@@ -2,9 +2,11 @@ package model;
 
 import java.sql.SQLException;
 
+import util.BD;
+
 public class AvaliacaoDAO {
 
-	private BD bd;
+	private BD bd; 
 	private String sql, men;
 
 	public AvaliacaoDAO() {
