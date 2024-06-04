@@ -1,31 +1,15 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.sql.SQLException;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+import java.util.*;
+import java.time.*;
 import java.util.List;
-import java.util.Map;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
-import model.Aluno;
-import model.Disciplina;
+import model.*;
 import util.BD;
 import view.resources.BtnSair;
 
@@ -35,7 +19,7 @@ public class PainelMenuAluno extends JPanel {
 	private String[] semestres = { "-- selecione um semestre --", "1° SEM", "2° SEM", "3° SEM", "4° SEM", "5° SEM",
 			"6° SEM" };
 	private List<String> disciplinas = new ArrayList<String>();
-	private Disciplina d = new Disciplina();
+	private DisciplinaDAO dao = new DisciplinaDAO();
 
 	/**
 	 * Create the panel.
@@ -149,11 +133,16 @@ public class PainelMenuAluno extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (cbDisciplina.getSelectedItem().toString() != "-- selecione uma disciplina --") {
-						Map<String, Object> obj = new HashMap<>(lerDisciplina(cbDisciplina.getSelectedItem().toString()));
-						PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, obj);
-						FramePatec.frame.setContentPane(p);
-						FramePatec.frame.revalidate();
-						FramePatec.frame.repaint();
+						Map<String, Object> obj = new HashMap<>(dao.lerDisciplina(cbDisciplina.getSelectedItem().toString()));
+						
+						if (verificarStatus(obj, a)) {
+							JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");
+						} else {
+							PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, obj);
+							FramePatec.frame.setContentPane(p);
+							FramePatec.frame.revalidate();
+							FramePatec.frame.repaint();
+						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Por favor, selecione uma disciplina.");
 					}
@@ -209,37 +198,37 @@ public class PainelMenuAluno extends JPanel {
 				disciplinas.add("-- selecione uma disciplina --");
 				if (cbSemestre.getSelectedItem() == "1° SEM") {
 					cbDisciplina.removeAllItems();
-					listarProvas(a.getRa(), 1);
+					disciplinas = dao.listarProvas(a.getRa(), 1);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem() == "2° SEM") {
 					cbDisciplina.removeAllItems();
-					listarProvas(a.getRa(), 2);
+					disciplinas = dao.listarProvas(a.getRa(), 2);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem() == "3° SEM") {
 					cbDisciplina.removeAllItems();
-					listarProvas(a.getRa(), 3);
+					disciplinas = dao.listarProvas(a.getRa(), 3);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem() == "4° SEM") {
 					cbDisciplina.removeAllItems();
-					listarProvas(a.getRa(), 4);
+					disciplinas = dao.listarProvas(a.getRa(), 4);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem() == "5° SEM") {
 					cbDisciplina.removeAllItems();
-					listarProvas(a.getRa(), 5);
+					disciplinas = dao.listarProvas(a.getRa(), 5);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem() == "6° SEM") {
 					cbDisciplina.removeAllItems();
-					listarProvas(a.getRa(), 6);
+					disciplinas = dao.listarProvas(a.getRa(), 6);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
@@ -262,7 +251,7 @@ public class PainelMenuAluno extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				if (cbDisciplina.getSelectedItem().toString() != "-- selecione uma disciplina --") {
-					Map<String, Object> obj = new HashMap<>(lerDisciplina(cbDisciplina.getSelectedItem().toString()));
+					Map<String, Object> obj = new HashMap<>(dao.lerDisciplina(cbDisciplina.getSelectedItem().toString()));
 					
 					if (verificarStatus(obj, a)) {
 						JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");
@@ -282,64 +271,6 @@ public class PainelMenuAluno extends JPanel {
 		gbc_btnRealizarAvaliacao.gridx = 1;
 		gbc_btnRealizarAvaliacao.gridy = 5;
 		containerSelecionarAvaliacao.add(btnRealizarAvaliacao, gbc_btnRealizarAvaliacao);
-	}
-	
-	private Map<String, Object> lerDisciplina (String disciplina) {
-		BD bd = new BD();
-		Map<String, Object> obj = new HashMap<>();
-		
-		if (bd.getConnection()) {
-			String sql = "SELECT TOP 1 D.*, G.cod_gabarito, A.data_avaliacao " +
-	                 "FROM DISCIPLINA D " +
-	                 "JOIN GABARITO_OFICIAL G ON D.cod_disciplina = G.codigo_disciplina " +
-	                 "JOIN AVALIACAO A ON G.codigo_avaliacao = A.codigo_avaliacao " + 
-	                 "WHERE D.nome_disciplina = ? AND DATEPART(DAYOFYEAR,A.data_avaliacao) >= DATEPART(DAYOFYEAR,GETDATE())" + 
-	                 "ORDER BY A.data_avaliacao ASC";
-			try {
-				bd.st = bd.con.prepareStatement(sql);
-				bd.st.setString(1, disciplina);
-				bd.rs = bd.st.executeQuery();
-				while (bd.rs.next()) {
-					obj.put("nomeDisciplina", bd.rs.getString("nome_disciplina"));
-		            obj.put("codDisciplina", bd.rs.getString("cod_disciplina"));
-		            obj.put("codigoGabarito", bd.rs.getInt("cod_gabarito"));
-				}
-			} catch (SQLException e) {
-				System.out.println(e);
-			} finally {
-				bd.close();
-			}
-		} else {
-			System.out.println("Falha na conexão.");
-		}
-			
-		return obj;
-	}
-
-	private void listarProvas(String ra, int semestre) {
-		BD bd = new BD();
-		if (bd.getConnection()) {
-			String sql = "SELECT DISCIPLINA.nome_disciplina FROM DISCIPLINA\r\n"
-					+ "JOIN ALUNO_DISCIPLINA ON DISCIPLINA.cod_disciplina = ALUNO_DISCIPLINA.codigo_disciplina\r\n"
-					+ "JOIN ALUNO ON ALUNO_DISCIPLINA.ra = ALUNO.ra\r\n"
-					+ "WHERE ALUNO.ra = ? AND DISCIPLINA.semestre_disciplina = ?";
-			try {
-				bd.st = bd.con.prepareStatement(sql);
-				bd.st.setString(1, ra);
-				bd.st.setInt(2, semestre);
-				bd.rs = bd.st.executeQuery();
-
-				while (bd.rs.next()) {
-					disciplinas.add(bd.rs.getString("nome_disciplina"));
-				}
-			} catch (SQLException e) {
-				System.out.println(e);
-			} finally {
-				bd.close();
-			}
-		} else {
-			System.out.println("Falha na conexão.");
-		}
 	}
 	
 	private boolean verificarStatus(Map<String, Object> obj, Aluno a) {
