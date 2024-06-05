@@ -14,25 +14,22 @@ public class AvaliacaoDAO {
 	}
 		
 	public String gravar(Avaliacao a) {
-		sql = "INSERT INTO AVALIACAO VALUES (?, ?, ?)";
+		sql = "INSERT INTO AVALIACAO VALUES (?, ?)";
 		men = "Avaliação inserida com sucesso!";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
-			//bd.st.setInt(1, a.getCodigoAvaliacao());
-			bd.st.setInt(1, a.getAnoAvaliacao());
-			bd.st.setInt(2, a.getSemestreAvaliacao());
-			bd.st.setString(3, a.getTipoAvaliacao());
+			bd.st.setString(1, a.getDataAvaliacao());
+			bd.st.setString(2, a.getTipoAvaliacao());
 			int n = bd.st.executeUpdate();
 			System.out.println("Linhas inseridas: " + n);
 		} catch(SQLException e) {
-			sql = "UPDATE AVALIACAO SET ano_avaliacao = ?, semestre_avaliacao = ?, tipo_avaliacao = ? WHERE codigo_avaliacao = ?";
+			sql = "UPDATE AVALIACAO SET data_avaliacao = ?, tipo_avaliacao = ? WHERE codigo_avaliacao = ?";
 			try {
 				bd.st = bd.con.prepareStatement(sql);
-				bd.st.setInt(1, a.getAnoAvaliacao());
-				bd.st.setInt(2, a.getSemestreAvaliacao());
-				bd.st.setString(3, a.getTipoAvaliacao());
-				bd.st.setInt(4, a.getCodigoAvaliacao());
+				bd.st.setString(1, a.getDataAvaliacao());
+				bd.st.setString(2, a.getTipoAvaliacao());
+				bd.st.setInt(3, a.getCodigoAvaliacao());
 				int n = bd.st.executeUpdate();
 				System.out.println("Linhas alteradas: " + n);
 				if (n == 1) {

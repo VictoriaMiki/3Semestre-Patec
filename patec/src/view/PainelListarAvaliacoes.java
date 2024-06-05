@@ -14,7 +14,9 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import model.Avaliacao;
 import model.AvaliacaoDAO;
+import model.Disciplina;
 import util.BD;
 import view.resources.BtnSair;
 import view.resources.BtnVoltar;
@@ -118,13 +120,24 @@ public class PainelListarAvaliacoes extends JPanel {
 		gbc_btnNewButton.gridy = 1;
 		panel.add(btnNewButton, gbc_btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("Editar");
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelEditarAvaliacao p = new PainelEditarAvaliacao(new Avaliacao(
+					Integer.parseInt(tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 0).toString()),
+					tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 1).toString(),
+					tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 2).toString()));
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
+			}
+		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton_1.gridx = 0;
 		gbc_btnNewButton_1.gridy = 2;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+		panel.add(btnEditar, gbc_btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("Excluir");
 		btnNewButton_2.addActionListener(new ActionListener() {
