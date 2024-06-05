@@ -73,8 +73,39 @@ public class DisciplinaDAO {
 		return men;
 	}
 
-	public List<String> listarProvas(String ra, int semestre) {
-		List<String> disciplinas = new ArrayList<String>();
+	public List<String> listarSemestres(String ra) {
+		List<String> listaSemestres = new ArrayList<String>();
+		listaSemestres.add("-- selecione uma semestre --");
+		BD bd = new BD();
+		if (bd.getConnection()) {
+			String sql = "SELECT DISTINCT D.semestre_disciplina " +
+	                 "FROM DISCIPLINA D " +
+	                 "JOIN ALUNO_DISCIPLINA AD ON D.cod_disciplina = AD.codigo_disciplina " +
+	                 "JOIN ALUNO A ON A.ra = AD.ra " + 
+	                 "WHERE A.ra = ?";
+			try {
+				bd.st = bd.con.prepareStatement(sql);
+				bd.st.setString(1, ra);
+				bd.rs = bd.st.executeQuery();
+
+				while (bd.rs.next()) {
+					listaSemestres.add(bd.rs.getString("semestre_disciplina") + "° SEM");
+				}
+			} catch (SQLException e) {
+				System.out.println(e);
+			} finally {
+				bd.close();
+			}
+		} else {
+			System.out.println("Falha na conexão.");
+		}
+		
+		return listaSemestres;
+	}
+	
+	public List<String> listarDisciplinas(String ra, int semestre) {
+		List<String> listaDisciplinas = new ArrayList<String>();
+		listaDisciplinas.add("-- selecione uma disciplina --");
 		if (bd.getConnection()) {
 			String sql = "SELECT DISCIPLINA.nome_disciplina FROM DISCIPLINA\r\n"
 					+ "JOIN ALUNO_DISCIPLINA ON DISCIPLINA.cod_disciplina = ALUNO_DISCIPLINA.codigo_disciplina\r\n"
@@ -87,7 +118,7 @@ public class DisciplinaDAO {
 				bd.rs = bd.st.executeQuery();
 
 				while (bd.rs.next()) {
-					disciplinas.add(bd.rs.getString("nome_disciplina"));
+					listaDisciplinas.add(bd.rs.getString("nome_disciplina"));
 				}
 			} catch (SQLException e) {
 				System.out.println(e);
@@ -98,7 +129,7 @@ public class DisciplinaDAO {
 			System.out.println("Falha na conexão.");
 		}
 
-		return disciplinas;
+		return listaDisciplinas;
 	}
 
 	public Map<String, Object> lerDisciplina(String disciplina) {
@@ -129,31 +160,6 @@ public class DisciplinaDAO {
 		}
 
 		return obj;
-	}
-
-	public String[] listarDisciplinas() {
-		List<String> listaDisciplinas = new ArrayList<String>();
-		String sql = "SELECT nome_disciplina FROM DISCIPLINA";
-		if (bd.getConnection()) {
-
-			try {
-				bd.st = bd.con.prepareStatement(sql);
-				bd.rs = bd.st.executeQuery();
-
-				while (bd.rs.next()) {
-					listaDisciplinas.add(bd.rs.getString("nome_disciplina"));
-				}
-			} catch (SQLException e) {
-				System.out.println(e);
-			} finally {
-				bd.close();
-			}
-		} else {
-			System.out.println("Falha na conexão.");
-		}
-		String[] arrayDisciplinas = new String[listaDisciplinas.size()];
-		listaDisciplinas.toArray(arrayDisciplinas);
-		return arrayDisciplinas;
 	}
 
 }

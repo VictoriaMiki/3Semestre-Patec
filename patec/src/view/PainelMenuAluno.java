@@ -18,17 +18,16 @@ public class PainelMenuAluno extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private List<String> semestres = new ArrayList<String>();
 	private List<String> disciplinas = new ArrayList<String>();
-	private DisciplinaDAO dao = new DisciplinaDAO();
+	private DisciplinaDAO dDAO = new DisciplinaDAO();
+	private FolhaDeRespostasDAO fDAO = new FolhaDeRespostasDAO();
 
 	/**
 	 * Create the panel.
 	 */
 	public PainelMenuAluno(Aluno a) {
-
-		disciplinas.add("-- selecione uma disciplina --");
-		semestres.add("-- selecione uma semestre --");
 		
-		listarSemestres(a.getRa());
+		semestres = dDAO.listarSemestres(a.getRa());
+		disciplinas.add("-- selecione uma disciplina --");
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 60, 100, 150, 0 };
@@ -135,9 +134,9 @@ public class PainelMenuAluno extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (cbDisciplina.getSelectedItem().toString() != "-- selecione uma disciplina --") {
-						Map<String, Object> obj = new HashMap<>(dao.lerDisciplina(cbDisciplina.getSelectedItem().toString()));
+						Map<String, Object> obj = new HashMap<>(dDAO.lerDisciplina(cbDisciplina.getSelectedItem().toString()));
 						
-						if (verificarStatus(obj, a)) {
+						if (fDAO.verificarStatus(obj, a)) {
 							JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");
 						} else {
 							PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, obj);
@@ -200,37 +199,37 @@ public class PainelMenuAluno extends JPanel {
 				disciplinas.add("-- selecione uma disciplina --");				
 				if (cbSemestre.getSelectedItem().equals("1° SEM")) {
 					cbDisciplina.removeAllItems();
-					disciplinas = dao.listarProvas(a.getRa(), 1);
+					disciplinas = dDAO.listarDisciplinas(a.getRa(), 1);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem().equals("2° SEM")) {
 					cbDisciplina.removeAllItems();
-					disciplinas = dao.listarProvas(a.getRa(), 2);
+					disciplinas = dDAO.listarDisciplinas(a.getRa(), 2);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem().equals("3° SEM")) {
 					cbDisciplina.removeAllItems();
-					disciplinas = dao.listarProvas(a.getRa(), 3);
+					disciplinas = dDAO.listarDisciplinas(a.getRa(), 3);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem().equals("4° SEM")) {
 					cbDisciplina.removeAllItems();
-					disciplinas = dao.listarProvas(a.getRa(), 4);
+					disciplinas = dDAO.listarDisciplinas(a.getRa(), 4);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem().equals("5° SEM")) {
 					cbDisciplina.removeAllItems();
-					disciplinas = dao.listarProvas(a.getRa(), 5);
+					disciplinas = dDAO.listarDisciplinas(a.getRa(), 5);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
 				} else if (cbSemestre.getSelectedItem().equals("6° SEM")) {
 					cbDisciplina.removeAllItems();
-					disciplinas = dao.listarProvas(a.getRa(), 6);
+					disciplinas = dDAO.listarDisciplinas(a.getRa(), 6);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
@@ -253,9 +252,9 @@ public class PainelMenuAluno extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (!cbDisciplina.getSelectedItem().toString().equals("-- selecione uma disciplina --")) {
-						Map<String, Object> obj = dao.lerDisciplina(cbDisciplina.getSelectedItem().toString());
+						Map<String, Object> obj = dDAO.lerDisciplina(cbDisciplina.getSelectedItem().toString());
 											
-						if (verificarStatus(obj, a)) {
+						if (fDAO.verificarStatus(obj, a)) {
 							JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");
 						} else {
 							PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, obj);
@@ -276,33 +275,6 @@ public class PainelMenuAluno extends JPanel {
 		gbc_btnRealizarAvaliacao.gridx = 1;
 		gbc_btnRealizarAvaliacao.gridy = 5;
 		containerSelecionarAvaliacao.add(btnRealizarAvaliacao, gbc_btnRealizarAvaliacao);
-	}
-	
-	private boolean verificarStatus(Map<String, Object> obj, Aluno a) {
-		BD bd = new BD();
-		boolean provaRealizada = true;
-		if (bd.getConnection()) {
-			String sql = "SELECT * FROM FOLHA_DE_RESPOSTAS " +
-					"WHERE codigo_gabarito = ? AND ra = ?";
-			try {
-				bd.st = bd.con.prepareStatement(sql);
-				bd.st.setInt(1, (int) obj.get("codigoGabarito"));
-				bd.st.setString(2, a.getRa());
-				bd.rs = bd.st.executeQuery();
-
-				if (!bd.rs.next()) {
-					provaRealizada = false;
-				}
-			} catch (SQLException e) {
-				System.out.println(e);
-			} finally {
-				bd.close();
-			}
-		} else {
-			System.out.println("Falha na conexão.");
-		}
-		
-		return provaRealizada;
 	}
 
 }
