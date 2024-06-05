@@ -125,8 +125,7 @@ public class PainelListarAvaliacoes extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				PainelEditarAvaliacao p = new PainelEditarAvaliacao(new Avaliacao(
 					Integer.parseInt(tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 0).toString()),
-					Integer.parseInt(tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 1).toString()),
-					Integer.parseInt(tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 2).toString()),
+					tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 1).toString(),
 					tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 2).toString()));
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();

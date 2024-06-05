@@ -32,9 +32,6 @@ public class PainelEditarAvaliacao extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tfCodigoAvaliacao;
-	private JTextField tfAnoAvaliacao;
-	private JComboBox<String> cbSemestre;
-	private String[] semestres = {"1", "2"};
 	private JComboBox<String> cbTipoAvaliacao;
 	private String[] tipoAvaliacao = {"1°BIM - SÁBADO", "2°BIM - SÁBADO", "1°BIM - SEGUNDA-FEIRA", "2°BIM - SEGUNDA-FEIRA", "FINAL"};
 
@@ -151,50 +148,29 @@ public class PainelEditarAvaliacao extends JPanel {
 		containerEdicaoAvaliacao.add(tfCodigoAvaliacao, gbc_tfCodigoAvaliacao);
 		tfCodigoAvaliacao.setColumns(10);
 		
-		JLabel lblAnoAvaliacao = new JLabel("Ano da Avaliação:");
-		lblAnoAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblAnoAvaliacao = new GridBagConstraints();
-		gbc_lblAnoAvaliacao.gridwidth = 2;
-		gbc_lblAnoAvaliacao.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAnoAvaliacao.anchor = GridBagConstraints.WEST;
-		gbc_lblAnoAvaliacao.gridx = 1;
-		gbc_lblAnoAvaliacao.gridy = 2;
-		containerEdicaoAvaliacao.add(lblAnoAvaliacao, gbc_lblAnoAvaliacao);
+		JLabel lblDataAvaliacao = new JLabel("Data da Avaliação:");
+		lblDataAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblDataAvaliacao = new GridBagConstraints();
+		gbc_lblDataAvaliacao.gridwidth = 2;
+		gbc_lblDataAvaliacao.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDataAvaliacao.anchor = GridBagConstraints.WEST;
+		gbc_lblDataAvaliacao.gridx = 1;
+		gbc_lblDataAvaliacao.gridy = 2;
+		containerEdicaoAvaliacao.add(lblDataAvaliacao, gbc_lblDataAvaliacao);
 		
-		tfAnoAvaliacao = new JTextField();
-		tfAnoAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		tfAnoAvaliacao.setText(Integer.toString(a.getAnoAvaliacao()));
-		GridBagConstraints gbc_tfAnoAvaliacao = new GridBagConstraints();
-		gbc_tfAnoAvaliacao.gridwidth = 5;
-		gbc_tfAnoAvaliacao.insets = new Insets(0, 0, 5, 0);
-		gbc_tfAnoAvaliacao.fill = GridBagConstraints.BOTH;
-		gbc_tfAnoAvaliacao.gridx = 1;
-		gbc_tfAnoAvaliacao.gridy = 3;
-		containerEdicaoAvaliacao.add(tfAnoAvaliacao, gbc_tfAnoAvaliacao);
-		tfAnoAvaliacao.setColumns(10);
-
-		JLabel lblSemestreAvaliacao = new JLabel("Semestre:");
-		lblSemestreAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblSemestreAvaliacao = new GridBagConstraints();
-		gbc_lblSemestreAvaliacao.gridwidth = 2;
-		gbc_lblSemestreAvaliacao.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSemestreAvaliacao.anchor = GridBagConstraints.WEST;
-		gbc_lblSemestreAvaliacao.gridx = 1;
-		gbc_lblSemestreAvaliacao.gridy = 4;
-		containerEdicaoAvaliacao.add(lblSemestreAvaliacao, gbc_lblSemestreAvaliacao);
-
-		cbSemestre = new JComboBox<String>(semestres);
-		cbSemestre.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		cbSemestre.setSelectedItem(a.getSemestreAvaliacao());
-		GridBagConstraints gbc_cbSemestre = new GridBagConstraints();
-		gbc_cbSemestre.gridwidth = 5;
-		gbc_cbSemestre.insets = new Insets(0, 0, 5, 0);
-		gbc_cbSemestre.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbSemestre.gridx = 1;
-		gbc_cbSemestre.gridy = 5;
-		containerEdicaoAvaliacao.add(cbSemestre, gbc_cbSemestre);
+		UtilDateModel model = new UtilDateModel();
+		JDatePanelImpl datePanel = new JDatePanelImpl(model);
+		JDatePickerImpl tftDataAvaliacao = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		tftDataAvaliacao.getJFormattedTextField().setFont(new Font("Tahoma", Font.PLAIN, 18));
+		tftDataAvaliacao.getJFormattedTextField().setText(a.getDataAvaliacao());
+		GridBagConstraints gbc_tftDataAvaliacao = new GridBagConstraints();
+		gbc_tftDataAvaliacao.gridwidth = 5;
+		gbc_tftDataAvaliacao.insets = new Insets(0, 0, 5, 0);
+		gbc_tftDataAvaliacao.fill = GridBagConstraints.BOTH;
+		gbc_tftDataAvaliacao.gridx = 1;
+		gbc_tftDataAvaliacao.gridy = 3;
+		containerEdicaoAvaliacao.add(tftDataAvaliacao, gbc_tftDataAvaliacao);
 		
-
 		JLabel lblTipoAvaliacao = new JLabel("Tipo da Avaliação:");
 		lblTipoAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblTipoAvaliacao = new GridBagConstraints();
@@ -202,7 +178,7 @@ public class PainelEditarAvaliacao extends JPanel {
 		gbc_lblTipoAvaliacao.anchor = GridBagConstraints.WEST;
 		gbc_lblTipoAvaliacao.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTipoAvaliacao.gridx = 1;
-		gbc_lblTipoAvaliacao.gridy = 6;
+		gbc_lblTipoAvaliacao.gridy = 4;
 		containerEdicaoAvaliacao.add(lblTipoAvaliacao, gbc_lblTipoAvaliacao);
 
 		cbTipoAvaliacao = new JComboBox<String>(tipoAvaliacao);
@@ -213,7 +189,7 @@ public class PainelEditarAvaliacao extends JPanel {
 		gbc_cbTipoAvaliacao.insets = new Insets(0, 0, 5, 0);
 		gbc_cbTipoAvaliacao.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cbTipoAvaliacao.gridx = 1;
-		gbc_cbTipoAvaliacao.gridy = 7;
+		gbc_cbTipoAvaliacao.gridy = 5;
 		containerEdicaoAvaliacao.add(cbTipoAvaliacao, gbc_cbTipoAvaliacao);
 		
 		
@@ -221,8 +197,7 @@ public class PainelEditarAvaliacao extends JPanel {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				a.setCodigoAvaliacao(Integer.parseInt(tfCodigoAvaliacao.getText()));
-				a.setAnoAvaliacao(Integer.parseInt(tfAnoAvaliacao.getText()));
-				a.setSemestreAvaliacao(Integer.parseInt(cbSemestre.getSelectedItem().toString()));
+				a.setDataAvaliacao(tftDataAvaliacao.getJFormattedTextField().getText());
 				a.setTipoAvaliacao(cbTipoAvaliacao.getSelectedItem().toString());
 				AvaliacaoDAO dao = new AvaliacaoDAO();
 				
