@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Aluno;
 import model.AlunoDAO;
 import util.BD;
-import view.resources.*;
+import view.components.*;
 
 public class PainelRelatorioAluno extends JPanel {
 

@@ -1,4 +1,4 @@
-package view.resources;
+package view.components;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;

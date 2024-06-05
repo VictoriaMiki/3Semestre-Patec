@@ -2,7 +2,8 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
-import view.resources.*;
+
+import view.components.*;
 
 public class PainelListarGabaritos extends JPanel {
 

@@ -11,7 +11,7 @@ import javax.swing.*;
 
 import model.*;
 import util.BD;
-import view.resources.BtnSair;
+import view.components.BtnSair;
 
 public class PainelMenuAluno extends JPanel {
 

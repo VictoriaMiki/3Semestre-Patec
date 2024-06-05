@@ -1,38 +1,26 @@
-package view.resources;
+package view.components;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.font.TextAttribute;
-import java.util.Map;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.font.*;
+import java.util.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.*;
 
-import view.FramePatec;
-import view.PainelLogin;
-
+import view.*;
 
 @SuppressWarnings("serial")
-public class BtnSair extends JLabel {
-	
-	public GridBagConstraints gbc_btnSair;
-
-	public BtnSair(String texto) {
+public class BtnVoltar extends JLabel {
+	public BtnVoltar(String texto) {
 		super(texto);
-		setForeground(new Color(255, 0, 0));
 		setFont(new Font("Tahoma", Font.PLAIN, 13));
-		setIcon(new ImageIcon(BtnSair.class.getResource("/sign-out.png")));
+		setIcon(new ImageIcon(BtnSair.class.getResource("/return.png")));
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PainelLogin p = new PainelLogin();
-				FramePatec.getFrame().setTitle("Patec - Log-in");
+				PainelMenuCoordenador p = new PainelMenuCoordenador();
+				FramePatec.getFrame().setTitle("Patec - Administrador");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
@@ -56,6 +44,6 @@ public class BtnSair extends JLabel {
 				setFont(font.deriveFont(attributes));
 			}
 		});
-	}
 
+	}
 }

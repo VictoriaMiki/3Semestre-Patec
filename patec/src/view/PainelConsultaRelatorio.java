@@ -24,9 +24,9 @@ import model.Aluno;
 import model.AlunoDAO;
 import model.DisciplinaDAO;
 import util.BD;
-import view.resources.BtnSair;
-import view.resources.BtnVoltar;
-import view.resources.MenuBarCoord;
+import view.components.BtnSair;
+import view.components.BtnVoltar;
+import view.components.MenuBarCoord;
 
 public class PainelConsultaRelatorio extends JPanel {
 

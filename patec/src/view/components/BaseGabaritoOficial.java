@@ -1,4 +1,4 @@
-package view.resources;
+package view.components;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

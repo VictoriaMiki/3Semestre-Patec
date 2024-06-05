@@ -18,10 +18,10 @@ import model.Avaliacao;
 import model.AvaliacaoDAO;
 import model.Disciplina;
 import util.BD;
-import view.resources.BtnSair;
-import view.resources.BtnVoltar;
-import view.resources.MenuBarCoord;
-import view.resources.TableModelPatec;
+import view.components.BtnSair;
+import view.components.BtnVoltar;
+import view.components.MenuBarCoord;
+import view.components.TableModelPatec;
 
 public class PainelListarAvaliacoes extends JPanel {
 

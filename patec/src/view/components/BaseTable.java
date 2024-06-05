@@ -1,4 +1,4 @@
-package view.resources;
+package view.components;
 
 import javax.swing.table.AbstractTableModel;
 

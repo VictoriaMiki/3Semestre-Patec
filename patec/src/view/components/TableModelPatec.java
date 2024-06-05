@@ -1,4 +1,4 @@
-package view.resources;
+package view.components;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

@@ -17,10 +17,11 @@ import javax.swing.table.DefaultTableModel;
 import model.Aluno;
 import model.AlunoDAO;
 import util.BD;
-import view.resources.BtnSair;
-import view.resources.BtnVoltar;
-import view.resources.MenuBarCoord;
-import view.resources.TableModelPatec;
+import view.components.BtnSair;
+import view.components.BtnVoltar;
+import view.components.MenuBarCoord;
+import view.components.TableModelPatec;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 

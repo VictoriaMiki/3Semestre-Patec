@@ -7,7 +7,8 @@ import model.AlunoDAO;
 
 import java.awt.*;
 import net.sourceforge.jdatepicker.impl.*;
-import view.resources.*;
+import view.components.*;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

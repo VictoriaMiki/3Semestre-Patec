@@ -21,10 +21,10 @@ import model.AvaliacaoDAO;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
-import view.resources.BtnSair;
-import view.resources.BtnVoltar;
-import view.resources.DateLabelFormatter;
-import view.resources.MenuBarCoord;
+import view.components.BtnSair;
+import view.components.BtnVoltar;
+import view.components.DateLabelFormatter;
+import view.components.MenuBarCoord;
 
 public class PainelCadastroAvaliacao extends JPanel {
 

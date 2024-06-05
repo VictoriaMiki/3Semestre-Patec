@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 
 import model.*;
-import view.resources.BaseFolhaDeRespostas;
+import view.components.BaseFolhaDeRespostas;
 
 import java.awt.*;
 import java.awt.event.*;

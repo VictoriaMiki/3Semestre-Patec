@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import model.*;
 import net.sourceforge.jdatepicker.impl.*;
-import view.resources.*;
+import view.components.*;
 
 public class PainelCadastroGabarito extends JPanel {
 

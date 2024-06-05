@@ -18,9 +18,10 @@ import javax.swing.SwingConstants;
 
 import model.Disciplina;
 import model.DisciplinaDAO;
-import view.resources.BtnSair;
-import view.resources.BtnVoltar;
-import view.resources.MenuBarCoord;
+import view.components.BtnSair;
+import view.components.BtnVoltar;
+import view.components.MenuBarCoord;
+
 import javax.swing.JComboBox;
 
 public class PainelCadastroDisciplina extends JPanel {
