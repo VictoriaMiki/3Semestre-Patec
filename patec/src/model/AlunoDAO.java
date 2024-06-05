@@ -71,27 +71,28 @@ public class AlunoDAO {
 		return men;
 	}
 
-	/*
-	public List<Aluno> get(Aluno a) {
-		sql = "SELECT * FROM ALUNO";
+	public Aluno obterAluno(String ra) {
+		BD bd = new BD();
+		Aluno a = null;
+
+		String sql = "SELECT * FROM ALUNO WHERE ra = ?;";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
-			// bd.st.setInt(1, id);
-			int n = bd.st.executeUpdate();
-			System.out.println("Linhas excluídas: " + n);
-			if (n == 1) {
-				// men = "Produto excluido com sucesso!";
-			} else {
-				// men = "Produto não encontrado!";
+			bd.st.setString(1, ra);
+			bd.rs = bd.st.executeQuery();
+			if (bd.rs.next()) {
+				a = new Aluno(bd.rs.getString("ra"), bd.rs.getString("cpf"), bd.rs.getString("nome_aluno"),
+						bd.rs.getString("data_nascimento"));
+
 			}
-		} catch (SQLException e) {
-			men = "Falha" + e;
+		} catch (Exception e) {
+			System.out.println(e);
 		} finally {
 			bd.close();
 		}
-		return men;
+
+		return a;
 	}
-	*/
 
 }

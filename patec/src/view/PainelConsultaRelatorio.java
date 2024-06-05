@@ -1,18 +1,47 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
-import view.resources.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Arrays;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import model.Aluno;
+import model.AlunoDAO;
+import model.DisciplinaDAO;
+import util.BD;
+import view.resources.BtnSair;
+import view.resources.BtnVoltar;
+import view.resources.MenuBarCoord;
 
 public class PainelConsultaRelatorio extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tfRa;
+	private DisciplinaDAO disciplinaDao;
+	private AlunoDAO alunoDao;
 
 	/**
 	 * Create the panel.
 	 */
 	public PainelConsultaRelatorio() {
+		disciplinaDao = new DisciplinaDAO();
+		alunoDao = new AlunoDAO();
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 300, 0, 300, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 0, 272, 0, 0 };
@@ -76,7 +105,7 @@ public class PainelConsultaRelatorio extends JPanel {
 		gbc_lblSelecaoDisciplina.gridy = 2;
 		containerRelatorioDisciplina.add(lblSelecaoDisciplina, gbc_lblSelecaoDisciplina);
 
-		JComboBox cbDisciplina = new JComboBox();
+		JComboBox cbDisciplina = new JComboBox(disciplinaDao.obterTodasDisciplinas());
 		cbDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_cbDisciplina = new GridBagConstraints();
 		gbc_cbDisciplina.insets = new Insets(0, 0, 5, 0);
@@ -86,6 +115,15 @@ public class PainelConsultaRelatorio extends JPanel {
 		containerRelatorioDisciplina.add(cbDisciplina, gbc_cbDisciplina);
 
 		JButton btnGerarRelatorioDisciplina = new JButton("Gerar Relatório");
+		btnGerarRelatorioDisciplina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelRelatorioDisciplina p = new PainelRelatorioDisciplina(cbDisciplina.getSelectedItem().toString());
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+
+			}
+		});
 		GridBagConstraints gbc_btnGerarRelatorioDisciplina = new GridBagConstraints();
 		gbc_btnGerarRelatorioDisciplina.gridx = 0;
 		gbc_btnGerarRelatorioDisciplina.gridy = 5;
@@ -133,6 +171,22 @@ public class PainelConsultaRelatorio extends JPanel {
 
 		tfRa = new JTextField();
 		tfRa.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		tfRa.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						PainelRelatorioAluno p = new PainelRelatorioAluno(alunoDao.obterAluno(tfRa.getText()));
+						FramePatec.frame.setContentPane(p);
+						FramePatec.frame.revalidate();
+						FramePatec.frame.repaint();
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, "Aluno não encontrado.", "Aviso",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		GridBagConstraints gbc_tfRa = new GridBagConstraints();
 		gbc_tfRa.insets = new Insets(0, 0, 5, 0);
 		gbc_tfRa.fill = GridBagConstraints.HORIZONTAL;
@@ -142,6 +196,18 @@ public class PainelConsultaRelatorio extends JPanel {
 		tfRa.setColumns(10);
 
 		JButton btnGerarRelatorioAluno = new JButton("Gerar Relatório");
+		btnGerarRelatorioAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					PainelRelatorioAluno p = new PainelRelatorioAluno(alunoDao.obterAluno(tfRa.getText()));
+					FramePatec.frame.setContentPane(p);
+					FramePatec.frame.revalidate();
+					FramePatec.frame.repaint();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Aluno não encontrado.", "Aviso", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
 		GridBagConstraints gbc_btnGerarRelatorioAluno = new GridBagConstraints();
 		gbc_btnGerarRelatorioAluno.gridx = 0;
 		gbc_btnGerarRelatorioAluno.gridy = 5;

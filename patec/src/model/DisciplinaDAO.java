@@ -161,5 +161,30 @@ public class DisciplinaDAO {
 
 		return obj;
 	}
+	
+	public String[] obterTodasDisciplinas() {
+		List<String> listaDisciplinas = new ArrayList<String>();
+		String sql = "SELECT nome_disciplina FROM DISCIPLINA";
+		if (bd.getConnection()) {
+
+			try {
+				bd.st = bd.con.prepareStatement(sql);
+				bd.rs = bd.st.executeQuery();
+
+				while (bd.rs.next()) {
+					listaDisciplinas.add(bd.rs.getString("nome_disciplina"));
+				}
+			} catch (SQLException e) {
+				System.out.println(e);
+			} finally {
+				bd.close();
+			}
+		} else {
+			System.out.println("Falha na conexão.");
+		}
+		String[] arrayDisciplinas = new String[listaDisciplinas.size()];
+		listaDisciplinas.toArray(arrayDisciplinas);
+		return arrayDisciplinas;
+	}
 
 }
