@@ -3,17 +3,18 @@ package model;
 public class Avaliacao {
 
 	private int codigoAvaliacao;
-	private int anoAvaliacao;
-	private int semestreAvaliacao;
+	//private int anoAvaliacao;
+	//private int semestreAvaliacao;
+	private String dataAvaliacao;
 	private String tipoAvaliacao;
 
 	public Avaliacao() {
 	}
 
-	public Avaliacao(int codigoAvaliacao, int anoAvaliacao, int semestreAvaliacao, String tipoAvaliacao) {
+	public Avaliacao(int codigoAvaliacao, String dataAvaliacao, String tipoAvaliacao) {
+		super();
 		this.codigoAvaliacao = codigoAvaliacao;
-		this.anoAvaliacao = anoAvaliacao;
-		this.semestreAvaliacao = semestreAvaliacao;
+		this.dataAvaliacao = dataAvaliacao;
 		this.tipoAvaliacao = tipoAvaliacao;
 	}
 
@@ -25,20 +26,12 @@ public class Avaliacao {
 		this.codigoAvaliacao = codigoAvaliacao;
 	}
 
-	public int getAnoAvaliacao() {
-		return anoAvaliacao;
+	public String getDataAvaliacao() {
+		return dataAvaliacao;
 	}
 
-	public void setAnoAvaliacao(int anoAvaliacao) {
-		this.anoAvaliacao = anoAvaliacao;
-	}
-
-	public int getSemestreAvaliacao() {
-		return semestreAvaliacao;
-	}
-
-	public void setSemestreAvaliacao(int semestreAvaliacao) {
-		this.semestreAvaliacao = semestreAvaliacao;
+	public void setDataAvaliacao(String dataAvaliacao) {
+		this.dataAvaliacao = dataAvaliacao;
 	}
 
 	public String getTipoAvaliacao() {
