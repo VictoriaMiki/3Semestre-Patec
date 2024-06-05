@@ -16,8 +16,7 @@ import view.resources.BtnSair;
 public class PainelMenuAluno extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private String[] semestres = { "-- selecione um semestre --", "1° SEM", "2° SEM", "3° SEM", "4° SEM", "5° SEM",
-			"6° SEM" };
+	private List<String> semestres = new ArrayList<String>();
 	private List<String> disciplinas = new ArrayList<String>();
 	private DisciplinaDAO dao = new DisciplinaDAO();
 
@@ -27,6 +26,9 @@ public class PainelMenuAluno extends JPanel {
 	public PainelMenuAluno(Aluno a) {
 
 		disciplinas.add("-- selecione uma disciplina --");
+		semestres.add("-- selecione uma semestre --");
+		
+		listarSemestres(a.getRa());
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 60, 100, 150, 0 };
@@ -190,43 +192,43 @@ public class PainelMenuAluno extends JPanel {
 		gbc_cbDisciplina.gridy = 3;
 		containerSelecionarAvaliacao.add(cbDisciplina, gbc_cbDisciplina);
 
-		JComboBox<String> cbSemestre = new JComboBox<String>(semestres);
+		JComboBox cbSemestre = new JComboBox(semestres.toArray());
 		cbSemestre.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		cbSemestre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				disciplinas.removeAll(disciplinas);
-				disciplinas.add("-- selecione uma disciplina --");
-				if (cbSemestre.getSelectedItem() == "1° SEM") {
+				disciplinas.add("-- selecione uma disciplina --");				
+				if (cbSemestre.getSelectedItem().equals("1° SEM")) {
 					cbDisciplina.removeAllItems();
 					disciplinas = dao.listarProvas(a.getRa(), 1);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
-				} else if (cbSemestre.getSelectedItem() == "2° SEM") {
+				} else if (cbSemestre.getSelectedItem().equals("2° SEM")) {
 					cbDisciplina.removeAllItems();
 					disciplinas = dao.listarProvas(a.getRa(), 2);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
-				} else if (cbSemestre.getSelectedItem() == "3° SEM") {
+				} else if (cbSemestre.getSelectedItem().equals("3° SEM")) {
 					cbDisciplina.removeAllItems();
 					disciplinas = dao.listarProvas(a.getRa(), 3);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
-				} else if (cbSemestre.getSelectedItem() == "4° SEM") {
+				} else if (cbSemestre.getSelectedItem().equals("4° SEM")) {
 					cbDisciplina.removeAllItems();
 					disciplinas = dao.listarProvas(a.getRa(), 4);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
-				} else if (cbSemestre.getSelectedItem() == "5° SEM") {
+				} else if (cbSemestre.getSelectedItem().equals("5° SEM")) {
 					cbDisciplina.removeAllItems();
 					disciplinas = dao.listarProvas(a.getRa(), 5);
 					for (int i = 0; i < disciplinas.size(); i++) {
 						cbDisciplina.addItem(disciplinas.toArray()[i]);
 					}
-				} else if (cbSemestre.getSelectedItem() == "6° SEM") {
+				} else if (cbSemestre.getSelectedItem().equals("6° SEM")) {
 					cbDisciplina.removeAllItems();
 					disciplinas = dao.listarProvas(a.getRa(), 6);
 					for (int i = 0; i < disciplinas.size(); i++) {
@@ -249,20 +251,23 @@ public class PainelMenuAluno extends JPanel {
 		JButton btnRealizarAvaliacao = new JButton("Realizar Avaliação");
 		btnRealizarAvaliacao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				if (cbDisciplina.getSelectedItem().toString() != "-- selecione uma disciplina --") {
-					Map<String, Object> obj = new HashMap<>(dao.lerDisciplina(cbDisciplina.getSelectedItem().toString()));
-					
-					if (verificarStatus(obj, a)) {
-						JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");
+				try {
+					if (!cbDisciplina.getSelectedItem().toString().equals("-- selecione uma disciplina --")) {
+						Map<String, Object> obj = dao.lerDisciplina(cbDisciplina.getSelectedItem().toString());
+											
+						if (verificarStatus(obj, a)) {
+							JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");
+						} else {
+							PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, obj);
+							FramePatec.frame.setContentPane(p);
+							FramePatec.frame.revalidate();
+							FramePatec.frame.repaint();
+						}
 					} else {
-						PainelFolhaDeRespostas p = new PainelFolhaDeRespostas(a, obj);
-						FramePatec.frame.setContentPane(p);
-						FramePatec.frame.revalidate();
-						FramePatec.frame.repaint();
+						JOptionPane.showMessageDialog(null, "Por favor, selecione uma disciplina.");
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Por favor, selecione uma disciplina.");
+				} catch (Exception ex) {
+					System.out.println(ex);
 				}
 			}
 		});
