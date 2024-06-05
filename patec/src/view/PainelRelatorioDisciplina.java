@@ -1,30 +1,51 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
-import view.resources.*;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
+import model.Aluno;
+import model.DisciplinaDAO;
+import util.BD;
+import view.resources.BtnSair;
+import view.resources.BtnVoltar;
+import view.resources.MenuBarCoord;
+import view.resources.TableModelPatec;
 
 public class PainelRelatorioDisciplina extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
-	private String[] colunas = { "RA", "Nome", "Nota" };
-	private Object[][] dados = { { null, null, null } };
+	private JTable tabelaRelatorioAluno;
+	private DefaultTableModel model;
+	private BD bd;
+	private DisciplinaDAO dao = new DisciplinaDAO();
 
 	/**
 	 * Create the panel.
 	 */
-	public PainelRelatorioDisciplina() {
+	public PainelRelatorioDisciplina(String nomeDisciplina) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 66, 450, 0, 66, 0 };
+		gridBagLayout.columnWidths = new int[] { 66, 0, 450, 100, 66, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 0, 272, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		MenuBarCoord mbc = new MenuBarCoord();
 		GridBagConstraints gbc_mbc = new GridBagConstraints();
-		gbc_mbc.gridwidth = 4;
+		gbc_mbc.gridwidth = 5;
 		gbc_mbc.anchor = GridBagConstraints.NORTH;
 		gbc_mbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc_mbc.insets = new Insets(0, 0, 5, 0);
@@ -43,58 +64,62 @@ public class PainelRelatorioDisciplina extends JPanel {
 		BtnSair btnSair = new BtnSair("Sair");
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
 		gbc_btnSair.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSair.gridx = 3;
+		gbc_btnSair.gridx = 4;
 		gbc_btnSair.gridy = 1;
 		add(btnSair, gbc_btnSair);
 
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 1;
-		gbc_scrollPane.gridy = 3;
-		add(scrollPane, gbc_scrollPane);
+		JPanel containerLabel = new JPanel();
+		GridBagConstraints gbc_containerLabel = new GridBagConstraints();
+		gbc_containerLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_containerLabel.fill = GridBagConstraints.BOTH;
+		gbc_containerLabel.gridx = 2;
+		gbc_containerLabel.gridy = 2;
+		add(containerLabel, gbc_containerLabel);
+		GridBagLayout gbl_containerLabel = new GridBagLayout();
+		gbl_containerLabel.rowWeights = new double[] { 1.0 };
+		gbl_containerLabel.columnWeights = new double[] { 1.0 };
+		containerLabel.setLayout(gbl_containerLabel);
 
-		table = new JTable(new BaseTable(colunas, dados));
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(table);
-		table.setFillsViewportHeight(true);
+		JLabel lblRelatorioDisciplina = new JLabel("Relatório - " + nomeDisciplina);
+		lblRelatorioDisciplina.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblRelatorioDisciplina = new GridBagConstraints();
+		gbc_lblRelatorioDisciplina.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblRelatorioDisciplina.gridx = 0;
+		gbc_lblRelatorioDisciplina.gridy = 0;
+		containerLabel.add(lblRelatorioDisciplina, gbc_lblRelatorioDisciplina);
 
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 3;
-		add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 0, 0 };
-		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panel.setLayout(gbl_panel);
+		JScrollPane containerListaAlunos = new JScrollPane();
+		GridBagConstraints gbc_containerListaAlunos = new GridBagConstraints();
+		gbc_containerListaAlunos.insets = new Insets(0, 0, 5, 5);
+		gbc_containerListaAlunos.fill = GridBagConstraints.BOTH;
+		gbc_containerListaAlunos.gridx = 2;
+		gbc_containerListaAlunos.gridy = 3;
+		add(containerListaAlunos, gbc_containerListaAlunos);
 
-		JButton btnNewButton = new JButton("Cadastrar");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
+		tabelaRelatorioAluno = new JTable();
+		bd = new BD();
+		if (bd.getConnection()) {
+			carregarTabela(nomeDisciplina);
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+			PainelMenuCoordenador p = new PainelMenuCoordenador();
+			FramePatec.getFrame().setContentPane(p);
+			FramePatec.getFrame().revalidate();
+			FramePatec.getFrame().repaint();
+		}
+		tabelaRelatorioAluno.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		containerListaAlunos.setViewportView(tabelaRelatorioAluno);
+		tabelaRelatorioAluno.setFillsViewportHeight(true);
+	}
 
-		JButton btnNewButton_1 = new JButton("Editar");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 2;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+	private void carregarTabela(String nomeDisciplina) {
+		String sql = "SELECT ALUNO.ra AS 'RA', ALUNO.nome_aluno AS 'Nome', FOLHA_DE_RESPOSTAS.nota AS 'Nota' FROM FOLHA_DE_RESPOSTAS\r\n"
+				+ "JOIN ALUNO ON FOLHA_DE_RESPOSTAS.ra = ALUNO.ra\r\n"
+				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
+				+ "JOIN DISCIPLINA ON GABARITO_OFICIAL.codigo_disciplina = DISCIPLINA.cod_disciplina\r\n"
+				+ "WHERE DISCIPLINA.nome_disciplina = '"+ nomeDisciplina + "';";
+		model = TableModelPatec.getModel(bd, sql);
+		tabelaRelatorioAluno.setModel(model);
 
-		JButton btnNewButton_2 = new JButton("Excluir");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_2.gridx = 0;
-		gbc_btnNewButton_2.gridy = 3;
-		panel.add(btnNewButton_2, gbc_btnNewButton_2);
 	}
 }

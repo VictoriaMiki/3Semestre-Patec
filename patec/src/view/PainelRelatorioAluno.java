@@ -1,30 +1,39 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import model.Aluno;
+import model.AlunoDAO;
+import util.BD;
 import view.resources.*;
 
 public class PainelRelatorioAluno extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
-	private String[] colunas = { "Disciplina", "Nota" };
-	private Object[][] dados = { { null, null } };
+	private JTable tabelaRelatorioAluno;
+	private DefaultTableModel model;
+	private BD bd;
+	private AlunoDAO dao = new AlunoDAO();
 
 	/**
 	 * Create the panel.
 	 */
-	public PainelRelatorioAluno() {
+	public PainelRelatorioAluno(Aluno a) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 66, 450, 0, 66, 0 };
+		gridBagLayout.columnWidths = new int[] { 66, 0, 450, 0, 66, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 0, 272, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		MenuBarCoord mbc = new MenuBarCoord();
 		GridBagConstraints gbc_mbc = new GridBagConstraints();
-		gbc_mbc.gridwidth = 4;
+		gbc_mbc.gridwidth = 5;
 		gbc_mbc.anchor = GridBagConstraints.NORTH;
 		gbc_mbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc_mbc.insets = new Insets(0, 0, 5, 0);
@@ -43,58 +52,103 @@ public class PainelRelatorioAluno extends JPanel {
 		BtnSair btnSair = new BtnSair("Sair");
 		GridBagConstraints gbc_btnSair = new GridBagConstraints();
 		gbc_btnSair.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSair.gridx = 3;
+		gbc_btnSair.gridx = 4;
 		gbc_btnSair.gridy = 1;
 		add(btnSair, gbc_btnSair);
 
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 1;
-		gbc_scrollPane.gridy = 3;
-		add(scrollPane, gbc_scrollPane);
+		JPanel containerLabel = new JPanel();
+		GridBagConstraints gbc_containerLabel = new GridBagConstraints();
+		gbc_containerLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_containerLabel.anchor = GridBagConstraints.SOUTH;
+		gbc_containerLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_containerLabel.gridx = 2;
+		gbc_containerLabel.gridy = 2;
+		add(containerLabel, gbc_containerLabel);
+		GridBagLayout gbl_containerLabel = new GridBagLayout();
+		gbl_containerLabel.rowWeights = new double[] { 0.0 };
+		gbl_containerLabel.columnWeights = new double[] { 1.0, 0.0, 1.0 };
+		containerLabel.setLayout(gbl_containerLabel);
 
-		table = new JTable(new BaseTable(colunas, dados));
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(table);
-		table.setFillsViewportHeight(true);
+		JLabel lblRelatorioAluno = new JLabel("Relatório");
+		lblRelatorioAluno.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblRelatorioAluno = new GridBagConstraints();
+		gbc_lblRelatorioAluno.insets = new Insets(0, 0, 0, 5);
+		gbc_lblRelatorioAluno.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblRelatorioAluno.gridx = 0;
+		gbc_lblRelatorioAluno.gridy = 0;
+		containerLabel.add(lblRelatorioAluno, gbc_lblRelatorioAluno);
 
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 3;
-		add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 0, 0 };
-		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panel.setLayout(gbl_panel);
+		JSeparator separator = new JSeparator();
+		separator.setForeground(new Color(0, 0, 0));
+		separator.setBackground(new Color(0, 0, 0));
+		separator.setOrientation(SwingConstants.VERTICAL);
+		GridBagConstraints gbc_separator = new GridBagConstraints();
+		gbc_separator.fill = GridBagConstraints.VERTICAL;
+		gbc_separator.insets = new Insets(0, 0, 0, 5);
+		gbc_separator.gridx = 1;
+		gbc_separator.gridy = 0;
+		containerLabel.add(separator, gbc_separator);
 
-		JButton btnNewButton = new JButton("Cadastrar");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
+		JPanel containerDadosAluno = new JPanel();
+		GridBagConstraints gbc_containerDadosAluno = new GridBagConstraints();
+		gbc_containerDadosAluno.anchor = GridBagConstraints.WEST;
+		gbc_containerDadosAluno.gridx = 2;
+		gbc_containerDadosAluno.gridy = 0;
+		containerLabel.add(containerDadosAluno, gbc_containerDadosAluno);
+		GridBagLayout gbl_containerDadosAluno = new GridBagLayout();
+		gbl_containerDadosAluno.columnWidths = new int[] { 0, 0 };
+		gbl_containerDadosAluno.rowHeights = new int[] { 0, 0, 0 };
+		gbl_containerDadosAluno.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+		gbl_containerDadosAluno.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		containerDadosAluno.setLayout(gbl_containerDadosAluno);
 
-		JButton btnNewButton_1 = new JButton("Editar");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 2;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+		JLabel lblNomeAluno = new JLabel("Nome: " + a.getNomeAluno());
+		lblNomeAluno.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblNomeAluno = new GridBagConstraints();
+		gbc_lblNomeAluno.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblNomeAluno.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNomeAluno.gridx = 0;
+		gbc_lblNomeAluno.gridy = 0;
+		containerDadosAluno.add(lblNomeAluno, gbc_lblNomeAluno);
 
-		JButton btnNewButton_2 = new JButton("Excluir");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_2.gridx = 0;
-		gbc_btnNewButton_2.gridy = 3;
-		panel.add(btnNewButton_2, gbc_btnNewButton_2);
+		JLabel lblRaAluno = new JLabel("RA: " + a.getRa());
+		lblRaAluno.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblRaAluno = new GridBagConstraints();
+		gbc_lblRaAluno.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblRaAluno.gridx = 0;
+		gbc_lblRaAluno.gridy = 1;
+		containerDadosAluno.add(lblRaAluno, gbc_lblRaAluno);
+
+		JScrollPane containerListaAlunos = new JScrollPane();
+		GridBagConstraints gbc_containerListaAlunos = new GridBagConstraints();
+		gbc_containerListaAlunos.insets = new Insets(0, 0, 5, 5);
+		gbc_containerListaAlunos.fill = GridBagConstraints.BOTH;
+		gbc_containerListaAlunos.gridx = 2;
+		gbc_containerListaAlunos.gridy = 3;
+		add(containerListaAlunos, gbc_containerListaAlunos);
+
+		tabelaRelatorioAluno = new JTable();
+		bd = new BD();
+		if (bd.getConnection()) {
+			carregarTabela(a.getRa());
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+			PainelMenuCoordenador p = new PainelMenuCoordenador();
+			FramePatec.getFrame().setContentPane(p);
+			FramePatec.getFrame().revalidate();
+			FramePatec.getFrame().repaint();
+		}
+		tabelaRelatorioAluno.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		containerListaAlunos.setViewportView(tabelaRelatorioAluno);
+		tabelaRelatorioAluno.setFillsViewportHeight(true);
+	}
+
+	private void carregarTabela(String ra) {
+		String sql = "SELECT GABARITO_OFICIAL.codigo_disciplina AS 'Cód. Disciplina', FOLHA_DE_RESPOSTAS.nota AS 'Nota Obtida' FROM FOLHA_DE_RESPOSTAS\r\n"
+				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
+				+ "WHERE FOLHA_DE_RESPOSTAS.ra = '" + ra + "';";
+		model = TableModelPatec.getModel(bd, sql);
+		tabelaRelatorioAluno.setModel(model);
+
 	}
 }
