@@ -18,7 +18,7 @@ public class BD {
 	/**
 	 * Realiza a conexão com o banco de dados.
 	 * 
-	 * @return {@code true} em caso de sucesso, ou {@code false} caso contrário.
+	 * @return <code>true</code> em caso de sucesso, ou <code>false</code> caso contrário.
 	 */
 	public boolean getConnection() {
 		try {
