@@ -30,7 +30,7 @@
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>src/view/resources</directory>
+				<directory>src/view/components</directory>
 			</resource>
 		</resources>
 		<plugins>
