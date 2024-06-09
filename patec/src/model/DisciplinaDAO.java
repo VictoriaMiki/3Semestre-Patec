@@ -136,7 +136,8 @@ public class DisciplinaDAO {
 		Map<String, Object> obj = new HashMap<>();
 
 		if (bd.getConnection()) {
-			String sql = "SELECT TOP 1 D.*, G.cod_gabarito, A.data_avaliacao " + "FROM DISCIPLINA D "
+			String sql = "SELECT TOP 1 D.*, G.cod_gabarito, A.data_avaliacao " 
+					+ "FROM DISCIPLINA D "
 					+ "JOIN GABARITO_OFICIAL G ON D.cod_disciplina = G.codigo_disciplina "
 					+ "JOIN AVALIACAO A ON G.codigo_avaliacao = A.codigo_avaliacao "
 					+ "WHERE D.nome_disciplina = ? AND DATEPART(DAYOFYEAR,A.data_avaliacao) >= DATEPART(DAYOFYEAR,GETDATE())"
@@ -162,7 +163,7 @@ public class DisciplinaDAO {
 		return obj;
 	}
 	
-	public String[] obterTodasDisciplinas() {
+	public List<String> obterTodasDisciplinas() {
 		List<String> listaDisciplinas = new ArrayList<String>();
 		String sql = "SELECT nome_disciplina FROM DISCIPLINA";
 		if (bd.getConnection()) {
@@ -182,9 +183,7 @@ public class DisciplinaDAO {
 		} else {
 			System.out.println("Falha na conexão.");
 		}
-		String[] arrayDisciplinas = new String[listaDisciplinas.size()];
-		listaDisciplinas.toArray(arrayDisciplinas);
-		return arrayDisciplinas;
+		return listaDisciplinas;
 	}
 
 }

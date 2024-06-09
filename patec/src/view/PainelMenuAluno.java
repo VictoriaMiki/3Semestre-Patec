@@ -252,6 +252,7 @@ public class PainelMenuAluno extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (!cbDisciplina.getSelectedItem().toString().equals("-- selecione uma disciplina --")) {
+						System.out.println(cbDisciplina.getSelectedItem().toString());
 						Map<String, Object> obj = dDAO.lerDisciplina(cbDisciplina.getSelectedItem().toString());
 											
 						if (fDAO.verificarStatus(obj, a)) {
