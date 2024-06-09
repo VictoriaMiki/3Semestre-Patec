@@ -104,8 +104,8 @@ public class PainelConsultaRelatorio extends JPanel {
 		gbc_lblSelecaoDisciplina.gridx = 0;
 		gbc_lblSelecaoDisciplina.gridy = 2;
 		containerRelatorioDisciplina.add(lblSelecaoDisciplina, gbc_lblSelecaoDisciplina);
-
-		JComboBox cbDisciplina = new JComboBox(disciplinaDao.obterTodasDisciplinas());
+		
+		JComboBox cbDisciplina = new JComboBox(disciplinaDao.obterTodasDisciplinas().toArray());
 		cbDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_cbDisciplina = new GridBagConstraints();
 		gbc_cbDisciplina.insets = new Insets(0, 0, 5, 0);
