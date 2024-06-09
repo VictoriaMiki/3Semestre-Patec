@@ -13,10 +13,30 @@ public class DisciplinaDAO {
 	private BD bd;
 	private String sql, men;
 
+	/**
+	 * Cria uma nova instância de <code>DisciplinaDAO</code>, e inicializa o
+	 * atributo <code>bd</code>, que será utilizado para estabelecer conexão com o
+	 * banco de dados.
+	 * 
+	 * @see BD
+	 */
 	public DisciplinaDAO() {
 		bd = new BD();
 	}
 
+	/**
+	 * Registra os dados contidos na instância da classe <code>Disciplina</code> no
+	 * banco de dados.
+	 * <p>
+	 * Caso os dados não existam no banco de dados, será criado um novo registro
+	 * contendo eles; Caso existam, os dados serão atualizados tendo como base o
+	 * registro cujo código está contido no atributo <code>codDisciplina</code>.
+	 * 
+	 * @param d - a instância da classe <code>Disciplina</code>.
+	 * @return Uma <code>String</code> que informa se a operação de
+	 *         inserção/alteração foi bem-sucedida ou não.
+	 * @see Disciplina
+	 */
 	public String gravar(Disciplina d) {
 		sql = "INSERT INTO DISCIPLINA VALUES (?, ?, ?)";
 		men = "Disciplina inserida com sucesso!";
@@ -52,6 +72,12 @@ public class DisciplinaDAO {
 		return men;
 	}
 
+	/**
+	 * 
+	 * @param codDisciplina
+	 * @return Uma <code>String</code> que informa se a operação de exclusão foi
+	 *         bem-sucedida ou não.
+	 */
 	public String excluir(Object codDisciplina) {
 		sql = "DELETE FROM DISCIPLINA WHERE cod_disciplina = ?";
 		bd.getConnection();
@@ -73,16 +99,19 @@ public class DisciplinaDAO {
 		return men;
 	}
 
+	/**
+	 * 
+	 * @param ra
+	 * @return listaSemestres
+	 */
 	public List<String> listarSemestres(String ra) {
 		List<String> listaSemestres = new ArrayList<String>();
 		listaSemestres.add("-- selecione uma semestre --");
 		BD bd = new BD();
 		if (bd.getConnection()) {
-			String sql = "SELECT DISTINCT D.semestre_disciplina " +
-	                 "FROM DISCIPLINA D " +
-	                 "JOIN ALUNO_DISCIPLINA AD ON D.cod_disciplina = AD.codigo_disciplina " +
-	                 "JOIN ALUNO A ON A.ra = AD.ra " + 
-	                 "WHERE A.ra = ?";
+			String sql = "SELECT DISTINCT D.semestre_disciplina " + "FROM DISCIPLINA D "
+					+ "JOIN ALUNO_DISCIPLINA AD ON D.cod_disciplina = AD.codigo_disciplina "
+					+ "JOIN ALUNO A ON A.ra = AD.ra " + "WHERE A.ra = ?";
 			try {
 				bd.st = bd.con.prepareStatement(sql);
 				bd.st.setString(1, ra);
@@ -99,10 +128,16 @@ public class DisciplinaDAO {
 		} else {
 			System.out.println("Falha na conexão.");
 		}
-		
+
 		return listaSemestres;
 	}
-	
+
+	/**
+	 * 
+	 * @param ra
+	 * @param semestre
+	 * @return listaDisciplinas
+	 */
 	public List<String> listarDisciplinas(String ra, int semestre) {
 		List<String> listaDisciplinas = new ArrayList<String>();
 		listaDisciplinas.add("-- selecione uma disciplina --");
@@ -132,6 +167,11 @@ public class DisciplinaDAO {
 		return listaDisciplinas;
 	}
 
+	/**
+	 * 
+	 * @param disciplina
+	 * @return obj
+	 */
 	public Map<String, Object> lerDisciplina(String disciplina) {
 		Map<String, Object> obj = new HashMap<>();
 
@@ -162,7 +202,11 @@ public class DisciplinaDAO {
 
 		return obj;
 	}
-	
+
+	/**
+	 * 
+	 * @return listaDisciplinas
+	 */
 	public List<String> obterTodasDisciplinas() {
 		List<String> listaDisciplinas = new ArrayList<String>();
 		String sql = "SELECT nome_disciplina FROM DISCIPLINA";

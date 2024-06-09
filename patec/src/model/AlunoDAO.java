@@ -9,10 +9,30 @@ public class AlunoDAO {
 	private BD bd;
 	private String sql, men;
 
+	/**
+	 * Cria uma nova instância de <code>AlunoDAO</code>, e inicializa o atributo
+	 * <code>bd</code>, que será utilizado para estabelecer conexão com o banco de
+	 * dados.
+	 * 
+	 * @see BD
+	 */
 	public AlunoDAO() {
 		bd = new BD();
 	}
 
+	/**
+	 * Registra os dados contidos na instância da classe <code>Aluno</code> no banco
+	 * de dados.
+	 * <p>
+	 * Caso os dados não existam no banco de dados, será criado um novo registro
+	 * contendo eles; Caso existam, os dados serão atualizados tendo como base o
+	 * registro cujo identificador está contido no atributo <code>ra</code>.
+	 * 
+	 * @param a - a instância da classe <code>Aluno</code>.
+	 * @return Uma <code>String</code> que informa se a operação de
+	 *         inserção/alteração foi bem-sucedida ou não.
+	 * @see Aluno
+	 */
 	public String gravar(Aluno a) {
 		sql = "INSERT INTO ALUNO VALUES (?, ?, ?, ?)";
 		men = "Aluno inserido com sucesso!";
@@ -50,6 +70,13 @@ public class AlunoDAO {
 		return men;
 	}
 
+	/**
+	 * Exclui o registro identificado pelo <code>ra</code>.
+	 * 
+	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
+	 * @return Uma <code>String</code> que informa se a operação de exclusão foi
+	 *         bem-sucedida ou não.
+	 */
 	public String excluir(Object ra) {
 		sql = "DELETE FROM ALUNO WHERE ra = ?";
 		bd.getConnection();
@@ -71,6 +98,15 @@ public class AlunoDAO {
 		return men;
 	}
 
+	/**
+	 * Retorna os dados de um aluno contidos em uma instância de <code>Aluno</code>.
+	 * Este método utiliza o parâmetro <code>ra</code> como referência para a
+	 * obtenção dos dados referentes àquele aluno.
+	 * 
+	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
+	 * @return Uma instância de <code>Alunos</code>, e seus respectivos valores
+	 *         contidos nos atributos.
+	 */
 	public Aluno obterAluno(String ra) {
 		BD bd = new BD();
 		Aluno a = null;

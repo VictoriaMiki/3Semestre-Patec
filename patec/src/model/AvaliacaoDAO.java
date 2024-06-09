@@ -6,13 +6,27 @@ import util.BD;
 
 public class AvaliacaoDAO {
 
-	private BD bd; 
+	private BD bd;
 	private String sql, men;
 
+	/**
+	 * Cria uma nova instância de <code>AvaliacaoDAO</code>, e inicializa o atributo
+	 * <code>bd</code>, que será utilizado para estabelecer conexão com o banco de
+	 * dados.
+	 * 
+	 * @see BD
+	 */
 	public AvaliacaoDAO() {
 		bd = new BD();
 	}
-		
+
+	/**
+	 * 
+	 * @param a - a instância da classe <code>Avaliacao</code>.
+	 * @return Uma <code>String</code> que informa se a operação de
+	 *         inserção/alteração foi bem-sucedida ou não.
+	 * @see Avaliacao
+	 */
 	public String gravar(Avaliacao a) {
 		sql = "INSERT INTO AVALIACAO VALUES (?, ?)";
 		men = "Avaliação inserida com sucesso!";
@@ -23,7 +37,7 @@ public class AvaliacaoDAO {
 			bd.st.setString(2, a.getTipoAvaliacao());
 			int n = bd.st.executeUpdate();
 			System.out.println("Linhas inseridas: " + n);
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			sql = "UPDATE AVALIACAO SET data_avaliacao = ?, tipo_avaliacao = ? WHERE codigo_avaliacao = ?";
 			try {
 				bd.st = bd.con.prepareStatement(sql);
@@ -46,7 +60,13 @@ public class AvaliacaoDAO {
 		}
 		return men;
 	}
-	
+
+	/**
+	 * 
+	 * @param codigoAvaliacao
+	 * @return Uma <code>String</code> que informa se a operação de exclusão foi
+	 *         bem-sucedida ou não.
+	 */
 	public String excluir(Object codigoAvaliacao) {
 		sql = "DELETE FROM AVALIACAO WHERE codigo_avaliacao = ?";
 		bd.getConnection();
@@ -68,5 +88,3 @@ public class AvaliacaoDAO {
 		return men;
 	}
 }
-
-
