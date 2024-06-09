@@ -229,5 +229,37 @@ public class DisciplinaDAO {
 		}
 		return listaDisciplinas;
 	}
+	
+	public Map<Integer, Object> GerarRelatorioDisciplina(String nomeDisciplina) {
+		BD bd = new BD();
+		Map<Integer, Object> matrizDados = new HashMap<>();
+
+		String sql = "SELECT ALUNO.ra, ALUNO.nome_aluno, FOLHA_DE_RESPOSTAS.nota FROM FOLHA_DE_RESPOSTAS\r\n"
+				+ "JOIN ALUNO ON FOLHA_DE_RESPOSTAS.ra = ALUNO.ra\r\n"
+				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
+				+ "JOIN DISCIPLINA ON GABARITO_OFICIAL.codigo_disciplina = DISCIPLINA.cod_disciplina\r\n"
+				+ "WHERE DISCIPLINA.nome_disciplina = ?;";
+		bd.getConnection();
+		try {
+			bd.st = bd.con.prepareStatement(sql);
+			bd.st.setString(1, nomeDisciplina);
+			bd.rs = bd.st.executeQuery();
+			int i = 0;
+			while (bd.rs.next()) {
+				ArrayList<Object> vetorDados = new ArrayList<>();
+				vetorDados.add(bd.rs.getString("ra"));
+				vetorDados.add(bd.rs.getString("nome_aluno"));
+				vetorDados.add(bd.rs.getInt("nota"));
+				matrizDados.put(i, vetorDados);
+				i++;
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+
+		return matrizDados;
+	}
 
 }

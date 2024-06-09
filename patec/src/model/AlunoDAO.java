@@ -1,6 +1,9 @@
 package model;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import util.BD;
 
@@ -129,6 +132,35 @@ public class AlunoDAO {
 		}
 
 		return a;
+	}
+
+	public Map<Integer, Object> GerarRelatorioAluno(String ra) {
+		BD bd = new BD();
+		Map<Integer, Object> matrizDados = new HashMap<>();
+
+		String sql = "SELECT GABARITO_OFICIAL.codigo_disciplina, FOLHA_DE_RESPOSTAS.nota FROM FOLHA_DE_RESPOSTAS\r\n"
+				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
+				+ "WHERE FOLHA_DE_RESPOSTAS.ra = ?;";
+		bd.getConnection();
+		try {
+			bd.st = bd.con.prepareStatement(sql);
+			bd.st.setString(1, ra);
+			bd.rs = bd.st.executeQuery();
+			int i = 0;
+			while (bd.rs.next()) {
+				ArrayList<Object> vetorDados = new ArrayList<>();
+				vetorDados.add(bd.rs.getString("codigo_disciplina"));
+				vetorDados.add(bd.rs.getInt("nota"));
+				matrizDados.put(i, vetorDados);
+				i++;
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+
+		return matrizDados;
 	}
 
 }

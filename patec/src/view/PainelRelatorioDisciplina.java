@@ -6,6 +6,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,9 +19,11 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import model.Aluno;
+//import model.Aluno;
 import model.DisciplinaDAO;
 import util.BD;
+import util.GeraPlanilhaRelatorio;
+import util.ImprimirPlanilhaRelatorio;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
 import view.components.MenuBarCoord;
@@ -37,9 +42,9 @@ public class PainelRelatorioDisciplina extends JPanel {
 	 */
 	public PainelRelatorioDisciplina(String nomeDisciplina) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 66, 0, 450, 100, 66, 0 };
+		gridBagLayout.columnWidths = new int[] { 66, 100, 450, 100, 66, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 0, 272, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
@@ -110,6 +115,34 @@ public class PainelRelatorioDisciplina extends JPanel {
 		tabelaRelatorioAluno.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		containerListaAlunos.setViewportView(tabelaRelatorioAluno);
 		tabelaRelatorioAluno.setFillsViewportHeight(true);
+
+		JButton btnImprimirRelatorioDisciplina = new JButton("Imprimir Relatório");
+		btnImprimirRelatorioDisciplina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Map<Integer, Object> matrizDados = dao.GerarRelatorioDisciplina(nomeDisciplina);
+				try {
+					GeraPlanilhaRelatorio.planilhaRelatorioDisciplina(matrizDados,
+							"spreadsheets/RelatorioDisciplina.xls");
+					ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioDisciplina.xls");
+
+				} catch (IOException e1) {
+					new File("spreadsheets").mkdir();
+					try {
+						GeraPlanilhaRelatorio.planilhaRelatorioDisciplina(matrizDados,
+								"spreadsheets/RelatorioDisciplina.xls");
+						ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioDisciplina.xls");
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					}
+				}
+			}
+		});
+		GridBagConstraints gbc_btnImprimirRelatorioDisciplina = new GridBagConstraints();
+		gbc_btnImprimirRelatorioDisciplina.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btnImprimirRelatorioDisciplina.insets = new Insets(0, 0, 0, 5);
+		gbc_btnImprimirRelatorioDisciplina.gridx = 2;
+		gbc_btnImprimirRelatorioDisciplina.gridy = 4;
+		add(btnImprimirRelatorioDisciplina, gbc_btnImprimirRelatorioDisciplina);
 	}
 
 	private void carregarTabela(String nomeDisciplina) {
@@ -117,7 +150,7 @@ public class PainelRelatorioDisciplina extends JPanel {
 				+ "JOIN ALUNO ON FOLHA_DE_RESPOSTAS.ra = ALUNO.ra\r\n"
 				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
 				+ "JOIN DISCIPLINA ON GABARITO_OFICIAL.codigo_disciplina = DISCIPLINA.cod_disciplina\r\n"
-				+ "WHERE DISCIPLINA.nome_disciplina = '"+ nomeDisciplina + "';";
+				+ "WHERE DISCIPLINA.nome_disciplina = '" + nomeDisciplina + "';";
 		model = TableModelPatec.getModel(bd, sql);
 		tabelaRelatorioAluno.setModel(model);
 
