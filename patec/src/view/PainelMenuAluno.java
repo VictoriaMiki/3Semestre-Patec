@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.swing.*;
 
+import org.apache.commons.collections4.bag.SynchronizedSortedBag;
+
 import model.*;
 import util.BD;
 import view.components.BtnSair;
@@ -133,9 +135,9 @@ public class PainelMenuAluno extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if (cbDisciplina.getSelectedItem().toString() != "-- selecione uma disciplina --") {
+					if (!cbDisciplina.getSelectedItem().toString().equals("-- selecione uma disciplina --")) {
 						Map<String, Object> obj = new HashMap<>(dDAO.lerDisciplina(cbDisciplina.getSelectedItem().toString()));
-						
+						System.out.println(obj);
 						if (fDAO.verificarStatus(obj, a)) {
 							JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");
 						} else {

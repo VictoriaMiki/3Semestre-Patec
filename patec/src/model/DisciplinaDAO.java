@@ -210,6 +210,8 @@ public class DisciplinaDAO {
 	public List<String> obterTodasDisciplinas() {
 		List<String> listaDisciplinas = new ArrayList<String>();
 		String sql = "SELECT nome_disciplina FROM DISCIPLINA";
+		
+		listaDisciplinas.add("-- selecione uma disciplina --");
 		if (bd.getConnection()) {
 
 			try {
