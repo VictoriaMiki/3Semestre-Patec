@@ -1,16 +1,36 @@
 package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import model.Aluno;
 import model.AlunoDAO;
 import util.BD;
-import view.components.*;
+import util.GeraPlanilhaRelatorio;
+import util.ImprimirPlanilhaRelatorio;
+import view.components.BtnSair;
+import view.components.BtnVoltar;
+import view.components.MenuBarCoord;
+import view.components.TableModelPatec;
 
 public class PainelRelatorioAluno extends JPanel {
 
@@ -25,9 +45,9 @@ public class PainelRelatorioAluno extends JPanel {
 	 */
 	public PainelRelatorioAluno(Aluno a) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 66, 0, 450, 0, 66, 0 };
+		gridBagLayout.columnWidths = new int[] { 66, 100, 450, 100, 66, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 0, 272, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
@@ -141,6 +161,33 @@ public class PainelRelatorioAluno extends JPanel {
 		tabelaRelatorioAluno.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		containerListaAlunos.setViewportView(tabelaRelatorioAluno);
 		tabelaRelatorioAluno.setFillsViewportHeight(true);
+
+		JButton btnImprimirRelatorioAluno = new JButton("Imprimir Relatório");
+		btnImprimirRelatorioAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Map<Integer, Object> matrizDados = dao.GerarRelatorioAluno(a.getRa());
+				try {
+					GeraPlanilhaRelatorio.planilhaRelatorioAluno(matrizDados, "spreadsheets/RelatorioAluno.xls");
+					ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioAluno.xls");
+
+				} catch (IOException e1) {
+					new File("spreadsheets").mkdir();
+					try {
+						GeraPlanilhaRelatorio.planilhaRelatorioAluno(matrizDados, "spreadsheets/RelatorioAluno.xls");
+						ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioAluno.xls");
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					}
+				}
+
+			}
+		});
+		GridBagConstraints gbc_btnImprimirRelatorioAluno = new GridBagConstraints();
+		gbc_btnImprimirRelatorioAluno.anchor = GridBagConstraints.NORTHEAST;
+		gbc_btnImprimirRelatorioAluno.insets = new Insets(0, 0, 0, 5);
+		gbc_btnImprimirRelatorioAluno.gridx = 2;
+		gbc_btnImprimirRelatorioAluno.gridy = 4;
+		add(btnImprimirRelatorioAluno, gbc_btnImprimirRelatorioAluno);
 	}
 
 	private void carregarTabela(String ra) {
