@@ -166,7 +166,7 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 	    gbc_containerButtons.gridy = 5;
 	    add(containerButtons, gbc_containerButtons);
 	    GridBagLayout gbl_containerButtons = new GridBagLayout();
-	    gbl_containerButtons.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	    gbl_containerButtons.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0};
 	    gbl_containerButtons.columnWeights = new double[] { 0.0};
 	    containerButtons.setLayout(gbl_containerButtons);
 	    
@@ -187,6 +187,33 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 		
 		        todasDisciplinas.addAll(disciplinasMatriculadas);
 		        disciplinasMatriculadas.clear();
+		        bubbleSort(todasDisciplinas);
+		        bubbleSort(disciplinasMatriculadas);
+		        lstDisciplinasNaoMatriculadas.setListData(todasDisciplinas.toArray(new String[0]));
+		        lstDisciplinasMatriculadas.setListData(disciplinasMatriculadas.toArray(new String[0]));
+	    	}
+	    });
+	    
+	    JButton btnRemover = new JButton("< Remover");
+	    btnRemover.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+			    List<String> todasDisciplinas = new ArrayList<>();
+		        ListModel<String> model = lstDisciplinasNaoMatriculadas.getModel();
+		        for (int i = 0; i < model.getSize(); i++) {
+		            todasDisciplinas.add(model.getElementAt(i));
+		        }
+		
+		        List<String> disciplinasMatriculadas = new ArrayList<>();
+		        model = lstDisciplinasMatriculadas.getModel();
+		        for (int i = 0; i < model.getSize(); i++) {
+		            disciplinasMatriculadas.add(model.getElementAt(i));
+		        }
+		
+		        List<String> selectedValues = lstDisciplinasMatriculadas.getSelectedValuesList();
+		        for (String disciplina : selectedValues) {
+		        	disciplinasMatriculadas.remove(disciplina);
+		            todasDisciplinas.add(disciplina);
+		        }
 		        bubbleSort(todasDisciplinas);
 		        bubbleSort(disciplinasMatriculadas);
 		        lstDisciplinasNaoMatriculadas.setListData(todasDisciplinas.toArray(new String[0]));
@@ -221,43 +248,19 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 	    	}
 	    });
 	    GridBagConstraints gbc_btnAdicionar = new GridBagConstraints();
+	    gbc_btnAdicionar.anchor = GridBagConstraints.SOUTH;
 	    gbc_btnAdicionar.insets = new Insets(0, 0, 5, 0);
 	    gbc_btnAdicionar.gridx = 0;
-	    gbc_btnAdicionar.gridy = 0;
+	    gbc_btnAdicionar.gridy = 2;
 	    containerButtons.add(btnAdicionar, gbc_btnAdicionar);
-	    
-	    JButton btnRemover = new JButton("< Remover");
-	    btnRemover.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-			    List<String> todasDisciplinas = new ArrayList<>();
-		        ListModel<String> model = lstDisciplinasNaoMatriculadas.getModel();
-		        for (int i = 0; i < model.getSize(); i++) {
-		            todasDisciplinas.add(model.getElementAt(i));
-		        }
-		
-		        List<String> disciplinasMatriculadas = new ArrayList<>();
-		        model = lstDisciplinasMatriculadas.getModel();
-		        for (int i = 0; i < model.getSize(); i++) {
-		            disciplinasMatriculadas.add(model.getElementAt(i));
-		        }
-		
-		        List<String> selectedValues = lstDisciplinasMatriculadas.getSelectedValuesList();
-		        for (String disciplina : selectedValues) {
-		        	disciplinasMatriculadas.remove(disciplina);
-		            todasDisciplinas.add(disciplina);
-		        }
-		        bubbleSort(todasDisciplinas);
-		        bubbleSort(disciplinasMatriculadas);
-		        lstDisciplinasNaoMatriculadas.setListData(todasDisciplinas.toArray(new String[0]));
-		        lstDisciplinasMatriculadas.setListData(disciplinasMatriculadas.toArray(new String[0]));
-	    	}
-	    });
 	    GridBagConstraints gbc_btnRemover = new GridBagConstraints();
+	    gbc_btnRemover.anchor = GridBagConstraints.NORTH;
 	    gbc_btnRemover.insets = new Insets(0, 0, 5, 0);
 	    gbc_btnRemover.gridx = 0;
-	    gbc_btnRemover.gridy = 2;
+	    gbc_btnRemover.gridy = 3;
 	    containerButtons.add(btnRemover, gbc_btnRemover);
 	    GridBagConstraints gbc_btnRemoverTudo = new GridBagConstraints();
+	    gbc_btnRemoverTudo.anchor = GridBagConstraints.NORTH;
 	    gbc_btnRemoverTudo.gridx = 0;
 	    gbc_btnRemoverTudo.gridy = 6;
 	    containerButtons.add(btnRemoverTudo, gbc_btnRemoverTudo);

@@ -75,7 +75,8 @@ public class FolhaDeRespostasDAO {
 		BD bd = new BD();
 		boolean provaRealizada = true;
 		if (bd.getConnection()) {
-			String sql = "SELECT * FROM FOLHA_DE_RESPOSTAS " + "WHERE codigo_gabarito = ? AND ra = ?";
+			String sql = "SELECT * FROM FOLHA_DE_RESPOSTAS " 
+					+ "WHERE codigo_gabarito = ? AND ra = ?";
 			try {
 				bd.st = bd.con.prepareStatement(sql);
 				bd.st.setInt(1, (int) obj.get("codigoGabarito"));
