@@ -526,7 +526,7 @@ public class PainelMenuCoordenador extends JPanel {
 		lblObterRelatorio.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PainelConsultaRelatorio p = new PainelConsultaRelatorio();
+				PainelConsultaRelatorio p = new PainelConsultaRelatorio(null);
 				FramePatec.getFrame().setTitle("Patec - Obter Relatório");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();

@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.print.PrintServiceLookup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,7 +44,7 @@ public class PainelRelatorioAluno extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PainelRelatorioAluno(Aluno a) {
+	public PainelRelatorioAluno(Aluno a, String dataAvaliacao) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 66, 100, 450, 100, 66, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 0, 272, 0, 0 };
@@ -150,7 +151,7 @@ public class PainelRelatorioAluno extends JPanel {
 		tabelaRelatorioAluno = new JTable();
 		bd = new BD();
 		if (bd.getConnection()) {
-			carregarTabela(a.getRa());
+			carregarTabela(a.getRa(), dataAvaliacao);
 		} else {
 			JOptionPane.showMessageDialog(null, "Falha na Conexão");
 			PainelMenuCoordenador p = new PainelMenuCoordenador();
@@ -165,20 +166,27 @@ public class PainelRelatorioAluno extends JPanel {
 		JButton btnImprimirRelatorioAluno = new JButton("Imprimir Relatório");
 		btnImprimirRelatorioAluno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Map<Integer, Object> matrizDados = dao.GerarRelatorioAluno(a.getRa());
-				try {
-					GeraPlanilhaRelatorio.planilhaRelatorioAluno(matrizDados, "spreadsheets/RelatorioAluno.xls");
-					ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioAluno.xls");
-
-				} catch (IOException e1) {
-					new File("spreadsheets").mkdir();
+				if (JOptionPane.showConfirmDialog(null, "O relatório será impresso utilizando a impressora padrão:\n"
+						+ PrintServiceLookup.lookupDefaultPrintService().getName()
+						+ "\n\nCaso deseje alterar a impressora a ser utilizada,\nvá em: Painel de Controle > Dispositivos e Impressoras"
+						+ "\n\nEm seguida, clique com o botão direito na impressora\ndesejada e selecione \"Definir como impressora padrão\".",
+						"Confirmar impressão", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0) {
+					Map<Integer, Object> matrizDados = dao.GerarRelatorioAluno(a.getRa(), dataAvaliacao);
 					try {
 						GeraPlanilhaRelatorio.planilhaRelatorioAluno(matrizDados, "spreadsheets/RelatorioAluno.xls");
 						ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioAluno.xls");
-					} catch (IOException e2) {
-						e2.printStackTrace();
+
+					} catch (IOException e1) {
+						new File("spreadsheets").mkdir();
+						try {
+							GeraPlanilhaRelatorio.planilhaRelatorioAluno(matrizDados, "spreadsheets/RelatorioAluno.xls");
+							ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioAluno.xls");
+						} catch (IOException e2) {
+							e2.printStackTrace();
+						}
 					}
 				}
+				
 
 			}
 		});
@@ -190,10 +198,11 @@ public class PainelRelatorioAluno extends JPanel {
 		add(btnImprimirRelatorioAluno, gbc_btnImprimirRelatorioAluno);
 	}
 
-	private void carregarTabela(String ra) {
-		String sql = "SELECT GABARITO_OFICIAL.codigo_disciplina AS 'Cód. Disciplina', FOLHA_DE_RESPOSTAS.nota AS 'Nota Obtida' FROM FOLHA_DE_RESPOSTAS\r\n"
+	private void carregarTabela(String ra, String dataAvaliacao) {
+		String sql = "SELECT GABARITO_OFICIAL.codigo_disciplina, FOLHA_DE_RESPOSTAS.nota FROM FOLHA_DE_RESPOSTAS\r\n"
 				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
-				+ "WHERE FOLHA_DE_RESPOSTAS.ra = '" + ra + "';";
+				+ "JOIN AVALIACAO ON GABARITO_OFICIAL.codigo_avaliacao = AVALIACAO.codigo_avaliacao\r\n"
+				+ "WHERE FOLHA_DE_RESPOSTAS.ra = '" + ra + "' AND AVALIACAO.data_avaliacao = '" + dataAvaliacao + "';";
 		model = TableModelPatec.getModel(bd, sql);
 		tabelaRelatorioAluno.setModel(model);
 

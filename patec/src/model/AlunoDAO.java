@@ -134,17 +134,19 @@ public class AlunoDAO {
 		return a;
 	}
 
-	public Map<Integer, Object> GerarRelatorioAluno(String ra) {
+	public Map<Integer, Object> GerarRelatorioAluno(String ra, String dataAvaliacao) {
 		BD bd = new BD();
 		Map<Integer, Object> matrizDados = new HashMap<>();
 
 		String sql = "SELECT GABARITO_OFICIAL.codigo_disciplina, FOLHA_DE_RESPOSTAS.nota FROM FOLHA_DE_RESPOSTAS\r\n"
 				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
-				+ "WHERE FOLHA_DE_RESPOSTAS.ra = ?;";
+				+ "JOIN AVALIACAO ON GABARITO_OFICIAL.codigo_avaliacao = AVALIACAO.codigo_avaliacao\r\n"
+				+ "WHERE FOLHA_DE_RESPOSTAS.ra = ? AND AVALIACAO.data_avaliacao = ?;";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
 			bd.st.setString(1, ra);
+			bd.st.setString(2, dataAvaliacao);
 			bd.rs = bd.st.executeQuery();
 			int i = 0;
 			while (bd.rs.next()) {
