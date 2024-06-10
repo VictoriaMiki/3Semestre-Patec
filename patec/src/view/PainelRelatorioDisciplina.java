@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.print.PrintServiceLookup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -40,7 +41,7 @@ public class PainelRelatorioDisciplina extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PainelRelatorioDisciplina(String nomeDisciplina) {
+	public PainelRelatorioDisciplina(String nomeDisciplina, String dataAvaliacao) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 66, 100, 450, 100, 66, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 0, 272, 0, 0 };
@@ -104,7 +105,7 @@ public class PainelRelatorioDisciplina extends JPanel {
 		tabelaRelatorioAluno = new JTable();
 		bd = new BD();
 		if (bd.getConnection()) {
-			carregarTabela(nomeDisciplina);
+			carregarTabela(nomeDisciplina, dataAvaliacao);
 		} else {
 			JOptionPane.showMessageDialog(null, "Falha na Conexão");
 			PainelMenuCoordenador p = new PainelMenuCoordenador();
@@ -119,20 +120,27 @@ public class PainelRelatorioDisciplina extends JPanel {
 		JButton btnImprimirRelatorioDisciplina = new JButton("Imprimir Relatório");
 		btnImprimirRelatorioDisciplina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Map<Integer, Object> matrizDados = dao.GerarRelatorioDisciplina(nomeDisciplina);
-				try {
-					GeraPlanilhaRelatorio.planilhaRelatorioDisciplina(matrizDados,
-							"spreadsheets/RelatorioDisciplina.xls");
-					ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioDisciplina.xls");
 
-				} catch (IOException e1) {
-					new File("spreadsheets").mkdir();
+				if (JOptionPane.showConfirmDialog(null, "O relatório será impresso utilizando a impressora padrão:\n"
+						+ PrintServiceLookup.lookupDefaultPrintService().getName()
+						+ "\n\nCaso deseje alterar a impressora a ser utilizada,\nvá em: Painel de Controle > Dispositivos e Impressoras"
+						+ "\n\nEm seguida, clique com o botão direito na impressora\ndesejada e selecione \"Definir como impressora padrão\".",
+						"Confirmar impressão", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0) {
+					Map<Integer, Object> matrizDados = dao.GerarRelatorioDisciplina(nomeDisciplina, dataAvaliacao);
 					try {
 						GeraPlanilhaRelatorio.planilhaRelatorioDisciplina(matrizDados,
 								"spreadsheets/RelatorioDisciplina.xls");
 						ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioDisciplina.xls");
-					} catch (IOException e2) {
-						e2.printStackTrace();
+
+					} catch (IOException e1) {
+						new File("spreadsheets").mkdir();
+						try {
+							GeraPlanilhaRelatorio.planilhaRelatorioDisciplina(matrizDados,
+									"spreadsheets/RelatorioDisciplina.xls");
+							ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioDisciplina.xls");
+						} catch (IOException e2) {
+							e2.printStackTrace();
+						}
 					}
 				}
 			}
@@ -145,12 +153,14 @@ public class PainelRelatorioDisciplina extends JPanel {
 		add(btnImprimirRelatorioDisciplina, gbc_btnImprimirRelatorioDisciplina);
 	}
 
-	private void carregarTabela(String nomeDisciplina) {
-		String sql = "SELECT ALUNO.ra AS 'RA', ALUNO.nome_aluno AS 'Nome', FOLHA_DE_RESPOSTAS.nota AS 'Nota' FROM FOLHA_DE_RESPOSTAS\r\n"
+	private void carregarTabela(String nomeDisciplina, String dataAvaliacao) {
+		String sql = "SELECT ALUNO.ra, ALUNO.nome_aluno, FOLHA_DE_RESPOSTAS.nota FROM AVALIACAO, FOLHA_DE_RESPOSTAS\r\n"
 				+ "JOIN ALUNO ON FOLHA_DE_RESPOSTAS.ra = ALUNO.ra\r\n"
 				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
 				+ "JOIN DISCIPLINA ON GABARITO_OFICIAL.codigo_disciplina = DISCIPLINA.cod_disciplina\r\n"
-				+ "WHERE DISCIPLINA.nome_disciplina = '" + nomeDisciplina + "';";
+				+ "WHERE AVALIACAO.codigo_avaliacao = GABARITO_OFICIAL.codigo_avaliacao\r\n"
+				+ "AND DISCIPLINA.nome_disciplina = '" + nomeDisciplina + "'\r\n" + "AND AVALIACAO.data_avaliacao = '"
+				+ dataAvaliacao + "';";
 		model = TableModelPatec.getModel(bd, sql);
 		tabelaRelatorioAluno.setModel(model);
 

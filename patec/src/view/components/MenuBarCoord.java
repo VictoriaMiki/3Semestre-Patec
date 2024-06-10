@@ -123,7 +123,7 @@ public class MenuBarCoord extends JMenuBar {
 		mnMenuRelatorio.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PainelConsultaRelatorio p = new PainelConsultaRelatorio();
+				PainelConsultaRelatorio p = new PainelConsultaRelatorio(null);
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();

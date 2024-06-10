@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,12 +19,14 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import model.Aluno;
 import model.AlunoDAO;
 import model.DisciplinaDAO;
-import util.BD;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
+import view.components.DateLabelFormatter;
 import view.components.MenuBarCoord;
 
 public class PainelConsultaRelatorio extends JPanel {
@@ -38,7 +39,7 @@ public class PainelConsultaRelatorio extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PainelConsultaRelatorio() {
+	public PainelConsultaRelatorio(String ra) {
 		disciplinaDao = new DisciplinaDAO();
 		alunoDao = new AlunoDAO();
 
@@ -83,7 +84,7 @@ public class PainelConsultaRelatorio extends JPanel {
 		gbc_containerRelatorioDisciplina.gridy = 3;
 		add(containerRelatorioDisciplina, gbc_containerRelatorioDisciplina);
 		GridBagLayout gbl_containerRelatorioDisciplina = new GridBagLayout();
-		gbl_containerRelatorioDisciplina.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
+		gbl_containerRelatorioDisciplina.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
 		gbl_containerRelatorioDisciplina.columnWeights = new double[] { 1.0 };
 		containerRelatorioDisciplina.setLayout(gbl_containerRelatorioDisciplina);
 
@@ -104,8 +105,8 @@ public class PainelConsultaRelatorio extends JPanel {
 		gbc_lblSelecaoDisciplina.gridx = 0;
 		gbc_lblSelecaoDisciplina.gridy = 2;
 		containerRelatorioDisciplina.add(lblSelecaoDisciplina, gbc_lblSelecaoDisciplina);
-		
-		JComboBox cbDisciplina = new JComboBox(disciplinaDao.obterTodasDisciplinas().toArray());
+
+		JComboBox<?> cbDisciplina = new JComboBox<Object>(disciplinaDao.obterTodasDisciplinas().toArray());
 		cbDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_cbDisciplina = new GridBagConstraints();
 		gbc_cbDisciplina.insets = new Insets(0, 0, 5, 0);
@@ -114,19 +115,46 @@ public class PainelConsultaRelatorio extends JPanel {
 		gbc_cbDisciplina.gridy = 3;
 		containerRelatorioDisciplina.add(cbDisciplina, gbc_cbDisciplina);
 
+		UtilDateModel model = new UtilDateModel();
+		JDatePanelImpl datePanel = new JDatePanelImpl(model);
+
+		JLabel lblNewLabel = new JLabel("Informe a data da avaliação:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 4;
+		containerRelatorioDisciplina.add(lblNewLabel, gbc_lblNewLabel);
+		JDatePickerImpl tftDataAvaliacaoRelDisc = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		tftDataAvaliacaoRelDisc.getJFormattedTextField().setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_tftDataAvaliacaoRelDisc = new GridBagConstraints();
+		gbc_tftDataAvaliacaoRelDisc.insets = new Insets(0, 0, 5, 0);
+		gbc_tftDataAvaliacaoRelDisc.fill = GridBagConstraints.BOTH;
+		gbc_tftDataAvaliacaoRelDisc.gridx = 0;
+		gbc_tftDataAvaliacaoRelDisc.gridy = 5;
+		containerRelatorioDisciplina.add(tftDataAvaliacaoRelDisc, gbc_tftDataAvaliacaoRelDisc);
+
 		JButton btnGerarRelatorioDisciplina = new JButton("Gerar Relatório");
 		btnGerarRelatorioDisciplina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PainelRelatorioDisciplina p = new PainelRelatorioDisciplina(cbDisciplina.getSelectedItem().toString());
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				try {
+					PainelRelatorioDisciplina p = new PainelRelatorioDisciplina(
+							cbDisciplina.getSelectedItem().toString(),
+							tftDataAvaliacaoRelDisc.getJFormattedTextField().getText());
+					FramePatec.frame.setContentPane(p);
+					FramePatec.frame.revalidate();
+					FramePatec.frame.repaint();
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "A consulta não retornou resultados.", "Aviso",
+							JOptionPane.WARNING_MESSAGE);
+				}
 
 			}
 		});
 		GridBagConstraints gbc_btnGerarRelatorioDisciplina = new GridBagConstraints();
 		gbc_btnGerarRelatorioDisciplina.gridx = 0;
-		gbc_btnGerarRelatorioDisciplina.gridy = 5;
+		gbc_btnGerarRelatorioDisciplina.gridy = 7;
 		containerRelatorioDisciplina.add(btnGerarRelatorioDisciplina, gbc_btnGerarRelatorioDisciplina);
 
 		JSeparator separator = new JSeparator();
@@ -148,7 +176,7 @@ public class PainelConsultaRelatorio extends JPanel {
 		gbc_containerRelatorioAluno.gridy = 3;
 		add(containerRelatorioAluno, gbc_containerRelatorioAluno);
 		GridBagLayout gbl_containerRelatorioAluno = new GridBagLayout();
-		gbl_containerRelatorioAluno.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
+		gbl_containerRelatorioAluno.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
 		gbl_containerRelatorioAluno.columnWeights = new double[] { 1.0 };
 		containerRelatorioAluno.setLayout(gbl_containerRelatorioAluno);
 
@@ -169,49 +197,97 @@ public class PainelConsultaRelatorio extends JPanel {
 		gbc_lblEntradaRa.gridy = 2;
 		containerRelatorioAluno.add(lblEntradaRa, gbc_lblEntradaRa);
 
+		JPanel panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 3;
+		containerRelatorioAluno.add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWeights = new double[] { 1.0, 0.0 };
+		panel.setLayout(gbl_panel);
+
+		JLabel lblNewLabel_1 = new JLabel("Informe a data da avaliação:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_1.gridx = 0;
+		gbc_lblNewLabel_1.gridy = 4;
+		containerRelatorioAluno.add(lblNewLabel_1, gbc_lblNewLabel_1);
+
+		JDatePickerImpl tftDataAvaliacaoRelAluno = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		tftDataAvaliacaoRelAluno.getJFormattedTextField().setFont(new Font("Tahoma", Font.PLAIN, 18));
+		GridBagConstraints gbc_tftDataAvaliacaoRelAluno = new GridBagConstraints();
+		gbc_tftDataAvaliacaoRelAluno.insets = new Insets(0, 0, 5, 0);
+		gbc_tftDataAvaliacaoRelAluno.fill = GridBagConstraints.BOTH;
+		gbc_tftDataAvaliacaoRelAluno.gridx = 0;
+		gbc_tftDataAvaliacaoRelAluno.gridy = 5;
+		containerRelatorioAluno.add(tftDataAvaliacaoRelAluno, gbc_tftDataAvaliacaoRelAluno);
+
 		tfRa = new JTextField();
+		GridBagConstraints gbc_tfRa = new GridBagConstraints();
+		gbc_tfRa.insets = new Insets(0, 0, 0, 5);
+		gbc_tfRa.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfRa.gridx = 0;
+		gbc_tfRa.gridy = 0;
+		if (ra != null) {
+			tfRa.setText(ra);
+		}
+		panel.add(tfRa, gbc_tfRa);
 		tfRa.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		tfRa.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					try {
-						PainelRelatorioAluno p = new PainelRelatorioAluno(alunoDao.obterAluno(tfRa.getText()));
+						PainelRelatorioAluno p = new PainelRelatorioAluno(alunoDao.obterAluno(tfRa.getText()),
+								tftDataAvaliacaoRelAluno.getJFormattedTextField().getText());
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, "Aluno não encontrado.", "Aviso",
+						JOptionPane.showMessageDialog(null, "A consulta não retornou resultados.", "Aviso",
 								JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
 		});
-		GridBagConstraints gbc_tfRa = new GridBagConstraints();
-		gbc_tfRa.insets = new Insets(0, 0, 5, 0);
-		gbc_tfRa.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfRa.gridx = 0;
-		gbc_tfRa.gridy = 3;
-		containerRelatorioAluno.add(tfRa, gbc_tfRa);
 		tfRa.setColumns(10);
+
+		JButton btnNewButton = new JButton("...");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelSelecionarAluno p = new PainelSelecionarAluno();
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.gridx = 1;
+		gbc_btnNewButton.gridy = 0;
+		panel.add(btnNewButton, gbc_btnNewButton);
 
 		JButton btnGerarRelatorioAluno = new JButton("Gerar Relatório");
 		btnGerarRelatorioAluno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					PainelRelatorioAluno p = new PainelRelatorioAluno(alunoDao.obterAluno(tfRa.getText()));
+					PainelRelatorioAluno p = new PainelRelatorioAluno(alunoDao.obterAluno(tfRa.getText()),
+							tftDataAvaliacaoRelAluno.getJFormattedTextField().getText());
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Aluno não encontrado.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "A consulta não retornou resultados.", "Aviso",
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
 		GridBagConstraints gbc_btnGerarRelatorioAluno = new GridBagConstraints();
 		gbc_btnGerarRelatorioAluno.gridx = 0;
-		gbc_btnGerarRelatorioAluno.gridy = 5;
+		gbc_btnGerarRelatorioAluno.gridy = 7;
 		containerRelatorioAluno.add(btnGerarRelatorioAluno, gbc_btnGerarRelatorioAluno);
 	}
-
 }
