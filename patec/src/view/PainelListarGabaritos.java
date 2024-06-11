@@ -2,15 +2,17 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
+import util.BD;
 import view.components.*;
 
 public class PainelListarGabaritos extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaGabaritos;
-	private String[] colunas = {"Código", "Questão 1", "Questão 2", "Questão 3", "Questão 4", "Questão 5", "Disciplina", "Avaliação"};
-	private Object[][] dados = {{null, null, null, null, null, null, null, null}};
+	private DefaultTableModel model;
+	private BD bd;
 
 	/**
 	 * Create the panel.
@@ -56,7 +58,17 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_containerListaGabaritos.gridy = 3;
 		add(containerListaGabaritos, gbc_containerListaGabaritos);
 		
-		tabelaGabaritos = new JTable(new BaseTable(colunas, dados));
+		tabelaGabaritos = new JTable();
+		bd = new BD();
+		if (bd.getConnection()) {
+			carregarTabela();
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+			PainelMenuCoordenador p = new PainelMenuCoordenador();
+			FramePatec.getFrame().setContentPane(p);
+			FramePatec.getFrame().revalidate();
+			FramePatec.getFrame().repaint();
+		}
 		tabelaGabaritos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		containerListaGabaritos.setViewportView(tabelaGabaritos);
 		tabelaGabaritos.setFillsViewportHeight(true);
@@ -97,5 +109,11 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_btnNewButton_2.gridx = 0;
 		gbc_btnNewButton_2.gridy = 3;
 		panel.add(btnNewButton_2, gbc_btnNewButton_2);
+	}
+	
+	private void carregarTabela() {
+		String sql = "SELECT * FROM GABARITO_OFICIAL";
+		model = TableModelPatec.getModel(bd, sql);
+		tabelaGabaritos.setModel(model);
 	}
 }
