@@ -173,20 +173,21 @@ public class PainelRelatorioAluno extends JPanel {
 						"Confirmar impressão", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0) {
 					Map<Integer, Object> matrizDados = dao.GerarRelatorioAluno(a.getRa(), dataAvaliacao);
 					try {
-						GeraPlanilhaRelatorio.planilhaRelatorioAluno(matrizDados, "spreadsheets/RelatorioAluno.xls");
+						GeraPlanilhaRelatorio.planilhaRelatorioAluno(matrizDados, a.getNomeAluno(), a.getRa(),
+								dataAvaliacao, "spreadsheets/RelatorioAluno.xls");
 						ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioAluno.xls");
 
 					} catch (IOException e1) {
 						new File("spreadsheets").mkdir();
 						try {
-							GeraPlanilhaRelatorio.planilhaRelatorioAluno(matrizDados, "spreadsheets/RelatorioAluno.xls");
+							GeraPlanilhaRelatorio.planilhaRelatorioAluno(matrizDados, a.getNomeAluno(), a.getRa(),
+									dataAvaliacao, "spreadsheets/RelatorioAluno.xls");
 							ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioAluno.xls");
 						} catch (IOException e2) {
 							e2.printStackTrace();
 						}
 					}
 				}
-				
 
 			}
 		});
@@ -199,10 +200,12 @@ public class PainelRelatorioAluno extends JPanel {
 	}
 
 	private void carregarTabela(String ra, String dataAvaliacao) {
-		String sql = "SELECT GABARITO_OFICIAL.codigo_disciplina, FOLHA_DE_RESPOSTAS.nota FROM FOLHA_DE_RESPOSTAS\r\n"
+		String sql = "SET DATEFORMAT 'DMY';\r\n"
+				+ "SELECT GABARITO_OFICIAL.codigo_disciplina, DISCIPLINA.nome_disciplina, FOLHA_DE_RESPOSTAS.resposta_1, FOLHA_DE_RESPOSTAS.resposta_2, FOLHA_DE_RESPOSTAS.resposta_3, FOLHA_DE_RESPOSTAS.resposta_4, FOLHA_DE_RESPOSTAS.resposta_5, FOLHA_DE_RESPOSTAS.nota FROM DISCIPLINA, FOLHA_DE_RESPOSTAS\r\n"
 				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
 				+ "JOIN AVALIACAO ON GABARITO_OFICIAL.codigo_avaliacao = AVALIACAO.codigo_avaliacao\r\n"
-				+ "WHERE FOLHA_DE_RESPOSTAS.ra = '" + ra + "' AND AVALIACAO.data_avaliacao = '" + dataAvaliacao + "';";
+				+ "WHERE DISCIPLINA.cod_disciplina = GABARITO_OFICIAL.codigo_disciplina\r\n"
+				+ "AND FOLHA_DE_RESPOSTAS.ra = " + ra + " AND AVALIACAO.data_avaliacao = '" + dataAvaliacao + "';";
 		model = TableModelPatec.getModel(bd, sql);
 		tabelaRelatorioAluno.setModel(model);
 

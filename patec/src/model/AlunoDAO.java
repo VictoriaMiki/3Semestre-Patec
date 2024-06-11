@@ -37,7 +37,7 @@ public class AlunoDAO {
 	 * @see Aluno
 	 */
 	public String gravar(Aluno a) {
-		sql = "INSERT INTO ALUNO VALUES (?, ?, ?, ?)";
+		sql = "SET DATEFORMAT 'DMY'; INSERT INTO ALUNO VALUES (?, ?, ?, ?)";
 		men = "Aluno inserido com sucesso!";
 		bd.getConnection();
 		try {
@@ -49,7 +49,7 @@ public class AlunoDAO {
 			int n = bd.st.executeUpdate();
 			System.out.println("Linhas inseridas: " + n);
 		} catch (SQLException e) {
-			sql = "UPDATE ALUNO SET cpf = ?, nome_aluno = ?, data_nascimento = ? WHERE ra = ?";
+			sql = "SET DATEFORMAT 'DMY'; UPDATE ALUNO SET cpf = ?, nome_aluno = ?, data_nascimento = ? WHERE ra = ?";
 			try {
 				bd.st = bd.con.prepareStatement(sql);
 				bd.st.setString(1, a.getCpf());
@@ -138,10 +138,11 @@ public class AlunoDAO {
 		BD bd = new BD();
 		Map<Integer, Object> matrizDados = new HashMap<>();
 
-		String sql = "SELECT GABARITO_OFICIAL.codigo_disciplina, FOLHA_DE_RESPOSTAS.nota FROM FOLHA_DE_RESPOSTAS\r\n"
+		String sql = "SELECT GABARITO_OFICIAL.codigo_disciplina, DISCIPLINA.nome_disciplina, FOLHA_DE_RESPOSTAS.resposta_1, FOLHA_DE_RESPOSTAS.resposta_2, FOLHA_DE_RESPOSTAS.resposta_3, FOLHA_DE_RESPOSTAS.resposta_4, FOLHA_DE_RESPOSTAS.resposta_5, FOLHA_DE_RESPOSTAS.nota FROM DISCIPLINA, FOLHA_DE_RESPOSTAS\r\n"
 				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
 				+ "JOIN AVALIACAO ON GABARITO_OFICIAL.codigo_avaliacao = AVALIACAO.codigo_avaliacao\r\n"
-				+ "WHERE FOLHA_DE_RESPOSTAS.ra = ? AND AVALIACAO.data_avaliacao = ?;";
+				+ "WHERE DISCIPLINA.cod_disciplina = GABARITO_OFICIAL.codigo_disciplina\r\n"
+				+ "AND FOLHA_DE_RESPOSTAS.ra = ? AND AVALIACAO.data_avaliacao = ?;";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
@@ -152,6 +153,12 @@ public class AlunoDAO {
 			while (bd.rs.next()) {
 				ArrayList<Object> vetorDados = new ArrayList<>();
 				vetorDados.add(bd.rs.getString("codigo_disciplina"));
+				vetorDados.add(bd.rs.getString("nome_disciplina"));
+				vetorDados.add(bd.rs.getString("resposta_1"));
+				vetorDados.add(bd.rs.getString("resposta_2"));
+				vetorDados.add(bd.rs.getString("resposta_3"));
+				vetorDados.add(bd.rs.getString("resposta_4"));
+				vetorDados.add(bd.rs.getString("resposta_5"));
 				vetorDados.add(bd.rs.getInt("nota"));
 				matrizDados.put(i, vetorDados);
 				i++;
