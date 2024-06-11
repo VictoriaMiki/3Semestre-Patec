@@ -2,12 +2,16 @@ package util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -15,19 +19,72 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
 
 public class GeraPlanilhaRelatorio {
-	public static void planilhaRelatorioAluno(Map<Integer, Object> matrizDados, String excelFilePath)
-			throws IOException {
+	public static void planilhaRelatorioAluno(Map<Integer, Object> matrizDados, String nomeAluno, String ra,
+			String dataAvaliacao, String excelFilePath) throws IOException {
 		Workbook workbook = new HSSFWorkbook();
 
 		Sheet sheet = workbook.createSheet();
-		sheet.setColumnWidth(1, 10 * 256);
-		sheet.setColumnWidth(2, 3 * 256);
+		sheet.setColumnWidth(1, 15 * 256);
+		sheet.setColumnWidth(2, 30 * 256);
+		sheet.setColumnWidth(3, 5 * 256);
+		sheet.setColumnWidth(4, 5 * 256);
+		sheet.setColumnWidth(5, 5 * 256);
+		sheet.setColumnWidth(6, 5 * 256);
+		sheet.setColumnWidth(7, 5 * 256);
+		sheet.setColumnWidth(8, 6 * 256);
 
-		int rowCount = 0;
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 5));
+//		sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 2));
+		sheet.addMergedRegion(new CellRangeAddress(3, 3, 1, 2));
+		sheet.addMergedRegion(new CellRangeAddress(4, 4, 1, 2));
+//		sheet.addMergedRegion(new CellRangeAddress(5, 5, 1, 2));
 
-		for (int i = 0; i < matrizDados.size(); i++) {
-			Row row = sheet.createRow(++rowCount);
-			gravarDadosRelatorioAluno((ArrayList<Object>) matrizDados.get(i), row, sheet);
+		CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+		Font font = sheet.getWorkbook().createFont();
+		font.setBold(true);
+		font.setFontHeightInPoints((short) 14);
+		cellStyle.setFont(font);
+
+		int rowCount = -1;
+
+		for (int i = 0; i < matrizDados.size() + 7; i++) {
+			Row linha = sheet.createRow(++rowCount);
+
+			if (i == 0) {
+				Cell celula = linha.createCell(i + 1);
+				celula.setCellStyle(cellStyle);
+				celula.setCellValue("Relatório: Gestão Empresarial EaD");
+			} else if (i == 3) {
+				Cell celula = linha.createCell(i - 2);
+				celula.setCellValue("RA: " + ra);
+				celula = linha.createCell(i);
+				celula.setCellValue("Nome: " + nomeAluno);
+			} else if (i == 4) {
+				Cell celula = linha.createCell(i - 3);
+				celula.setCellValue("Data da avaliação: " + dataAvaliacao);
+				celula = linha.createCell(i - 1);
+				celula.setCellValue("Data da emissão: "
+						+ new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()));
+			} else if (i == 6) {
+				Cell celula = linha.createCell(i - 5);
+				celula.setCellValue("Cód. Disciplina");
+				celula = linha.createCell(i - 4);
+				celula.setCellValue("Nome da disciplina");
+				celula = linha.createCell(i - 3);
+				celula.setCellValue("R.1");
+				celula = linha.createCell(i - 2);
+				celula.setCellValue("R.2");
+				celula = linha.createCell(i - 1);
+				celula.setCellValue("R.3");
+				celula = linha.createCell(i);
+				celula.setCellValue("R.4");
+				celula = linha.createCell(i + 1);
+				celula.setCellValue("R.5");
+				celula = linha.createCell(i + 2);
+				celula.setCellValue("Nota");
+			} else if (i > 6) {
+				gravarDadosRelatorioAluno((ArrayList<Object>) matrizDados.get(i - 7), linha, sheet);
+			}
 		}
 
 		try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
@@ -38,14 +95,35 @@ public class GeraPlanilhaRelatorio {
 	}
 
 	private static void gravarDadosRelatorioAluno(ArrayList<Object> dados, Row linha, Sheet sheet) {
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 8; i++) {
 			Cell celula = linha.createCell(i + 1);
 
-			if (i == 0) {
+			switch (i) {
+			case 0:
 				celula.setCellValue((String) dados.get(0));
-			} else {
-				int nota = (int) dados.get(1);
+				break;
+			case 1:
+				celula.setCellValue((String) dados.get(1));
+				break;
+			case 2:
+				celula.setCellValue((String) dados.get(2));
+				break;
+			case 3:
+				celula.setCellValue((String) dados.get(3));
+				break;
+			case 4:
+				celula.setCellValue((String) dados.get(4));
+				break;
+			case 5:
+				celula.setCellValue((String) dados.get(5));
+				break;
+			case 6:
+				celula.setCellValue((String) dados.get(6));
+				break;
+			case 7:
+				int nota = (int) dados.get(7);
 				celula.setCellValue(nota);
+				break;
 			}
 
 			CellRangeAddress region = new CellRangeAddress(celula.getRowIndex(), celula.getRowIndex(),
@@ -59,21 +137,56 @@ public class GeraPlanilhaRelatorio {
 
 	}
 
-	public static void planilhaRelatorioDisciplina(Map<Integer, Object> matrizDados, String excelFilePath)
+	public static void planilhaRelatorioDisciplina(Map<Integer, Object> matrizDados, String nomeDisciplina, String dataAvaliacao, String excelFilePath)
 			throws IOException {
 		Workbook workbook = new HSSFWorkbook();
 
 		Sheet sheet = workbook.createSheet();
-		sheet.setColumnWidth(1, 15 * 256);
-		sheet.setColumnWidth(2, 50 * 256);
-		sheet.setColumnWidth(3, 3 * 256);
+		sheet.setColumnWidth(1, 20 * 256);
+		sheet.setColumnWidth(2, 25 * 256);
+		sheet.setColumnWidth(3, 26 * 256);
+		sheet.setColumnWidth(4, 6 * 256);
+		
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 3));
+		sheet.addMergedRegion(new CellRangeAddress(3, 3, 1, 2));
 
-		int rowCount = 0;
+		CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+		Font font = sheet.getWorkbook().createFont();
+		font.setBold(true);
+		font.setFontHeightInPoints((short) 14);
+		cellStyle.setFont(font);
 
-		for (int i = 0; i < matrizDados.size(); i++) {
-			Row row = sheet.createRow(++rowCount);
-			//System.out.println(row.getRowNum());
-			gravarDadosRelatorioDisciplina((ArrayList<Object>) matrizDados.get(i), row, sheet);
+		int rowCount = -1;
+
+		for (int i = 0; i < matrizDados.size() + 7; i++) {
+			Row linha = sheet.createRow(++rowCount);
+
+			if (i == 0) {
+				Cell celula = linha.createCell(i + 1);
+				celula.setCellStyle(cellStyle);
+				celula.setCellValue("Relatório: Gestão Empresarial EaD");
+			} else if (i == 3) {
+				Cell celula = linha.createCell(i - 2);
+				celula.setCellValue("Disciplina: " + nomeDisciplina);
+				celula = linha.createCell(i);
+				celula.setCellValue("Data da avaliação: " + dataAvaliacao);
+			} else if (i == 4) {
+				Cell celula = linha.createCell(i - 3);
+				celula.setCellValue("");
+				celula = linha.createCell(i - 1);
+				celula.setCellValue("Data da emissão: "
+						+ new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()));
+			} else if (i == 6) {
+				Cell celula = linha.createCell(i - 5);
+				celula.setCellValue("RA");
+				celula = linha.createCell(i - 4);
+				celula.setCellValue("Nome do aluno");
+				celula = linha.createCell(i - 2);
+				celula.setCellValue("Nota");
+			} else if (i > 6) {
+				gravarDadosRelatorioDisciplina((ArrayList<Object>) matrizDados.get(i - 7), linha, sheet);
+			}
+			
 		}
 
 		try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
@@ -84,14 +197,15 @@ public class GeraPlanilhaRelatorio {
 	}
 
 	private static void gravarDadosRelatorioDisciplina(ArrayList<Object> dados, Row linha, Sheet sheet) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			Cell celula = linha.createCell(i + 1);
 
 			if (i == 0) {
 				celula.setCellValue((String) dados.get(0));
 			} else if (i == 1) {
+				sheet.addMergedRegion(new CellRangeAddress(linha.getRowNum(), linha.getRowNum(), 2, 3));
 				celula.setCellValue((String) dados.get(1));
-			} else {
+			} else if (i == 3){
 				int nota = (int) dados.get(2);
 				celula.setCellValue(nota);
 			}

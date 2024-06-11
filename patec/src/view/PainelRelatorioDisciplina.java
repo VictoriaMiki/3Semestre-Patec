@@ -128,15 +128,15 @@ public class PainelRelatorioDisciplina extends JPanel {
 						"Confirmar impressão", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0) {
 					Map<Integer, Object> matrizDados = dao.GerarRelatorioDisciplina(nomeDisciplina, dataAvaliacao);
 					try {
-						GeraPlanilhaRelatorio.planilhaRelatorioDisciplina(matrizDados,
+						GeraPlanilhaRelatorio.planilhaRelatorioDisciplina(matrizDados, nomeDisciplina, dataAvaliacao,
 								"spreadsheets/RelatorioDisciplina.xls");
 						ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioDisciplina.xls");
 
 					} catch (IOException e1) {
 						new File("spreadsheets").mkdir();
 						try {
-							GeraPlanilhaRelatorio.planilhaRelatorioDisciplina(matrizDados,
-									"spreadsheets/RelatorioDisciplina.xls");
+							GeraPlanilhaRelatorio.planilhaRelatorioDisciplina(matrizDados, nomeDisciplina,
+									dataAvaliacao, "spreadsheets/RelatorioDisciplina.xls");
 							ImprimirPlanilhaRelatorio.imprimeRelatorio("spreadsheets/RelatorioDisciplina.xls");
 						} catch (IOException e2) {
 							e2.printStackTrace();
