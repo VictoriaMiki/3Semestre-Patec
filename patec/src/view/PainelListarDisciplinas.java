@@ -146,14 +146,16 @@ public class PainelListarDisciplinas extends JPanel {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PainelEditarDisciplina p = new PainelEditarDisciplina(new Disciplina(
-						tabelaDisciplinas.getModel().getValueAt(tabelaDisciplinas.getSelectedRow(), 0).toString(),
-						tabelaDisciplinas.getModel().getValueAt(tabelaDisciplinas.getSelectedRow(), 1).toString(),
-						Integer.parseInt(tabelaDisciplinas.getModel().getValueAt(tabelaDisciplinas.getSelectedRow(), 2)
-								.toString())));
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				if (tabelaDisciplinas.getSelectedRow() != -1) {
+					PainelEditarDisciplina p = new PainelEditarDisciplina(new Disciplina(
+							tabelaDisciplinas.getModel().getValueAt(tabelaDisciplinas.getSelectedRow(), 0).toString(),
+							tabelaDisciplinas.getModel().getValueAt(tabelaDisciplinas.getSelectedRow(), 1).toString(),
+							Integer.parseInt(tabelaDisciplinas.getModel()
+									.getValueAt(tabelaDisciplinas.getSelectedRow(), 2).toString())));
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnEditar = new GridBagConstraints();

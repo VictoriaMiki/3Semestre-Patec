@@ -29,7 +29,7 @@ public class MenuBarCoord extends JMenuBar {
 		JMenuItem miCadastrarGabarito = new JMenuItem("Cadastrar");
 		miCadastrarGabarito.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PainelCadastroGabarito p = new PainelCadastroGabarito();
+				PainelCadastroGabarito p = new PainelCadastroGabarito(-1);
 				FramePatec.getFrame().setTitle("Patec - Cadastrar Gabarito");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();

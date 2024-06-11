@@ -107,7 +107,6 @@ public class DisciplinaDAO {
 	public List<String> listarSemestres(String ra) {
 		List<String> listaSemestres = new ArrayList<String>();
 		listaSemestres.add("-- selecione uma semestre --");
-		BD bd = new BD();
 		if (bd.getConnection()) {
 			String sql = "SELECT DISTINCT D.semestre_disciplina " + "FROM DISCIPLINA D "
 					+ "JOIN ALUNO_DISCIPLINA AD ON D.cod_disciplina = AD.codigo_disciplina "
@@ -176,8 +175,7 @@ public class DisciplinaDAO {
 		Map<String, Object> obj = new HashMap<>();
 
 		if (bd.getConnection()) {
-			String sql = "SELECT TOP 1 D.*, G.cod_gabarito, A.data_avaliacao " 
-					+ "FROM DISCIPLINA D "
+			String sql = "SELECT TOP 1 D.*, G.cod_gabarito, A.data_avaliacao " + "FROM DISCIPLINA D "
 					+ "JOIN GABARITO_OFICIAL G ON D.cod_disciplina = G.codigo_disciplina "
 					+ "JOIN AVALIACAO A ON G.codigo_avaliacao = A.codigo_avaliacao "
 					+ "WHERE D.nome_disciplina = ? AND DATEPART(DAYOFYEAR,A.data_avaliacao) >= DATEPART(DAYOFYEAR,GETDATE())"
@@ -210,7 +208,7 @@ public class DisciplinaDAO {
 	public List<String> obterTodasDisciplinas() {
 		List<String> listaDisciplinas = new ArrayList<String>();
 		String sql = "SELECT nome_disciplina FROM DISCIPLINA";
-		
+
 		listaDisciplinas.add("-- selecione uma disciplina --");
 		if (bd.getConnection()) {
 
@@ -231,9 +229,8 @@ public class DisciplinaDAO {
 		}
 		return listaDisciplinas;
 	}
-	
+
 	public Map<Integer, Object> GerarRelatorioDisciplina(String nomeDisciplina, String dataAvaliacao) {
-		BD bd = new BD();
 		Map<Integer, Object> matrizDados = new HashMap<>();
 
 		String sql = "SELECT ALUNO.ra, ALUNO.nome_aluno, FOLHA_DE_RESPOSTAS.nota FROM AVALIACAO, FOLHA_DE_RESPOSTAS\r\n"
@@ -266,4 +263,27 @@ public class DisciplinaDAO {
 		return matrizDados;
 	}
 
+	public String obterCodigoDisciplina (String nomeDisciplina) {
+		String codDisciplina = new String();
+		String sql = "SELECT cod_disciplina FROM DISCIPLINA\r\n"
+				+ "WHERE nome_disciplina = ?";
+		bd.getConnection();
+		try {
+			bd.st = bd.con.prepareStatement(sql);
+			bd.st.setString(1, nomeDisciplina);
+			bd.rs = bd.st.executeQuery();
+			int i = 0;
+			while (bd.rs.next()) {
+				codDisciplina = bd.rs.getString("cod_disciplina");
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+		
+		return codDisciplina;
+	
+	}
 }

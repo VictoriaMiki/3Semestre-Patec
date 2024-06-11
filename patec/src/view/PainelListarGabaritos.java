@@ -6,6 +6,8 @@ import javax.swing.table.DefaultTableModel;
 
 import util.BD;
 import view.components.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PainelListarGabaritos extends JPanel {
 
@@ -87,28 +89,40 @@ public class PainelListarGabaritos extends JPanel {
 		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		JButton btnNewButton = new JButton("Cadastrar");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
+		gbc_btnCadastrar.fill = GridBagConstraints.BOTH;
+		gbc_btnCadastrar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnCadastrar.gridx = 0;
+		gbc_btnCadastrar.gridy = 1;
+		panel.add(btnCadastrar, gbc_btnCadastrar);
 
-		JButton btnNewButton_1 = new JButton("Editar");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 2;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		GridBagConstraints gbc_btnEditar = new GridBagConstraints();
+		gbc_btnEditar.fill = GridBagConstraints.BOTH;
+		gbc_btnEditar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnEditar.gridx = 0;
+		gbc_btnEditar.gridy = 2;
+		panel.add(btnEditar, gbc_btnEditar);
 
-		JButton btnNewButton_2 = new JButton("Excluir");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_2.gridx = 0;
-		gbc_btnNewButton_2.gridy = 3;
-		panel.add(btnNewButton_2, gbc_btnNewButton_2);
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
+		gbc_btnExcluir.fill = GridBagConstraints.BOTH;
+		gbc_btnExcluir.gridx = 0;
+		gbc_btnExcluir.gridy = 3;
+		panel.add(btnExcluir, gbc_btnExcluir);
 	}
 	
 	private void carregarTabela() {

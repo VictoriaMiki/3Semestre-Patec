@@ -115,8 +115,8 @@ public class PainelMenuCoordenador extends JPanel {
 		lblCadastrarGabarito.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PainelCadastroGabarito p = new PainelCadastroGabarito();
-				FramePatec.getFrame().setTitle("Patec - Cadastar Gabarito");
+				PainelCadastroGabarito p = new PainelCadastroGabarito(-1);
+				FramePatec.getFrame().setTitle("Patec - Cadastrar Gabarito");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
