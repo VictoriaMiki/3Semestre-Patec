@@ -32,18 +32,18 @@ public class GeraPlanilhaRelatorio {
 		sheet.setColumnWidth(6, 5 * 256);
 		sheet.setColumnWidth(7, 5 * 256);
 		sheet.setColumnWidth(8, 6 * 256);
-		
-		sheet.addMergedRegion(new CellRangeAddress(1,1,1,5));
-		sheet.addMergedRegion(new CellRangeAddress(2,2,1,2));
-		sheet.addMergedRegion(new CellRangeAddress(3,3,1,2));
-		sheet.addMergedRegion(new CellRangeAddress(4,4,1,2));
-		sheet.addMergedRegion(new CellRangeAddress(5,5,1,2));
-		
+
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 5));
+//		sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 2));
+		sheet.addMergedRegion(new CellRangeAddress(3, 3, 1, 2));
+		sheet.addMergedRegion(new CellRangeAddress(4, 4, 1, 2));
+//		sheet.addMergedRegion(new CellRangeAddress(5, 5, 1, 2));
+
 		CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-	    Font font = sheet.getWorkbook().createFont();
-	    font.setBold(true);
-	    font.setFontHeightInPoints((short) 14);
-	    cellStyle.setFont(font);
+		Font font = sheet.getWorkbook().createFont();
+		font.setBold(true);
+		font.setFontHeightInPoints((short) 14);
+		cellStyle.setFont(font);
 
 		int rowCount = -1;
 
@@ -63,7 +63,8 @@ public class GeraPlanilhaRelatorio {
 				Cell celula = linha.createCell(i - 3);
 				celula.setCellValue("Data da avaliação: " + dataAvaliacao);
 				celula = linha.createCell(i - 1);
-				celula.setCellValue("Data da emissão: " + new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()));
+				celula.setCellValue("Data da emissão: "
+						+ new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()));
 			} else if (i == 6) {
 				Cell celula = linha.createCell(i - 5);
 				celula.setCellValue("Cód. Disciplina");
@@ -81,8 +82,7 @@ public class GeraPlanilhaRelatorio {
 				celula.setCellValue("R.5");
 				celula = linha.createCell(i + 2);
 				celula.setCellValue("Nota");
-			} else if (i > 5) {
-				Cell celula = linha.createCell(i + 1);
+			} else if (i > 6) {
 				gravarDadosRelatorioAluno((ArrayList<Object>) matrizDados.get(i - 7), linha, sheet);
 			}
 		}
@@ -137,21 +137,56 @@ public class GeraPlanilhaRelatorio {
 
 	}
 
-	public static void planilhaRelatorioDisciplina(Map<Integer, Object> matrizDados, String excelFilePath)
+	public static void planilhaRelatorioDisciplina(Map<Integer, Object> matrizDados, String nomeDisciplina, String dataAvaliacao, String excelFilePath)
 			throws IOException {
 		Workbook workbook = new HSSFWorkbook();
 
 		Sheet sheet = workbook.createSheet();
-		sheet.setColumnWidth(1, 15 * 256);
-		sheet.setColumnWidth(2, 50 * 256);
-		sheet.setColumnWidth(3, 3 * 256);
+		sheet.setColumnWidth(1, 20 * 256);
+		sheet.setColumnWidth(2, 25 * 256);
+		sheet.setColumnWidth(3, 26 * 256);
+		sheet.setColumnWidth(4, 6 * 256);
+		
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 3));
+		sheet.addMergedRegion(new CellRangeAddress(3, 3, 1, 2));
 
-		int rowCount = 0;
+		CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+		Font font = sheet.getWorkbook().createFont();
+		font.setBold(true);
+		font.setFontHeightInPoints((short) 14);
+		cellStyle.setFont(font);
 
-		for (int i = 0; i < matrizDados.size(); i++) {
-			Row row = sheet.createRow(++rowCount);
-			// System.out.println(row.getRowNum());
-			gravarDadosRelatorioDisciplina((ArrayList<Object>) matrizDados.get(i), row, sheet);
+		int rowCount = -1;
+
+		for (int i = 0; i < matrizDados.size() + 7; i++) {
+			Row linha = sheet.createRow(++rowCount);
+
+			if (i == 0) {
+				Cell celula = linha.createCell(i + 1);
+				celula.setCellStyle(cellStyle);
+				celula.setCellValue("Relatório: Gestão Empresarial EaD");
+			} else if (i == 3) {
+				Cell celula = linha.createCell(i - 2);
+				celula.setCellValue("Disciplina: " + nomeDisciplina);
+				celula = linha.createCell(i);
+				celula.setCellValue("Data da avaliação: " + dataAvaliacao);
+			} else if (i == 4) {
+				Cell celula = linha.createCell(i - 3);
+				celula.setCellValue("");
+				celula = linha.createCell(i - 1);
+				celula.setCellValue("Data da emissão: "
+						+ new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()));
+			} else if (i == 6) {
+				Cell celula = linha.createCell(i - 5);
+				celula.setCellValue("RA");
+				celula = linha.createCell(i - 4);
+				celula.setCellValue("Nome do aluno");
+				celula = linha.createCell(i - 2);
+				celula.setCellValue("Nota");
+			} else if (i > 6) {
+				gravarDadosRelatorioDisciplina((ArrayList<Object>) matrizDados.get(i - 7), linha, sheet);
+			}
+			
 		}
 
 		try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
@@ -162,14 +197,15 @@ public class GeraPlanilhaRelatorio {
 	}
 
 	private static void gravarDadosRelatorioDisciplina(ArrayList<Object> dados, Row linha, Sheet sheet) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			Cell celula = linha.createCell(i + 1);
 
 			if (i == 0) {
 				celula.setCellValue((String) dados.get(0));
 			} else if (i == 1) {
+				sheet.addMergedRegion(new CellRangeAddress(linha.getRowNum(), linha.getRowNum(), 2, 3));
 				celula.setCellValue((String) dados.get(1));
-			} else {
+			} else if (i == 3){
 				int nota = (int) dados.get(2);
 				celula.setCellValue(nota);
 			}
