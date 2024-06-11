@@ -28,7 +28,7 @@ public class AvaliacaoDAO {
 	 * @see Avaliacao
 	 */
 	public String gravar(Avaliacao a) {
-		sql = "INSERT INTO AVALIACAO VALUES (?, ?)";
+		sql = "SET DATEFORMAT 'DMY'; INSERT INTO AVALIACAO VALUES (?, ?);";
 		men = "Avaliação inserida com sucesso!";
 		bd.getConnection();
 		try {
