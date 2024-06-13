@@ -30,7 +30,7 @@ public class PainelListarAvaliacoes extends JPanel {
 	private DefaultTableModel model;
 	private BD bd;
 	private AvaliacaoDAO dao = new AvaliacaoDAO();
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -123,13 +123,16 @@ public class PainelListarAvaliacoes extends JPanel {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PainelEditarAvaliacao p = new PainelEditarAvaliacao(new Avaliacao(
-					Integer.parseInt(tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 0).toString()),
-					tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 1).toString(),
-					tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 2).toString()));
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				if (tabelaAvaliacoes.getSelectedRow() != -1) {
+					PainelEditarAvaliacao p = new PainelEditarAvaliacao(new Avaliacao(
+							Integer.parseInt(tabelaAvaliacoes.getModel()
+									.getValueAt(tabelaAvaliacoes.getSelectedRow(), 0).toString()),
+							tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 1).toString(),
+							tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 2).toString()));
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -142,9 +145,9 @@ public class PainelListarAvaliacoes extends JPanel {
 		JButton btnNewButton_2 = new JButton("Excluir");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(tabelaAvaliacoes.getSelectedRow() != -1 && JOptionPane.showConfirmDialog(null,
+				if (tabelaAvaliacoes.getSelectedRow() != -1 && JOptionPane.showConfirmDialog(null,
 						"Deseja excluir este registro?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION) == 0) {
-					dao.excluir(tabelaAvaliacoes.getValueAt(tabelaAvaliacoes.getSelectedRow(),  0));
+					dao.excluir(tabelaAvaliacoes.getValueAt(tabelaAvaliacoes.getSelectedRow(), 0));
 					PainelListarAvaliacoes p = new PainelListarAvaliacoes();
 					FramePatec.getFrame().setContentPane(p);
 					FramePatec.getFrame().revalidate();

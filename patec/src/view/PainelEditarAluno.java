@@ -232,7 +232,7 @@ public class PainelEditarAluno extends JPanel {
 				a.setNomeAluno(tfNomeAluno.getText());
 				a.setDataNascimento(tftDataNascimentoAluno.getJFormattedTextField().getText());
 				AlunoDAO dao = new AlunoDAO();
-				dao.gravar(a);
+				//dao.gravar(a);
 				JOptionPane.showMessageDialog(null, dao.gravar(a), "Edição concluída",
 						JOptionPane.INFORMATION_MESSAGE);
 				PainelListarAlunos p = new PainelListarAlunos();
