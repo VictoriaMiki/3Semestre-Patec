@@ -1,19 +1,33 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import model.GabaritoOficial;
+import model.GabaritoOficialDAO;
 import util.BD;
-import view.components.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import view.components.BtnSair;
+import view.components.BtnVoltar;
+import view.components.MenuBarCoord;
+import view.components.TableModelPatec;
 
 public class PainelListarGabaritos extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaGabaritos;
 	private DefaultTableModel model;
+	private GabaritoOficialDAO dao = new GabaritoOficialDAO();
 	private BD bd;
 
 	/**
@@ -26,7 +40,7 @@ public class PainelListarGabaritos extends JPanel {
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-		
+
 		MenuBarCoord mbc = new MenuBarCoord();
 		GridBagConstraints gbc_mbc = new GridBagConstraints();
 		gbc_mbc.gridwidth = 4;
@@ -59,7 +73,7 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_containerListaGabaritos.gridx = 1;
 		gbc_containerListaGabaritos.gridy = 3;
 		add(containerListaGabaritos, gbc_containerListaGabaritos);
-		
+
 		tabelaGabaritos = new JTable();
 		bd = new BD();
 		if (bd.getConnection()) {
@@ -74,7 +88,7 @@ public class PainelListarGabaritos extends JPanel {
 		tabelaGabaritos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		containerListaGabaritos.setViewportView(tabelaGabaritos);
 		tabelaGabaritos.setFillsViewportHeight(true);
-		
+
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -92,6 +106,11 @@ public class PainelListarGabaritos extends JPanel {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				PainelCadastroGabarito p = new PainelCadastroGabarito(-1);
+				FramePatec.getFrame().setTitle("Patec - Cadastrar Gabarito");
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
@@ -101,9 +120,24 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_btnCadastrar.gridy = 1;
 		panel.add(btnCadastrar, gbc_btnCadastrar);
 
+		/*
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				PainelEditarGabarito p = new PainelEditarGabarito(-1, new GabaritoOficial(Integer.parseInt(tabelaGabaritos.getModel()
+						.getValueAt(tabelaGabaritos.getSelectedRow(), 0).toString()),
+				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 1).toString().charAt(0),
+				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 2).toString().charAt(0),
+				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 3).toString().charAt(0),
+				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 4).toString().charAt(0),
+				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 5).toString().charAt(0),
+				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 6).toString(),
+				Integer.parseInt(tabelaGabaritos.getModel()
+						.getValueAt(tabelaGabaritos.getSelectedRow(), 7).toString())));
+				FramePatec.getFrame().setTitle("Patec - Editar Gabarito");
+				FramePatec.getFrame().setContentPane(p);
+				FramePatec.getFrame().revalidate();
+				FramePatec.getFrame().repaint();
 			}
 		});
 		GridBagConstraints gbc_btnEditar = new GridBagConstraints();
@@ -112,10 +146,19 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_btnEditar.gridx = 0;
 		gbc_btnEditar.gridy = 2;
 		panel.add(btnEditar, gbc_btnEditar);
+		*/
 
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (tabelaGabaritos.getSelectedRow() != -1 && JOptionPane.showConfirmDialog(null,
+						"Deseja excluir este registro?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION) == 0) {
+					dao.excluir(tabelaGabaritos.getValueAt(tabelaGabaritos.getSelectedRow(), 0));
+					PainelListarDisciplinas p = new PainelListarDisciplinas();
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
@@ -124,7 +167,7 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_btnExcluir.gridy = 3;
 		panel.add(btnExcluir, gbc_btnExcluir);
 	}
-	
+
 	private void carregarTabela() {
 		String sql = "SELECT * FROM GABARITO_OFICIAL";
 		model = TableModelPatec.getModel(bd, sql);

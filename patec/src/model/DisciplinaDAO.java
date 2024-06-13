@@ -286,4 +286,28 @@ public class DisciplinaDAO {
 		return codDisciplina;
 	
 	}
+	
+	public String obterNomeDisciplina (String codDisciplina) {
+		String nomeDisciplina = new String();
+		String sql = "SELECT nome_disciplina FROM DISCIPLINA\r\n"
+				+ "WHERE cod_disciplina = ?";
+		bd.getConnection();
+		try {
+			bd.st = bd.con.prepareStatement(sql);
+			bd.st.setString(1, codDisciplina);
+			bd.rs = bd.st.executeQuery();
+			int i = 0;
+			while (bd.rs.next()) {
+				nomeDisciplina = bd.rs.getString("nome_disciplina");
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+		
+		return nomeDisciplina;
+	
+	}
 }
