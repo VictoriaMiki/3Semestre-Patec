@@ -1,29 +1,46 @@
 package view;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
-import model.*;
-import net.sourceforge.jdatepicker.impl.*;
-import view.components.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
-public class PainelCadastroGabarito extends JPanel {
+import model.DisciplinaDAO;
+import model.GabaritoOficial;
+import model.GabaritoOficialDAO;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import view.components.BaseGabaritoOficial;
+import view.components.BtnSair;
+import view.components.BtnVoltar;
+import view.components.MenuBarCoord;
+
+public class PainelEditarGabarito extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField tfCodAvaliacao;
 	private List<String> disciplinas = new ArrayList<String>();
 	private DisciplinaDAO disciplinaDao = new DisciplinaDAO();
-	//private GabaritoOficial go = new GabaritoOficial();
 	private GabaritoOficialDAO gabaritoOficialDao = new GabaritoOficialDAO();
 
 	/**
 	 * Create the panel.
 	 */
-	public PainelCadastroGabarito(int codAvaliacao) {
-
+	public PainelEditarGabarito(int codAvaliacao, GabaritoOficial go) {
 		disciplinas = (disciplinaDao.obterTodasDisciplinas());
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -68,14 +85,14 @@ public class PainelCadastroGabarito extends JPanel {
 		GridBagLayout gbl_containerLabels = new GridBagLayout();
 		containerLabels.setLayout(gbl_containerLabels);
 
-		JLabel lblCadastrar = new JLabel("Cadastrar");
-		lblCadastrar.setFont(new Font("Tahoma", Font.BOLD, 40));
-		GridBagConstraints gbc_lblCadastrar = new GridBagConstraints();
-		gbc_lblCadastrar.anchor = GridBagConstraints.EAST;
-		gbc_lblCadastrar.insets = new Insets(0, 0, 5, 0);
-		gbc_lblCadastrar.gridx = 0;
-		gbc_lblCadastrar.gridy = 0;
-		containerLabels.add(lblCadastrar, gbc_lblCadastrar);
+		JLabel lblEditar = new JLabel("Editar");
+		lblEditar.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblEditar = new GridBagConstraints();
+		gbc_lblEditar.anchor = GridBagConstraints.EAST;
+		gbc_lblEditar.insets = new Insets(0, 0, 5, 0);
+		gbc_lblEditar.gridx = 0;
+		gbc_lblEditar.gridy = 0;
+		containerLabels.add(lblEditar, gbc_lblEditar);
 
 		JLabel lblGabarito = new JLabel("Gabarito");
 		lblGabarito.setFont(new Font("Tahoma", Font.BOLD, 40));
@@ -116,7 +133,7 @@ public class PainelCadastroGabarito extends JPanel {
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
 
-		JLabel lblCodAvaliacao = new JLabel("Selecione uma avaliação:");
+		JLabel lblCodAvaliacao = new JLabel("Código da avaliação:");
 		lblCodAvaliacao.setFont(new Font("Tahoma", Font.BOLD, 20));
 		GridBagConstraints gbc_lblCodAvaliacao = new GridBagConstraints();
 		gbc_lblCodAvaliacao.anchor = GridBagConstraints.WEST;
@@ -126,33 +143,17 @@ public class PainelCadastroGabarito extends JPanel {
 		gbc_lblCodAvaliacao.gridy = 1;
 		containerGabarito.add(lblCodAvaliacao, gbc_lblCodAvaliacao);
 
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.gridwidth = 6;
-		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 1;
-		gbc_panel_1.gridy = 2;
-		containerGabarito.add(panel_1, gbc_panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] { 0, 0, 0 };
-		gbl_panel_1.rowHeights = new int[] { 0, 0 };
-		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
-		panel_1.setLayout(gbl_panel_1);
-
 		tfCodAvaliacao = new JTextField();
+		tfCodAvaliacao.setText(String.valueOf(codAvaliacao));
 		tfCodAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		tfCodAvaliacao.setEditable(false);
-		if (codAvaliacao != -1) {
-			tfCodAvaliacao.setText(String.valueOf(codAvaliacao));
-		}
 		GridBagConstraints gbc_tfCodAvaliacao = new GridBagConstraints();
-		gbc_tfCodAvaliacao.insets = new Insets(0, 0, 0, 5);
+		gbc_tfCodAvaliacao.gridwidth = 5;
 		gbc_tfCodAvaliacao.fill = GridBagConstraints.BOTH;
-		gbc_tfCodAvaliacao.gridx = 0;
-		gbc_tfCodAvaliacao.gridy = 0;
-		panel_1.add(tfCodAvaliacao, gbc_tfCodAvaliacao);
+		gbc_tfCodAvaliacao.insets = new Insets(0, 0, 5, 5);
+		gbc_tfCodAvaliacao.gridx = 1;
+		gbc_tfCodAvaliacao.gridy = 2;
+		containerGabarito.add(tfCodAvaliacao, gbc_tfCodAvaliacao);
+		tfCodAvaliacao.setEditable(false);
 		tfCodAvaliacao.setColumns(10);
 
 		JLabel lblDisciplina = new JLabel("Disciplina:");
@@ -166,6 +167,9 @@ public class PainelCadastroGabarito extends JPanel {
 		containerGabarito.add(lblDisciplina, gbc_lblDisciplina);
 
 		JComboBox cbDisciplina = new JComboBox(disciplinas.toArray());
+		if (go.getCodigoDisciplina() != null) {
+			cbDisciplina.setSelectedItem(disciplinaDao.obterNomeDisciplina(go.getCodigoDisciplina()));
+		}
 		cbDisciplina.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_cbDisciplina = new GridBagConstraints();
 		gbc_cbDisciplina.fill = GridBagConstraints.BOTH;
@@ -183,11 +187,126 @@ public class PainelCadastroGabarito extends JPanel {
 		gbc_bgo.gridx = 1;
 		gbc_bgo.gridy = 6;
 		containerGabarito.add(bgo, gbc_bgo);
-		
+
+		switch (go.getQuestao1()) {
+		case 'A':
+			bgo.rdbtnQuestaoUmA.setSelected(true);
+			bgo.go.setQuestao1('A');
+			break;
+		case 'B':
+			bgo.rdbtnQuestaoUmB.setSelected(true);
+			bgo.go.setQuestao1('B');
+			break;
+		case 'C':
+			bgo.rdbtnQuestaoUmC.setSelected(true);
+			bgo.go.setQuestao1('C');
+			break;
+		case 'D':
+			bgo.rdbtnQuestaoUmD.setSelected(true);
+			bgo.go.setQuestao1('D');
+			break;
+		case 'E':
+			bgo.rdbtnQuestaoUmE.setSelected(true);
+			bgo.go.setQuestao1('E');
+			break;
+		}
+
+		switch (go.getQuestao2()) {
+		case 'A':
+			bgo.rdbtnQuestaoDoisA.setSelected(true);
+			bgo.go.setQuestao2('A');
+			break;
+		case 'B':
+			bgo.rdbtnQuestaoDoisB.setSelected(true);
+			bgo.go.setQuestao2('B');
+			break;
+		case 'C':
+			bgo.rdbtnQuestaoDoisC.setSelected(true);
+			bgo.go.setQuestao2('C');
+			break;
+		case 'D':
+			bgo.rdbtnQuestaoDoisD.setSelected(true);
+			bgo.go.setQuestao2('D');
+			break;
+		case 'E':
+			bgo.rdbtnQuestaoDoisE.setSelected(true);
+			bgo.go.setQuestao2('E');
+			break;
+		}
+
+		switch (go.getQuestao3()) {
+		case 'A':
+			bgo.rdbtnQuestaoTresA.setSelected(true);
+			bgo.go.setQuestao3('A');
+			break;
+		case 'B':
+			bgo.rdbtnQuestaoTresB.setSelected(true);
+			bgo.go.setQuestao3('B');
+			break;
+		case 'C':
+			bgo.rdbtnQuestaoTresC.setSelected(true);
+			bgo.go.setQuestao3('C');
+			break;
+		case 'D':
+			bgo.rdbtnQuestaoTresD.setSelected(true);
+			bgo.go.setQuestao3('D');
+			break;
+		case 'E':
+			bgo.rdbtnQuestaoTresE.setSelected(true);
+			bgo.go.setQuestao3('E');
+			break;
+		}
+
+		switch (go.getQuestao4()) {
+		case 'A':
+			bgo.rdbtnQuestaoQuatroA.setSelected(true);
+			bgo.go.setQuestao4('A');
+			break;
+		case 'B':
+			bgo.rdbtnQuestaoQuatroB.setSelected(true);
+			bgo.go.setQuestao4('B');
+			break;
+		case 'C':
+			bgo.rdbtnQuestaoQuatroC.setSelected(true);
+			bgo.go.setQuestao4('C');
+			break;
+		case 'D':
+			bgo.rdbtnQuestaoQuatroD.setSelected(true);
+			bgo.go.setQuestao4('D');
+			break;
+		case 'E':
+			bgo.rdbtnQuestaoQuatroE.setSelected(true);
+			bgo.go.setQuestao4('E');
+			break;
+		}
+
+		switch (go.getQuestao5()) {
+		case 'A':
+			bgo.rdbtnQuestaoCincoA.setSelected(true);
+			bgo.go.setQuestao5('A');
+			break;
+		case 'B':
+			bgo.rdbtnQuestaoCincoB.setSelected(true);
+			bgo.go.setQuestao5('B');
+			break;
+		case 'C':
+			bgo.rdbtnQuestaoCincoC.setSelected(true);
+			bgo.go.setQuestao5('C');
+			break;
+		case 'D':
+			bgo.rdbtnQuestaoCincoD.setSelected(true);
+			bgo.go.setQuestao5('D');
+			break;
+		case 'E':
+			bgo.rdbtnQuestaoCincoE.setSelected(true);
+			bgo.go.setQuestao5('E');
+			break;
+		}
+
 		JButton btnSelecionarAvaliacao = new JButton("...");
 		btnSelecionarAvaliacao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PainelSelecionarAvaliacao p = new PainelSelecionarAvaliacao(new GabaritoOficial(), false);
+				PainelSelecionarAvaliacao p = new PainelSelecionarAvaliacao(go, true);
 				FramePatec.frame.setContentPane(p);
 				FramePatec.frame.revalidate();
 				FramePatec.frame.repaint();
@@ -195,9 +314,10 @@ public class PainelCadastroGabarito extends JPanel {
 		});
 		GridBagConstraints gbc_btnSelecionarAvaliacao = new GridBagConstraints();
 		gbc_btnSelecionarAvaliacao.fill = GridBagConstraints.BOTH;
-		gbc_btnSelecionarAvaliacao.gridx = 1;
-		gbc_btnSelecionarAvaliacao.gridy = 0;
-		panel_1.add(btnSelecionarAvaliacao, gbc_btnSelecionarAvaliacao);
+		gbc_btnSelecionarAvaliacao.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSelecionarAvaliacao.gridx = 6;
+		gbc_btnSelecionarAvaliacao.gridy = 2;
+		containerGabarito.add(btnSelecionarAvaliacao, gbc_btnSelecionarAvaliacao);
 
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
@@ -207,13 +327,14 @@ public class PainelCadastroGabarito extends JPanel {
 						|| !Character.isAlphabetic(bgo.go.getQuestao4())
 						|| !Character.isAlphabetic(bgo.go.getQuestao5())) {
 					JOptionPane.showMessageDialog(null, "Há questões sem alternativas válidas.");
-				} else if (tfCodAvaliacao == null || cbDisciplina.getSelectedItem() == cbDisciplina.getItemAt(0)) {
-					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.");
 				} else {
-					gabaritoOficialDao.gravar(new GabaritoOficial(-1, bgo.go.getQuestao1(), bgo.go.getQuestao2(),
-							bgo.go.getQuestao3(), bgo.go.getQuestao4(), bgo.go.getQuestao5(),
-							disciplinaDao.obterCodigoDisciplina(cbDisciplina.getSelectedItem().toString()),
-							Integer.valueOf(tfCodAvaliacao.getText())));
+					JOptionPane.showMessageDialog(null,
+							gabaritoOficialDao.editar(new GabaritoOficial(go.getCodigoGabarito(), bgo.go.getQuestao1(),
+									bgo.go.getQuestao2(), bgo.go.getQuestao3(), bgo.go.getQuestao4(),
+									bgo.go.getQuestao5(),
+									disciplinaDao.obterCodigoDisciplina(cbDisciplina.getSelectedItem().toString()),
+									Integer.valueOf(tfCodAvaliacao.getText()))),
+							"Edição concluída", JOptionPane.INFORMATION_MESSAGE);
 					PainelListarGabaritos p = new PainelListarGabaritos();
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
@@ -227,7 +348,6 @@ public class PainelCadastroGabarito extends JPanel {
 		gbc_btnSalvar.gridx = 1;
 		gbc_btnSalvar.gridy = 8;
 		containerGabarito.add(btnSalvar, gbc_btnSalvar);
-
 	}
 
 }

@@ -123,7 +123,6 @@ public class DisciplinaDAO {
 	public List<String> listarSemestres(String ra) {
 		List<String> listaSemestres = new ArrayList<String>();
 		listaSemestres.add("-- selecione uma semestre --");
-		BD bd = new BD();
 		if (bd.getConnection()) {
 			String sql = "SELECT DISTINCT D.semestre_disciplina " + "FROM DISCIPLINA D "
 					+ "JOIN ALUNO_DISCIPLINA AD ON D.codigo_disciplina = AD.codigo_disciplina "
@@ -246,7 +245,7 @@ public class DisciplinaDAO {
 	public List<String> obterTodasDisciplinas() {
 		List<String> listaDisciplinas = new ArrayList<String>();
 		String sql = "SELECT nome_disciplina FROM DISCIPLINA";
-		
+
 		listaDisciplinas.add("-- selecione uma disciplina --");
 		if (bd.getConnection()) {
 
@@ -267,7 +266,7 @@ public class DisciplinaDAO {
 		}
 		return listaDisciplinas;
 	}
-	
+
 	/**
 	 * Retorna os dados referentes às avaliações da Disciplina identificada pelo <code>nomeDisciplina</code> 
 	 * que foram realizadas na data de avaliação identificada pela <code>dataAvaliacao</code>.
@@ -280,7 +279,6 @@ public class DisciplinaDAO {
 	 * 			da disciplina na data informada. Dados: ra, nome e a nota obtida em cada avaliação que realizou.
 	 */
 	public Map<Integer, Object> GerarRelatorioDisciplina(String nomeDisciplina, String dataAvaliacao) {
-		BD bd = new BD();
 		Map<Integer, Object> matrizDados = new HashMap<>();
 
 		String sql = "SELECT ALUNO.ra, ALUNO.nome_aluno, FOLHA_DE_RESPOSTAS.nota FROM AVALIACAO, FOLHA_DE_RESPOSTAS\r\n"
@@ -313,4 +311,51 @@ public class DisciplinaDAO {
 		return matrizDados;
 	}
 
+	public String obterCodigoDisciplina (String nomeDisciplina) {
+		String codDisciplina = new String();
+		String sql = "SELECT cod_disciplina FROM DISCIPLINA\r\n"
+				+ "WHERE nome_disciplina = ?";
+		bd.getConnection();
+		try {
+			bd.st = bd.con.prepareStatement(sql);
+			bd.st.setString(1, nomeDisciplina);
+			bd.rs = bd.st.executeQuery();
+			int i = 0;
+			while (bd.rs.next()) {
+				codDisciplina = bd.rs.getString("cod_disciplina");
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+		
+		return codDisciplina;
+	
+	}
+	
+	public String obterNomeDisciplina (String codDisciplina) {
+		String nomeDisciplina = new String();
+		String sql = "SELECT nome_disciplina FROM DISCIPLINA\r\n"
+				+ "WHERE cod_disciplina = ?";
+		bd.getConnection();
+		try {
+			bd.st = bd.con.prepareStatement(sql);
+			bd.st.setString(1, codDisciplina);
+			bd.rs = bd.st.executeQuery();
+			int i = 0;
+			while (bd.rs.next()) {
+				nomeDisciplina = bd.rs.getString("nome_disciplina");
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+		
+		return nomeDisciplina;
+	
+	}
 }
