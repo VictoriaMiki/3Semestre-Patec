@@ -4,6 +4,10 @@ import java.sql.SQLException;
 
 import util.BD;
 
+/**
+ * Classe DAO (Data Access Object) responsável por trocar informações com o SGBD
+ * através de operações referentes a objetos da Classe Avaliacao.
+ */
 public class AvaliacaoDAO {
 
 	private BD bd;
@@ -21,6 +25,12 @@ public class AvaliacaoDAO {
 	}
 
 	/**
+	 * Registra os dados contidos na instância da classe <code>Avaliacao</code> no
+	 * banco de dados.
+	 * <p>
+	 * Caso os dados não existam no banco de dados, será criado um novo registro
+	 * contendo eles; Caso existam, os dados serão atualizados tendo como base o
+	 * registro cujo código está contido no atributo <code>codigoAvaliacao</code>.
 	 * 
 	 * @param a - a instância da classe <code>Avaliacao</code>.
 	 * @return Uma <code>String</code> que informa se a operação de
@@ -62,8 +72,11 @@ public class AvaliacaoDAO {
 	}
 
 	/**
+	 * Exclui o registro na tabela Avaliacao do banco de dados identificado pelo 
+	 * <code>codigoAvaliacao</code>.
 	 * 
-	 * @param codigoAvaliacao
+	 * @param codigoAvaliacao - um <code>Object</code> que corresponde ao 
+	 * Registro da Avaliação.
 	 * @return Uma <code>String</code> que informa se a operação de exclusão foi
 	 *         bem-sucedida ou não.
 	 */

@@ -2,6 +2,10 @@ package util;
 
 import java.sql.*;
 
+/**
+ * Classe responsável por gerenciar as conexões com o banco de dados. Ela oferece métodos
+ * para abrir e fechar conexões, além de executar consultas SQL e atualizações.
+ */
 public class BD {
 
 	public Connection con = null;

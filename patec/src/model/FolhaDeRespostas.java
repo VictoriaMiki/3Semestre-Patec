@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Classe equivalente à tabela <code>FOLHA_DE_RESPOSTAS</code> no banco de dados. Esta Classe é referente às 
+ * folhas de respostas que o Aluno preenche em cada prova que realiza.
+ */
 public class FolhaDeRespostas {
 	private int codigoRespostas;
 	private char resposta1;
@@ -8,9 +12,8 @@ public class FolhaDeRespostas {
 	private char resposta4;
 	private char resposta5;
 	private int nota;
-
 	private int codigoGabarito;
-	private String raAluno;
+	private String ra;
 
 	/**
 	 * Cria uma nova instância de <code>FolhaDeRespostas</code>, sem nenhum valor
@@ -43,11 +46,11 @@ public class FolhaDeRespostas {
 	 * @param codigoGabarito  - um valor do tipo <code>int</code>, que corresponde
 	 *                        ao código do gabarito ao qual a folha de respostas se
 	 *                        refere.
-	 * @param raAluno         - uma <code>String</code>, que corresponde ao RA do
+	 * @param ra         	  - uma <code>String</code>, que corresponde ao RA do
 	 *                        aluno que realizou a prova.
 	 */
 	public FolhaDeRespostas(int codigoRespostas, char resposta1, char resposta2, char resposta3, char resposta4,
-			char resposta5, int nota, int codigoGabarito, String raAluno) {
+			char resposta5, int nota, int codigoGabarito, String ra) {
 		this.codigoRespostas = codigoRespostas;
 		this.resposta1 = resposta1;
 		this.resposta2 = resposta2;
@@ -56,13 +59,13 @@ public class FolhaDeRespostas {
 		this.resposta5 = resposta5;
 		this.nota = nota;
 		this.codigoGabarito = codigoGabarito;
-		this.raAluno = raAluno;
+		this.ra = ra;
 	}
 
 	/**
 	 * Recupera o valor atribuído ao atributo <code>codigoRespostas</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>codigoRespostas</code>.
 	 */
 	public int getCodigoRespostas() {
 		return codigoRespostas;
@@ -81,7 +84,7 @@ public class FolhaDeRespostas {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>resposta1</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>resposta1</code>.
 	 */
 	public char getResposta1() {
 		return resposta1;
@@ -100,7 +103,7 @@ public class FolhaDeRespostas {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>resposta2</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>resposta2</code>.
 	 */
 	public char getResposta2() {
 		return resposta2;
@@ -119,7 +122,7 @@ public class FolhaDeRespostas {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>resposta3</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>resposta3</code>.
 	 */
 	public char getResposta3() {
 		return resposta3;
@@ -138,7 +141,7 @@ public class FolhaDeRespostas {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>resposta4</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>resposta4</code>.
 	 */
 	public char getResposta4() {
 		return resposta4;
@@ -157,7 +160,7 @@ public class FolhaDeRespostas {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>resposta5</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>resposta5</code>.
 	 */
 	public char getResposta5() {
 		return resposta5;
@@ -176,7 +179,7 @@ public class FolhaDeRespostas {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>nota</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>nota</code>.
 	 */
 	public int getNota() {
 		return nota;
@@ -195,7 +198,7 @@ public class FolhaDeRespostas {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>codigoGabarito</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>codigoGabarito</code>.
 	 */
 	public int getCodigoGabarito() {
 		return codigoGabarito;
@@ -213,21 +216,21 @@ public class FolhaDeRespostas {
 	}
 
 	/**
-	 * Recupera o valor atribuído ao atributo <code>raAluno</code>.
+	 * Recupera o valor atribuído ao atributo <code>ra</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>ra</code>.
 	 */
-	public String getRaAluno() {
-		return raAluno;
+	public String getRa() {
+		return ra;
 	}
 
 	/**
-	 * Define o valor do atributo <code>raAluno</code>.
+	 * Define o valor do atributo <code>ra</code>.
 	 * 
-	 * @param raAluno - uma <code>String</code>, que corresponde ao RA do aluno que
+	 * @param ra - uma <code>String</code>, que corresponde ao RA do aluno que
 	 *                realizou a prova.
 	 */
-	public void setRaAluno(String raAluno) {
-		this.raAluno = raAluno;
+	public void setRa(String ra) {
+		this.ra = ra;
 	}
 }

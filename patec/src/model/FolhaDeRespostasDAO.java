@@ -5,6 +5,10 @@ import java.util.Map;
 
 import util.BD;
 
+/**
+ * Classe DAO (Data Access Object) responsável por trocar informações com o SGBD
+ * através de operações referentes a objetos da Classe FolhaDeRespostas.
+ */
 public class FolhaDeRespostasDAO {
 
 	private BD bd;
@@ -22,8 +26,8 @@ public class FolhaDeRespostasDAO {
 	}
 
 	/**
-	 * Registra os dados contidos na instância da classe
-	 * <code>FolhaDeRespostas</code> no banco de dados.
+	 * Registra os dados contidos na instância da classe <code>FolhaDeRespostas</code> 
+	 * no banco de dados.
 	 * 
 	 * @param f - a instância da classe <code>FolhaDeRespostas</code>.
 	 * @return Uma <code>String</code> que informa se a operação de inserção foi
@@ -43,7 +47,7 @@ public class FolhaDeRespostasDAO {
 			bd.st.setString(5, Character.toString(f.getResposta5()));
 			bd.st.setInt(6, f.getNota());
 			bd.st.setInt(7, f.getCodigoGabarito());
-			bd.st.setString(8, f.getRaAluno());
+			bd.st.setString(8, f.getRa());
 			int n = bd.st.executeUpdate();
 			System.out.println("Linhas inseridas: " + n);
 		} catch (SQLException e) {
@@ -56,8 +60,9 @@ public class FolhaDeRespostasDAO {
 	}
 
 	/**
-	 * Verifica se determinado aluno realizou a avaliação de uma de determinada
-	 * disciplina.
+	 * Verifica se determinado aluno já realizou a avaliação de uma de determinada
+	 * disciplina. Esse método é utilizado para não permitir que um Aluno realize 
+	 * uma mesma avaliação mais que uma vez.
 	 * 
 	 * @param obj - a disciplina selecionada no <code>PainelMenuAluno</code>.
 	 * @param a   - a instância de <code>Aluno</code> contendo os dados do aluno.
@@ -68,8 +73,6 @@ public class FolhaDeRespostasDAO {
 	 *         <li><code>false</code>, caso o aluno ainda não tenha realizado aquela
 	 *         avaliação.</li>
 	 *         </ul>
-	 * 
-	 * @see PainelMenuAluno
 	 */
 	public boolean verificarStatus(Map<String, Object> obj, Aluno a) {
 		BD bd = new BD();

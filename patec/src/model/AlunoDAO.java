@@ -7,6 +7,10 @@ import java.util.Map;
 
 import util.BD;
 
+/**
+ * Classe DAO (Data Access Object) responsável por trocar informações com o SGBD
+ * através de operações referentes a objetos da Classe Aluno.
+ */
 public class AlunoDAO {
 
 	private BD bd;
@@ -74,7 +78,8 @@ public class AlunoDAO {
 	}
 
 	/**
-	 * Exclui o registro identificado pelo <code>ra</code>.
+	 * Exclui o registro da tabela Aluno do banco de dados identificado pelo 
+	 * <code>ra</code>.
 	 * 
 	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
 	 * @return Uma <code>String</code> que informa se a operação de exclusão foi
@@ -103,6 +108,7 @@ public class AlunoDAO {
 
 	/**
 	 * Retorna os dados de um aluno contidos em uma instância de <code>Aluno</code>.
+	 * <p>
 	 * Este método utiliza o parâmetro <code>ra</code> como referência para a
 	 * obtenção dos dados referentes àquele aluno.
 	 * 
@@ -134,14 +140,26 @@ public class AlunoDAO {
 		return a;
 	}
 
+	/**
+	 * Retorna os dados referentes às avaliações realizadas pelo Aluno identificado 
+	 * pelo <code>ra</code> e na data de avaliação identificada pela <code>dataAvaliacao</code>.
+	 * <p>
+	 * Este método é utilizado para geração do relatório pelo Aluno.
+	 * 
+	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
+	 * @param dataAvaliacao - uma <code>String</code> que corresponde à Data de Realização da Avaliação.
+	 * @return Um <code>Map<Integer, Object></code> com dados das <code>Folhas de Respostas</code> que foram preenchidas
+	 * 			pelo Aluno informado na data informada. Dados: codigoDisciplina, nomeDisciplina, respostas 
+	 * 			preenchidase a nota obtida em cada avaliação que o Aluno realizou.
+	 */
 	public Map<Integer, Object> GerarRelatorioAluno(String ra, String dataAvaliacao) {
 		BD bd = new BD();
 		Map<Integer, Object> matrizDados = new HashMap<>();
 
 		String sql = "SELECT GABARITO_OFICIAL.codigo_disciplina, DISCIPLINA.nome_disciplina, FOLHA_DE_RESPOSTAS.resposta_1, FOLHA_DE_RESPOSTAS.resposta_2, FOLHA_DE_RESPOSTAS.resposta_3, FOLHA_DE_RESPOSTAS.resposta_4, FOLHA_DE_RESPOSTAS.resposta_5, FOLHA_DE_RESPOSTAS.nota FROM DISCIPLINA, FOLHA_DE_RESPOSTAS\r\n"
-				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
+				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.codigo_gabarito\r\n"
 				+ "JOIN AVALIACAO ON GABARITO_OFICIAL.codigo_avaliacao = AVALIACAO.codigo_avaliacao\r\n"
-				+ "WHERE DISCIPLINA.cod_disciplina = GABARITO_OFICIAL.codigo_disciplina\r\n"
+				+ "WHERE DISCIPLINA.codigo_disciplina = GABARITO_OFICIAL.codigo_disciplina\r\n"
 				+ "AND FOLHA_DE_RESPOSTAS.ra = ? AND AVALIACAO.data_avaliacao = ?;";
 		bd.getConnection();
 		try {

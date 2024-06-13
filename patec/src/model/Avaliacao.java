@@ -1,10 +1,13 @@
 package model;
 
+/**
+ * Classe equivalente à tabela <code>AVALIACAO</code> no banco de dados. Esta Classe é referente ao dia
+ * de avaliação presencial que ocorre no semestre. Assim, há várias instâncias de <code>GabaritoOficial</code>
+ * que fazem referência a uma mesma <code>Avaliação</code>. (Avaliação possui dados do dia e não das provas literais)
+ */
 public class Avaliacao {
 
 	private int codigoAvaliacao;
-	// private int anoAvaliacao;
-	// private int semestreAvaliacao;
 	private String dataAvaliacao;
 	private String tipoAvaliacao;
 
@@ -14,14 +17,15 @@ public class Avaliacao {
 	 */
 	public Avaliacao() {
 	}
-
+	
 	/**
 	 * Cria uma nova instância de <code>Avaliacao</code>, com os valores iniciais
 	 * atribuídos aos atributos da instância.
-	 * 
-	 * @param codigoAvaliacao
-	 * @param dataAvaliacao
-	 * @param tipoAvaliacao
+	 *  
+	 * @param codigoAvaliacao - um valor do tipo <code>int</code>, que corresponde ao código da avaliação.
+	 * @param dataAvaliacao - uma <code>String</code> que corresponde à data da avaliação.
+	 * @param tipoAvaliacao - uma <code>String</code> que corresponde ao tipo de avaliação (ex: se é primeira
+	 * 						chamada ou se é segunda chamada, etc.).
 	 */
 	public Avaliacao(int codigoAvaliacao, String dataAvaliacao, String tipoAvaliacao) {
 		super();
@@ -33,7 +37,7 @@ public class Avaliacao {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>codigoAvaliacao</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>codigoAvaliacao</code>.
 	 */
 	public int getCodigoAvaliacao() {
 		return codigoAvaliacao;
@@ -42,7 +46,7 @@ public class Avaliacao {
 	/**
 	 * Define o valor do atributo <code>codigoAvaliacao</code>.
 	 * 
-	 * @param codigoAvaliacao
+	 * @param codigoAvaliacao - um valor do tipo <code>int</code>, que corresponde ao código da avaliação.
 	 */
 	public void setCodigoAvaliacao(int codigoAvaliacao) {
 		this.codigoAvaliacao = codigoAvaliacao;
@@ -51,7 +55,7 @@ public class Avaliacao {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>dataAvaliacao</code>.
 	 * 
-	 * @return
+	 * @return O valor do atributo <code>dataAvaliacao</code>.
 	 */
 	public String getDataAvaliacao() {
 		return dataAvaliacao;
@@ -60,7 +64,7 @@ public class Avaliacao {
 	/**
 	 * Define o valor do atributo <code>dataAvaliacao</code>.
 	 * 
-	 * @param dataAvaliacao
+	 * @param dataAvaliacao - uma <code>String</code> que corresponde à data da avaliação.
 	 */
 	public void setDataAvaliacao(String dataAvaliacao) {
 		this.dataAvaliacao = dataAvaliacao;
@@ -69,8 +73,8 @@ public class Avaliacao {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>tipoAvaliacao</code>.
 	 * 
-	 * @return
-	 */
+	 * @return O valor do atributo <code>tipoAvaliacao</code>.
+	 */ 
 	public String getTipoAvaliacao() {
 		return tipoAvaliacao;
 	}
@@ -78,7 +82,8 @@ public class Avaliacao {
 	/**
 	 * Define o valor do atributo <code>tipoAvaliacao</code>.
 	 * 
-	 * @param tipoAvaliacao
+	 * @param tipoAvaliacao - uma <code>String</code> que corresponde ao tipo de avaliação (ex: se é primeira
+	 * 						chamada ou se é segunda chamada, etc.).
 	 */
 	public void setTipoAvaliacao(String tipoAvaliacao) {
 		this.tipoAvaliacao = tipoAvaliacao;
