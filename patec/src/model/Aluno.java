@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Classe equivalente à tabela <code>ALUNO</code> no banco de dados. Esta Classe é referente aos 
+ * alunos que cursam Gestão Empresarial EAD na Fatec-ID e realizam avaliações presenciais no semestre.
+ */
 public class Aluno {
 
 	private String ra;

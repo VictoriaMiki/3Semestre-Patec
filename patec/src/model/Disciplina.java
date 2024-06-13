@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Classe equivalente à tabela <code>DISCIPLINA</code> no banco de dados. Esta Classe é referente às
+ * disciplinas da grade curricular do curso Gestão Empresarial EAD.
+ */
 public class Disciplina {
 
 	private String codigoDisciplina;

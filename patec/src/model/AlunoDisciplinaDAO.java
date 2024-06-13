@@ -6,18 +6,38 @@ import java.util.List;
 
 import util.BD;
 
+/**
+ * Classe DAO (Data Access Object) responsável por trocar informações com o SGBD
+ * através de operações referentes a objetos da Classe AlunoDisicplina.
+ */
 public class AlunoDisciplinaDAO {
 	
 	private BD bd;
 	private String sql, men;
 
+	/**
+	 * Cria uma nova instância de <code>AlunoDisciplinaDAO</code>, e inicializa o
+	 * atributo <code>bd</code>, que será utilizado para estabelecer conexão com o
+	 * banco de dados.
+	 * 
+	 * @see BD
+	 */
 	public AlunoDisciplinaDAO() {
 		bd = new BD();
 	}
 
+	/**
+	 * Registra os dados contidos na instância da classe <code>AlunoDisciplina</code> 
+	 * no banco de dados.
+	 * 
+	 * @param ad - a instância da classe <code>AlunoDisciplina</code>.
+	 * @return Uma <code>String</code> que informa se a operação de inserção foi
+	 *         bem-sucedida ou não.
+	 * @see AlunoDisciplina
+	 */
 	public String gravar(AlunoDisciplina ad) {
 		sql = "INSERT INTO ALUNO_DISCIPLINA VALUES (?, ?)";
-		men = "Aluno cadastrado na Disciplina com sucesso!";
+		men = "Aluno matriculado na Disciplina com sucesso!";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
@@ -34,6 +54,14 @@ public class AlunoDisciplinaDAO {
 		return men;
 	}
 
+	/**
+	 * Exclui o registro na tabela Aluno_Disciplina do banco de dados identificado
+	 * pelo <code>ra</code>.
+	 * 
+	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
+	 * @return Uma <code>String</code> que informa se a operação de exclusão foi
+	 *         bem-sucedida ou não.
+	 */
 	public String excluir(String ra) {
 		sql = "DELETE FROM ALUNO_DISCIPLINA WHERE ra = ?";
 		bd.getConnection();
@@ -55,11 +83,21 @@ public class AlunoDisciplinaDAO {
 		return men;
 	}
 	
+	/**
+	 * Lista as disciplinas em que o Aluno identificado pelo <code>ra</code>
+	 * está matriculado. A listagem é feita em ordem alfabética. 
+	 * <p>
+	 * Este método é utilizado em um dos JList do PainelCadastroAlunoDisiciplina.
+	 * 
+	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
+	 * @return Um <code>ArrayList</code> de <code>String</code> com o nome das 
+	 * 			disciplinas em que o <code>Aluno</code> está matriculado.
+	 */
 	public List<String> listarDisciplinasMatriculadas(String ra) {
 		List<String> listaDisciplinas = new ArrayList<String>();
 		String sql = "SELECT D.nome_disciplina " 
 				+ "FROM DISCIPLINA D "
-				+ "JOIN ALUNO_DISCIPLINA AD ON D.cod_disciplina = AD.codigo_disciplina "
+				+ "JOIN ALUNO_DISCIPLINA AD ON D.codigo_disciplina = AD.codigo_disciplina "
 				+ "WHERE AD.ra = ? "
 				+ "ORDER BY D.nome_disciplina ASC";
 		if (bd.getConnection()) {
@@ -83,11 +121,21 @@ public class AlunoDisciplinaDAO {
 		return listaDisciplinas;
 	}
 	
+	/**
+	 * Lista as disciplinas em que o Aluno identificado pelo <code>ra</code>
+	 * NÃO está matriculado. A listagem é feita em ordem alfabética. 
+	 * <p>
+	 * Este método é utilizado em um dos JList do PainelCadastroAlunoDisiciplina.
+	 * 
+	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
+	 * @return Um <code>ArrayList</code> de <code>String</code> com o nome das 
+	 * 			disciplinas em que o <code>Aluno</code> NÃO está matriculado.
+	 */
 	public List<String> listarDisciplinasNaoMatriculadas(String ra) {
 		List<String> listaDisciplinas = new ArrayList<String>();
 		String sql = "SELECT D.nome_disciplina " 
 				+ "FROM DISCIPLINA D "
-				+ "LEFT JOIN ALUNO_DISCIPLINA AD ON D.cod_disciplina = AD.codigo_disciplina AND AD.ra = ? "
+				+ "LEFT JOIN ALUNO_DISCIPLINA AD ON D.codigo_disciplina = AD.codigo_disciplina AND AD.ra = ? "
 				+ "WHERE AD.codigo_disciplina IS NULL "
 				+ "ORDER BY D.nome_disciplina ASC";
 		if (bd.getConnection()) {
@@ -111,9 +159,18 @@ public class AlunoDisciplinaDAO {
 		return listaDisciplinas;
 	}
 	
-	public String getDisciplinaPeloNome(String nome) {
+	/**
+	 * Retorna o código da disciplina identificado pelo <code>nome</code> da disciplina. 
+	 * <p>
+	 * Este método é utilizado antes da gravação de um objeto de <code>AlunoDisciplina</code>, 
+	 * pois a gravação é realizada pelo código e não o nome.
+	 * 
+	 * @param nome - uma <code>String</code> que corresponde ao Nome da Disciplina.
+	 * @return Uma <code>String</code> contendo o código da disciplina informada.
+	 */
+	public String getCodigoDisciplinaPeloNome(String nome) {
 		String codigo = "";
-		String sql = "SELECT D.cod_disciplina " 
+		String sql = "SELECT D.codigo_disciplina " 
 				+ "FROM DISCIPLINA D "
 				+ "WHERE D.nome_disciplina = ?";
 		if (bd.getConnection()) {
@@ -124,7 +181,7 @@ public class AlunoDisciplinaDAO {
 				bd.rs = bd.st.executeQuery();
 
 				while (bd.rs.next()) {
-					codigo = bd.rs.getString("cod_disciplina");
+					codigo = bd.rs.getString("codigo_disciplina");
 				}
 			} catch (SQLException e) {
 				System.out.println(e);

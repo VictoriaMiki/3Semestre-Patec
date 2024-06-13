@@ -6,8 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import util.BD;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
+import util.BD;
+import view.components.TableModelPatec;
+
+/**
+ * Classe DAO (Data Access Object) responsável por trocar informações com o SGBD
+ * através de operações referentes a objetos da Classe Disciplina.
+ */
 public class DisciplinaDAO {
 
 	private BD bd;
@@ -30,7 +38,7 @@ public class DisciplinaDAO {
 	 * <p>
 	 * Caso os dados não existam no banco de dados, será criado um novo registro
 	 * contendo eles; Caso existam, os dados serão atualizados tendo como base o
-	 * registro cujo código está contido no atributo <code>codDisciplina</code>.
+	 * registro cujo código está contido no atributo <code>codigoDisciplina</code>.
 	 * 
 	 * @param d - a instância da classe <code>Disciplina</code>.
 	 * @return Uma <code>String</code> que informa se a operação de
@@ -49,7 +57,7 @@ public class DisciplinaDAO {
 			int n = bd.st.executeUpdate();
 			System.out.println("Linhas inseridas: " + n);
 		} catch (SQLException e) {
-			sql = "UPDATE DISCIPLINA SET nome_disciplina = ?, semestre_disciplina = ? WHERE cod_disciplina = ?";
+			sql = "UPDATE DISCIPLINA SET nome_disciplina = ?, semestre_disciplina = ? WHERE codigo_disciplina = ?";
 			try {
 				bd.st = bd.con.prepareStatement(sql);
 				bd.st.setString(1, d.getNomeDisciplina());
@@ -73,17 +81,20 @@ public class DisciplinaDAO {
 	}
 
 	/**
+	 * Exclui o registro na tabela Disciplina do banco de dados identificado pelo 
+	 * <code>codigoDisciplina</code>.
 	 * 
-	 * @param codDisciplina
+	 * @param codigoDisciplina - um <code>Object</code> que corresponde ao 
+	 * Registro da Disciplina.
 	 * @return Uma <code>String</code> que informa se a operação de exclusão foi
 	 *         bem-sucedida ou não.
 	 */
-	public String excluir(Object codDisciplina) {
-		sql = "DELETE FROM DISCIPLINA WHERE cod_disciplina = ?";
+	public String excluir(Object codigoDisciplina) {
+		sql = "DELETE FROM DISCIPLINA WHERE codigo_disciplina = ?";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
-			bd.st.setObject(1, codDisciplina);
+			bd.st.setObject(1, codigoDisciplina);
 			int n = bd.st.executeUpdate();
 			System.out.println("Linhas excluídas: " + n);
 			if (n == 1) {
@@ -100,9 +111,14 @@ public class DisciplinaDAO {
 	}
 
 	/**
+	 * Lista os semestres das disciplinas em que o Aluno identificado pelo 
+	 * <code>ra</code> está matriculado. 
+	 * <p>
+	 * Este método é utilizado em um dos JComboBox do PainelMenuAluno.
 	 * 
-	 * @param ra
-	 * @return listaSemestres
+	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
+	 * @return Um <code>ArrayList</code> de <code>String</code> com os semestres
+	 * 			das disciplinas em que o <code>Aluno</code> está matriculado.
 	 */
 	public List<String> listarSemestres(String ra) {
 		List<String> listaSemestres = new ArrayList<String>();
@@ -110,7 +126,7 @@ public class DisciplinaDAO {
 		BD bd = new BD();
 		if (bd.getConnection()) {
 			String sql = "SELECT DISTINCT D.semestre_disciplina " + "FROM DISCIPLINA D "
-					+ "JOIN ALUNO_DISCIPLINA AD ON D.cod_disciplina = AD.codigo_disciplina "
+					+ "JOIN ALUNO_DISCIPLINA AD ON D.codigo_disciplina = AD.codigo_disciplina "
 					+ "JOIN ALUNO A ON A.ra = AD.ra " + "WHERE A.ra = ?";
 			try {
 				bd.st = bd.con.prepareStatement(sql);
@@ -133,17 +149,23 @@ public class DisciplinaDAO {
 	}
 
 	/**
+	 * Lista o nome das disciplinas do <code>semestre</code> informado
+	 * em que o Aluno identificado pelo <code>ra</code> está matriculado. 
+	 * <p>
+	 * Este método é utilizado em um dos JComboBox do PainelMenuAluno.
 	 * 
-	 * @param ra
-	 * @param semestre
-	 * @return listaDisciplinas
+	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
+	 * @param semestre - um valor do tipo <code>int</code>, que corresponde ao 
+	 * 					semestre da disciplina.
+	 * @return Um <code>ArrayList</code> de <code>String</code> com o nome
+	 * 			das disciplinas em que o <code>Aluno</code> está matriculado.
 	 */
 	public List<String> listarDisciplinas(String ra, int semestre) {
 		List<String> listaDisciplinas = new ArrayList<String>();
 		listaDisciplinas.add("-- selecione uma disciplina --");
 		if (bd.getConnection()) {
 			String sql = "SELECT DISCIPLINA.nome_disciplina FROM DISCIPLINA\r\n"
-					+ "JOIN ALUNO_DISCIPLINA ON DISCIPLINA.cod_disciplina = ALUNO_DISCIPLINA.codigo_disciplina\r\n"
+					+ "JOIN ALUNO_DISCIPLINA ON DISCIPLINA.codigo_disciplina = ALUNO_DISCIPLINA.codigo_disciplina\r\n"
 					+ "JOIN ALUNO ON ALUNO_DISCIPLINA.ra = ALUNO.ra\r\n"
 					+ "WHERE ALUNO.ra = ? AND DISCIPLINA.semestre_disciplina = ?";
 			try {
@@ -168,17 +190,26 @@ public class DisciplinaDAO {
 	}
 
 	/**
+	 * Cria um objeto do tipo <code>HashMap</code> e insere nele os dados da disciplina 
+	 * que foi informada e do gabarito dessa disciplina que possui a <code>dataAvaliação</code> 
+	 * mais próxima.
+	 * <p>
+	 * Este método é utilizado no PainelMenuAluno e o objeto de retorno é enviado 
+	 * como parâmetro para o PainelFolhaDeRespostas. O objeto é utilizado na correção 
+	 * automática das avaliações, pois carrega em si o gabarito referente à avaliação
+	 * que o Aluno está realizando.
 	 * 
-	 * @param disciplina
-	 * @return obj
+	 * @param disciplina - uma <code>String</code> que corresponde ao Nome da Disciplina.
+	 * @return Um <code>Map<String, Object></code> com dados da disciplina que o <code>Aluno</code> 
+	 * 			selecionou para realizar avaliação e o gabarito referente a essa avaliação.
 	 */
 	public Map<String, Object> lerDisciplina(String disciplina) {
 		Map<String, Object> obj = new HashMap<>();
 
 		if (bd.getConnection()) {
-			String sql = "SELECT TOP 1 D.*, G.cod_gabarito, A.data_avaliacao " 
+			String sql = "SELECT TOP 1 D.*, G.codigo_gabarito, A.data_avaliacao " 
 					+ "FROM DISCIPLINA D "
-					+ "JOIN GABARITO_OFICIAL G ON D.cod_disciplina = G.codigo_disciplina "
+					+ "JOIN GABARITO_OFICIAL G ON D.codigo_disciplina = G.codigo_disciplina "
 					+ "JOIN AVALIACAO A ON G.codigo_avaliacao = A.codigo_avaliacao "
 					+ "WHERE D.nome_disciplina = ? AND DATEPART(DAYOFYEAR,A.data_avaliacao) >= DATEPART(DAYOFYEAR,GETDATE())"
 					+ "ORDER BY A.data_avaliacao ASC";
@@ -188,8 +219,8 @@ public class DisciplinaDAO {
 				bd.rs = bd.st.executeQuery();
 				while (bd.rs.next()) {
 					obj.put("nomeDisciplina", bd.rs.getString("nome_disciplina"));
-					obj.put("codDisciplina", bd.rs.getString("cod_disciplina"));
-					obj.put("codigoGabarito", bd.rs.getInt("cod_gabarito"));
+					obj.put("codigoDisciplina", bd.rs.getString("codigo_disciplina"));
+					obj.put("codigoGabarito", bd.rs.getInt("codigo_gabarito"));
 				}
 			} catch (SQLException e) {
 				System.out.println(e);
@@ -204,8 +235,13 @@ public class DisciplinaDAO {
 	}
 
 	/**
+	 * Lista o nome de todas as disciplinas cadastradas. 
+	 * <p>
+	 * Este método é utilizado em um dos JComboBox do PainelConsultaRelatorio 
+	 * para listar as disciplinas das quais o relatório pode ser gerado.
 	 * 
-	 * @return listaDisciplinas
+	 * @return Um <code>ArrayList</code> de <code>String</code> com o nome
+	 * 			de todas as disciplinas cadastradas.
 	 */
 	public List<String> obterTodasDisciplinas() {
 		List<String> listaDisciplinas = new ArrayList<String>();
@@ -232,14 +268,25 @@ public class DisciplinaDAO {
 		return listaDisciplinas;
 	}
 	
+	/**
+	 * Retorna os dados referentes às avaliações da Disciplina identificada pelo <code>nomeDisciplina</code> 
+	 * que foram realizadas na data de avaliação identificada pela <code>dataAvaliacao</code>.
+	 * <p>
+	 * Este método é utilizado para geração do relatório por Disciplina.
+	 * 
+	 * @param nomeDisciplina - uma <code>String</code> que corresponde ao Nome da Disciplina.
+	 * @param dataAvaliacao - uma <code>String</code> que corresponde à Data de Realização da Avaliação.
+	 * @return Um <code>Map<Integer, Object></code> com dados dos <code>Alunos</code> que realizaram a avaliação
+	 * 			da disciplina na data informada. Dados: ra, nome e a nota obtida em cada avaliação que realizou.
+	 */
 	public Map<Integer, Object> GerarRelatorioDisciplina(String nomeDisciplina, String dataAvaliacao) {
 		BD bd = new BD();
 		Map<Integer, Object> matrizDados = new HashMap<>();
 
 		String sql = "SELECT ALUNO.ra, ALUNO.nome_aluno, FOLHA_DE_RESPOSTAS.nota FROM AVALIACAO, FOLHA_DE_RESPOSTAS\r\n"
 				+ "JOIN ALUNO ON FOLHA_DE_RESPOSTAS.ra = ALUNO.ra\r\n"
-				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
-				+ "JOIN DISCIPLINA ON GABARITO_OFICIAL.codigo_disciplina = DISCIPLINA.cod_disciplina\r\n"
+				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.codigo_gabarito\r\n"
+				+ "JOIN DISCIPLINA ON GABARITO_OFICIAL.codigo_disciplina = DISCIPLINA.codigo_disciplina\r\n"
 				+ "WHERE AVALIACAO.codigo_avaliacao = GABARITO_OFICIAL.codigo_avaliacao\r\n"
 				+ "AND DISCIPLINA.nome_disciplina = ?\r\n" + "AND AVALIACAO.data_avaliacao = ?;";
 		bd.getConnection();
