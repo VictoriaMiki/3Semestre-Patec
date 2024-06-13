@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Disciplina;
 import model.DisciplinaDAO;
+import model.GabaritoOficial;
 import util.BD;
 import view.components.BtnSair;
 import view.components.BtnVoltar;

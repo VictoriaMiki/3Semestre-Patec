@@ -16,56 +16,72 @@ public class GabaritoOficialDAO {
 	}
 
 	/**
-	 *  Registra os dados contidos na instância da classe <code>GabaritoOficial</code> no banco
-	 * de dados.
+	 * Registra os dados contidos na instância da classe
+	 * <code>GabaritoOficial</code> no banco de dados.
 	 * <p>
 	 * Caso os dados não existam no banco de dados, será criado um novo registro
 	 * contendo eles; Caso existam, os dados serão atualizados tendo como base o
-	 * registro cujo identificador está contido no atributo <code>codigoGabarito</code>.
-	 * @param g - a instância da classe <code>GabaritoOficial</code>.
+	 * registro cujo identificador está contido no atributo
+	 * <code>codigoGabarito</code>.
+	 * 
+	 * @param go - a instância da classe <code>GabaritoOficial</code>.
 	 * @return Uma <code>String</code> que informa se a operação de
 	 *         inserção/alteração foi bem-sucedida ou não.
 	 */
-	public String gravar(GabaritoOficial g) {
-		sql = "INSERT INTO GABARITO_OFICIAL VALUES (?, ?, ?)";
+	public String gravar(GabaritoOficial go) {
+		sql = "INSERT INTO GABARITO_OFICIAL VALUES (?, ?, ?, ?, ?, ?, ?)";
 		men = "Gabarito gravado com sucesso!";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
-			bd.st.setInt(1, g.getCodigoGabarito());
-			bd.st.setString(2, Character.toString(g.getQuestao1()));
-			bd.st.setString(3, Character.toString(g.getQuestao2()));
-			bd.st.setString(4, Character.toString(g.getQuestao3()));
-			bd.st.setString(5, Character.toString(g.getQuestao4()));
-			bd.st.setString(6, Character.toString(g.getQuestao5()));
+			bd.st.setString(1, Character.toString(go.getQuestao1()));
+			bd.st.setString(2, Character.toString(go.getQuestao2()));
+			bd.st.setString(3, Character.toString(go.getQuestao3()));
+			bd.st.setString(4, Character.toString(go.getQuestao4()));
+			bd.st.setString(5, Character.toString(go.getQuestao5()));
+			bd.st.setString(6, go.getCodigoDisciplina());
+			bd.st.setInt(7, go.getCodigoAvaliacao());
 			int n = bd.st.executeUpdate();
 			System.out.println("Linhas inseridas: " + n);
 		} catch (SQLException e) {
-			sql = "UPDATE GABARITO_OFICIAL SET QUESTAO1 = ?, QUESTAO2 = ?, QUESTAO3 = ?, QUESTAO4 = ?, QUESTAO5 = ? WHERE cod_gabarito = ?";
-			try {
-				bd.st = bd.con.prepareStatement(sql);
-				bd.st.setString(1, Character.toString(g.getQuestao1()));
-				bd.st.setString(2, Character.toString(g.getQuestao2()));
-				bd.st.setString(3, Character.toString(g.getQuestao3()));
-				bd.st.setString(4, Character.toString(g.getQuestao4()));
-				bd.st.setString(5, Character.toString(g.getQuestao5()));
-				int n = bd.st.executeUpdate();
-				System.out.println("Linhas alteradas: " + n);
-				if (n == 1) {
-					men = "Gabarito alterado com sucesso!";
-				} else {
-					men = "Gabarito não encontrada!";
-				}
-			} catch (SQLException e2) {
-				men = "Falha" + e;
-				System.out.println(men);
-			}
+			men = "Falha" + e;
+			System.out.println(men);
 		} finally {
 			bd.close();
 		}
 		return men;
 	}
-	
+
+	public String editar(GabaritoOficial go) {
+		sql = "UPDATE GABARITO_OFICIAL SET questao_1 = ?, questao_2 = ?, questao_3 = ?, questao_4 = ?, questao_5 = ?, codigo_disciplina = ?, codigo_avaliacao = ?  WHERE cod_gabarito = ?";
+		bd.getConnection();
+		try {
+			bd.st = bd.con.prepareStatement(sql);
+			bd.st.setString(1, Character.toString(go.getQuestao1()));
+			bd.st.setString(2, Character.toString(go.getQuestao2()));
+			bd.st.setString(3, Character.toString(go.getQuestao3()));
+			bd.st.setString(4, Character.toString(go.getQuestao4()));
+			bd.st.setString(5, Character.toString(go.getQuestao5()));
+			bd.st.setString(6, go.getCodigoDisciplina());
+			bd.st.setInt(7, go.getCodigoAvaliacao());
+			bd.st.setInt(8, go.getCodigoGabarito());
+			int n = bd.st.executeUpdate();
+			System.out.println("Linhas alteradas: " + n);
+			if (n == 1) {
+				men = "Gabarito alterado com sucesso!";
+			} else {
+				men = "Gabarito não encontrada!";
+			}
+		} catch (SQLException e) {
+			men = "Falha" + e;
+		} finally {
+			bd.close();
+		}
+
+		return men;
+
+	}
+
 	/**
 	 * 
 	 * @param codGabarito
@@ -91,7 +107,7 @@ public class GabaritoOficialDAO {
 		}
 		return men;
 	}
-	
+
 	public GabaritoOficial getGabaritoParaCorrecao(int codGabarito) {
 		sql = "SELECT * FROM GABARITO_OFICIAL WHERE cod_gabarito = ?";
 		GabaritoOficial go = null;

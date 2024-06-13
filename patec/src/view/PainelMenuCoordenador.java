@@ -1,13 +1,23 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
-
-import view.components.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
 import java.util.Map;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+
+import model.GabaritoOficial;
+import view.components.BtnSair;
+import view.components.MenuBarCoord;
 
 public class PainelMenuCoordenador extends JPanel {
 

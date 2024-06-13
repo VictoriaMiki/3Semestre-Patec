@@ -15,14 +15,16 @@ public class PainelCadastroGabarito extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField tfCodAvaliacao;
 	private List<String> disciplinas = new ArrayList<String>();
-	private DisciplinaDAO dao = new DisciplinaDAO();
+	private DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+	//private GabaritoOficial go = new GabaritoOficial();
+	private GabaritoOficialDAO gabaritoOficialDao = new GabaritoOficialDAO();
 
 	/**
 	 * Create the panel.
 	 */
 	public PainelCadastroGabarito(int codAvaliacao) {
 
-		disciplinas = (dao.obterTodasDisciplinas());
+		disciplinas = (disciplinaDao.obterTodasDisciplinas());
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 66, 0, 100, 150, 0, 66, 0 };
@@ -153,21 +155,6 @@ public class PainelCadastroGabarito extends JPanel {
 		panel_1.add(tfCodAvaliacao, gbc_tfCodAvaliacao);
 		tfCodAvaliacao.setColumns(10);
 
-		JButton btnSelecionarAvaliacao = new JButton("...");
-		btnSelecionarAvaliacao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PainelSelecionarAvaliacao p = new PainelSelecionarAvaliacao();
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
-			}
-		});
-		GridBagConstraints gbc_btnSelecionarAvaliacao = new GridBagConstraints();
-		gbc_btnSelecionarAvaliacao.fill = GridBagConstraints.BOTH;
-		gbc_btnSelecionarAvaliacao.gridx = 1;
-		gbc_btnSelecionarAvaliacao.gridy = 0;
-		panel_1.add(btnSelecionarAvaliacao, gbc_btnSelecionarAvaliacao);
-
 		JLabel lblDisciplina = new JLabel("Disciplina:");
 		lblDisciplina.setFont(new Font("Tahoma", Font.BOLD, 20));
 		GridBagConstraints gbc_lblDisciplina = new GridBagConstraints();
@@ -196,6 +183,21 @@ public class PainelCadastroGabarito extends JPanel {
 		gbc_bgo.gridx = 1;
 		gbc_bgo.gridy = 6;
 		containerGabarito.add(bgo, gbc_bgo);
+		
+		JButton btnSelecionarAvaliacao = new JButton("...");
+		btnSelecionarAvaliacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PainelSelecionarAvaliacao p = new PainelSelecionarAvaliacao(new GabaritoOficial(), false);
+				FramePatec.frame.setContentPane(p);
+				FramePatec.frame.revalidate();
+				FramePatec.frame.repaint();
+			}
+		});
+		GridBagConstraints gbc_btnSelecionarAvaliacao = new GridBagConstraints();
+		gbc_btnSelecionarAvaliacao.fill = GridBagConstraints.BOTH;
+		gbc_btnSelecionarAvaliacao.gridx = 1;
+		gbc_btnSelecionarAvaliacao.gridy = 0;
+		panel_1.add(btnSelecionarAvaliacao, gbc_btnSelecionarAvaliacao);
 
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
@@ -205,8 +207,14 @@ public class PainelCadastroGabarito extends JPanel {
 						|| !Character.isAlphabetic(bgo.go.getQuestao4())
 						|| !Character.isAlphabetic(bgo.go.getQuestao5())) {
 					JOptionPane.showMessageDialog(null, "Há questões sem alternativas válidas.");
+				} else if (tfCodAvaliacao == null || cbDisciplina.getSelectedItem() == cbDisciplina.getItemAt(0)) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.");
 				} else {
-					PainelMenuCoordenador p = new PainelMenuCoordenador();
+					gabaritoOficialDao.gravar(new GabaritoOficial(-1, bgo.go.getQuestao1(), bgo.go.getQuestao2(),
+							bgo.go.getQuestao3(), bgo.go.getQuestao4(), bgo.go.getQuestao5(),
+							disciplinaDao.obterCodigoDisciplina(cbDisciplina.getSelectedItem().toString()),
+							Integer.valueOf(tfCodAvaliacao.getText())));
+					PainelListarGabaritos p = new PainelListarGabaritos();
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();

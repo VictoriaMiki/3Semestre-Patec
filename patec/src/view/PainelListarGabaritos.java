@@ -120,24 +120,35 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_btnCadastrar.gridy = 1;
 		panel.add(btnCadastrar, gbc_btnCadastrar);
 
-		/*
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PainelEditarGabarito p = new PainelEditarGabarito(-1, new GabaritoOficial(Integer.parseInt(tabelaGabaritos.getModel()
-						.getValueAt(tabelaGabaritos.getSelectedRow(), 0).toString()),
-				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 1).toString().charAt(0),
-				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 2).toString().charAt(0),
-				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 3).toString().charAt(0),
-				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 4).toString().charAt(0),
-				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 5).toString().charAt(0),
-				tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 6).toString(),
-				Integer.parseInt(tabelaGabaritos.getModel()
-						.getValueAt(tabelaGabaritos.getSelectedRow(), 7).toString())));
-				FramePatec.getFrame().setTitle("Patec - Editar Gabarito");
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				if (tabelaGabaritos.getSelectedRow() != -1) {
+					PainelEditarGabarito p = new PainelEditarGabarito(
+							Integer.parseInt(tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 7)
+									.toString()),
+							new GabaritoOficial(
+									Integer.parseInt(tabelaGabaritos.getModel()
+											.getValueAt(tabelaGabaritos.getSelectedRow(), 0).toString()),
+									tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 1)
+											.toString().charAt(0),
+									tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 2)
+											.toString().charAt(0),
+									tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 3)
+											.toString().charAt(0),
+									tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 4)
+											.toString().charAt(0),
+									tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 5)
+											.toString().charAt(0),
+									tabelaGabaritos.getModel().getValueAt(tabelaGabaritos.getSelectedRow(), 6)
+											.toString(),
+									Integer.parseInt(tabelaGabaritos.getModel()
+											.getValueAt(tabelaGabaritos.getSelectedRow(), 7).toString())));
+					FramePatec.getFrame().setTitle("Patec - Editar Gabarito");
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnEditar = new GridBagConstraints();
@@ -146,7 +157,6 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_btnEditar.gridx = 0;
 		gbc_btnEditar.gridy = 2;
 		panel.add(btnEditar, gbc_btnEditar);
-		*/
 
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
@@ -154,7 +164,7 @@ public class PainelListarGabaritos extends JPanel {
 				if (tabelaGabaritos.getSelectedRow() != -1 && JOptionPane.showConfirmDialog(null,
 						"Deseja excluir este registro?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION) == 0) {
 					dao.excluir(tabelaGabaritos.getValueAt(tabelaGabaritos.getSelectedRow(), 0));
-					PainelListarDisciplinas p = new PainelListarDisciplinas();
+					PainelListarGabaritos p = new PainelListarGabaritos();
 					FramePatec.getFrame().setContentPane(p);
 					FramePatec.getFrame().revalidate();
 					FramePatec.getFrame().repaint();

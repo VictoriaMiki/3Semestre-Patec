@@ -1,8 +1,25 @@
 package view.components;
 
-import java.awt.event.*;
-import javax.swing.*;
-import view.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+import model.GabaritoOficial;
+import view.FramePatec;
+import view.PainelCadastroAluno;
+import view.PainelCadastroAvaliacao;
+import view.PainelCadastroDisciplina;
+import view.PainelCadastroGabarito;
+import view.PainelConsultaRelatorio;
+import view.PainelListarAlunos;
+import view.PainelListarAvaliacoes;
+import view.PainelListarDisciplinas;
+import view.PainelListarGabaritos;
 
 @SuppressWarnings("serial")
 public class MenuBarCoord extends JMenuBar {

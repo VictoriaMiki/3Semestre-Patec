@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import model.GabaritoOficial;
 import util.BD;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
@@ -32,7 +33,7 @@ public class PainelSelecionarAvaliacao extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PainelSelecionarAvaliacao() {
+	public PainelSelecionarAvaliacao(GabaritoOficial go, boolean isEditar) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 66, 100, 450, 100, 66, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 0, 0, 272, 0, 0 };
@@ -111,11 +112,21 @@ public class PainelSelecionarAvaliacao extends JPanel {
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PainelCadastroGabarito p = new PainelCadastroGabarito(
-						Integer.parseInt(tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 0).toString()));
-				FramePatec.frame.setContentPane(p);
-				FramePatec.frame.revalidate();
-				FramePatec.frame.repaint();
+				if(tabelaAvaliacoes.getSelectedRow() != -1) {
+					if (isEditar == true) {
+						PainelEditarGabarito p = new PainelEditarGabarito(Integer.parseInt(
+								tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 0).toString()), go);
+						FramePatec.frame.setContentPane(p);
+						FramePatec.frame.revalidate();
+						FramePatec.frame.repaint();
+					} else {
+						PainelCadastroGabarito p = new PainelCadastroGabarito(Integer.parseInt(
+								tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 0).toString()));
+						FramePatec.frame.setContentPane(p);
+						FramePatec.frame.revalidate();
+						FramePatec.frame.repaint();
+					}
+				}
 			}
 		});
 		GridBagConstraints gbc_btnConfirmar = new GridBagConstraints();
