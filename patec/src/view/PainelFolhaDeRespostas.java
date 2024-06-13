@@ -268,7 +268,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 					JOptionPane.showMessageDialog(null, "Há questões não respondidas.", "Aviso",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
-					fdr.setRaAluno(a.getRa());
+					fdr.setRa(a.getRa());
 					fdr.setCodigoGabarito((int) obj.get("codigoGabarito"));
 					
 					GabaritoOficialDAO goDAO = new GabaritoOficialDAO();

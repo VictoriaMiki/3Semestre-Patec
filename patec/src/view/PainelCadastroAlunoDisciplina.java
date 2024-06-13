@@ -286,11 +286,10 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 		        ad.setRa(a.getRa());
 		        adDAO.excluir(ad.getRa());
 		        for (int i = 0; i < disciplinasMatriculadas.size(); i++) {
-		        	ad.setCodigoDisciplina(adDAO.getDisciplinaPeloNome(disciplinasMatriculadas.get(i)));
+		        	ad.setCodigoDisciplina(adDAO.getCodigoDisciplinaPeloNome(disciplinasMatriculadas.get(i)));
 		        	
 		        	adDAO.gravar(ad);
 		        }
-				// adDAO.gravar(ad);
 				JOptionPane.showMessageDialog(null, "Matrículas feitas com sucesso!", "Matrícula concluída", JOptionPane.INFORMATION_MESSAGE);
 				PainelListarAlunos p = new PainelListarAlunos();
 				FramePatec.getFrame().setContentPane(p);
