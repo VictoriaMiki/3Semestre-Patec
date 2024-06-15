@@ -19,6 +19,24 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
 
 public class GeraPlanilhaRelatorio {
+
+	/**
+	 * Gera uma planilha tendo como base a matriz de dados que corresponde ao
+	 * relatório por aluno, o nome dele, o RA dele e a data em que a avaliação foi
+	 * realizada.
+	 * 
+	 * @param matrizDados   - a matriz de dados que corresponde aos dados utilizados
+	 *                      para a geração da tabela de relatório por aluno.
+	 * @param nomeAluno     - valor do tipo <code>String</code> que corresponde ao
+	 *                      nome do aluno para o qual está sendo gerado o relatório.
+	 * @param ra            - valor do tipo <code>String</code> que corresponde ao
+	 *                      RA do aluno para o qual está sendo gerado o relatório.
+	 * @param dataAvaliacao - valor do tipo <code>String</code> que corresponde à
+	 *                      data de realização da avaliação.
+	 * @param excelFilePath - valor do tipo <code>String</code> que corresponde ao
+	 *                      caminho da geração da planilha.
+	 * @throws IOException
+	 */
 	public static void planilhaRelatorioAluno(Map<Integer, Object> matrizDados, String nomeAluno, String ra,
 			String dataAvaliacao, String excelFilePath) throws IOException {
 		Workbook workbook = new HSSFWorkbook();
@@ -34,10 +52,8 @@ public class GeraPlanilhaRelatorio {
 		sheet.setColumnWidth(8, 6 * 256);
 
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 5));
-//		sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 2));
 		sheet.addMergedRegion(new CellRangeAddress(3, 3, 1, 2));
 		sheet.addMergedRegion(new CellRangeAddress(4, 4, 1, 2));
-//		sheet.addMergedRegion(new CellRangeAddress(5, 5, 1, 2));
 
 		CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
 		Font font = sheet.getWorkbook().createFont();
@@ -94,6 +110,14 @@ public class GeraPlanilhaRelatorio {
 		workbook.close();
 	}
 
+	/**
+	 * Insere os dados de um determinado vetor contido na matriz de dados na
+	 * planilha.
+	 * 
+	 * @param dados - o vetor de dados a ser inserido na planilha.
+	 * @param linha - a linha atual na inserção de dados na planilha.
+	 * @param sheet - uma instância de Sheet (representação da planilha).
+	 */
 	private static void gravarDadosRelatorioAluno(ArrayList<Object> dados, Row linha, Sheet sheet) {
 		for (int i = 0; i < 8; i++) {
 			Cell celula = linha.createCell(i + 1);
@@ -137,8 +161,24 @@ public class GeraPlanilhaRelatorio {
 
 	}
 
-	public static void planilhaRelatorioDisciplina(Map<Integer, Object> matrizDados, String nomeDisciplina, String dataAvaliacao, String excelFilePath)
-			throws IOException {
+	/**
+	 * Gera uma planilha tendo como base a matriz de dados que corresponde ao
+	 * relatório por disicplina, o nome dela e a data em que a avaliação foi
+	 * realizada.
+	 * 
+	 * @param matrizDados    - a matriz de dados que corresponde aos dados
+	 *                       utilizados para a geração da tabela de relatório por
+	 *                       disciplina.
+	 * @param nomeDisciplina - uma <code>String</code> que corresponde ao nome da
+	 *                       disciplina para a qual está sendo gerada o relatório.
+	 * @param dataAvaliacao  - valor do tipo <code>String</code> que corresponde à
+	 *                       data de realização da avaliação.
+	 * @param excelFilePath  - valor do tipo <code>String</code> que corresponde ao
+	 *                       caminho da geração da planilha.
+	 * @throws IOException
+	 */
+	public static void planilhaRelatorioDisciplina(Map<Integer, Object> matrizDados, String nomeDisciplina,
+			String dataAvaliacao, String excelFilePath) throws IOException {
 		Workbook workbook = new HSSFWorkbook();
 
 		Sheet sheet = workbook.createSheet();
@@ -146,7 +186,7 @@ public class GeraPlanilhaRelatorio {
 		sheet.setColumnWidth(2, 25 * 256);
 		sheet.setColumnWidth(3, 26 * 256);
 		sheet.setColumnWidth(4, 6 * 256);
-		
+
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 3));
 		sheet.addMergedRegion(new CellRangeAddress(3, 3, 1, 2));
 
@@ -186,7 +226,7 @@ public class GeraPlanilhaRelatorio {
 			} else if (i > 6) {
 				gravarDadosRelatorioDisciplina((ArrayList<Object>) matrizDados.get(i - 7), linha, sheet);
 			}
-			
+
 		}
 
 		try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
@@ -196,6 +236,14 @@ public class GeraPlanilhaRelatorio {
 		workbook.close();
 	}
 
+	/**
+	 * Insere os dados de um determinado vetor contido na matriz de dados na
+	 * planilha.
+	 * 
+	 * @param dados - o vetor de dados a ser inserido na planilha.
+	 * @param linha - a linha atual na inserção de dados na planilha.
+	 * @param sheet - uma instância de Sheet (representação da planilha).
+	 */
 	private static void gravarDadosRelatorioDisciplina(ArrayList<Object> dados, Row linha, Sheet sheet) {
 		for (int i = 0; i < 4; i++) {
 			Cell celula = linha.createCell(i + 1);
@@ -205,7 +253,7 @@ public class GeraPlanilhaRelatorio {
 			} else if (i == 1) {
 				sheet.addMergedRegion(new CellRangeAddress(linha.getRowNum(), linha.getRowNum(), 2, 3));
 				celula.setCellValue((String) dados.get(1));
-			} else if (i == 3){
+			} else if (i == 3) {
 				int nota = (int) dados.get(2);
 				celula.setCellValue(nota);
 			}
