@@ -12,23 +12,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 
 import model.Avaliacao;
 import model.AvaliacaoDAO;
-import model.Disciplina;
-import util.BD;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
 import view.components.MenuBarCoord;
-import view.components.TableModelPatec;
 
 public class PainelListarAvaliacoes extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaAvaliacoes;
-	private DefaultTableModel model;
-	private BD bd;
 	private AvaliacaoDAO dao = new AvaliacaoDAO();
 
 	/**
@@ -76,11 +70,10 @@ public class PainelListarAvaliacoes extends JPanel {
 		add(containerListaAvaliacoes, gbc_containerListaAvaliacoes);
 
 		tabelaAvaliacoes = new JTable();
-		bd = new BD();
-		if (bd.getConnection()) {
-			carregarTabela();
-		} else {
-			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+		try {
+			tabelaAvaliacoes.setModel(dao.carregarTabela());
+		} catch (Exception e)  {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão: " + e.getMessage());
 			PainelMenuCoordenador p = new PainelMenuCoordenador();
 			FramePatec.getFrame().setContentPane(p);
 			FramePatec.getFrame().revalidate();
@@ -160,12 +153,6 @@ public class PainelListarAvaliacoes extends JPanel {
 		gbc_btnNewButton_2.gridx = 0;
 		gbc_btnNewButton_2.gridy = 3;
 		panel.add(btnNewButton_2, gbc_btnNewButton_2);
-	}
-
-	private void carregarTabela() {
-		String sql = "SELECT * FROM AVALIACAO";
-		model = TableModelPatec.getModel(bd, sql);
-		tabelaAvaliacoes.setModel(model);
 	}
 
 }

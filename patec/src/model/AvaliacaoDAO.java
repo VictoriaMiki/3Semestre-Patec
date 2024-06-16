@@ -2,7 +2,11 @@ package model;
 
 import java.sql.SQLException;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import util.BD;
+import view.components.TableModelPatec;
 
 /**
  * Classe DAO (Data Access Object) responsável por trocar informações com o SGBD
@@ -100,4 +104,32 @@ public class AvaliacaoDAO {
 		}
 		return men;
 	}
+	
+	/**
+	 * Carrega todos os dados da tabela <code>AVALIACAO</code> do banco de dados.
+	 * <p>
+	 * Este método é utilizado para listar todas as Avaliações em formato de tabela
+	 * no <code>PainelListarAvaliacoes</code>. O método também é utilizado no 
+	 * <code>PainelSelecionarAvaliacao</code> no momento do cadastro de <code>GabaritoOficial</code>
+	 * e permite que o usuário selecione a avaliacao referente ao gabarito.
+	 * 
+	 * @return Um <code>TableModel</code> contendo os dados de todas as Avaliações.
+	 */
+	public TableModel carregarTabela() {
+		DefaultTableModel model = null;
+		
+		String sql = "SELECT * FROM AVALIACAO";
+		try {
+			if(bd.getConnection()) {
+				model = TableModelPatec.getModel(bd, sql);
+			}			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+
+		return model;
+	}
+	
 }

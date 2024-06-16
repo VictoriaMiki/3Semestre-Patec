@@ -7,7 +7,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,21 +14,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 
 import model.AlunoDAO;
-import util.BD;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
 import view.components.MenuBarCoord;
-import view.components.TableModelPatec;
 
 public class PainelSelecionarAluno extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaAlunos;
-	private DefaultTableModel model;
-	private BD bd;
+	private AlunoDAO dao = new AlunoDAO();
+
 
 	/**
 	 * Create the panel.
@@ -96,11 +92,10 @@ public class PainelSelecionarAluno extends JPanel {
 		add(containerListaAlunos, gbc_containerListaAlunos);
 
 		tabelaAlunos = new JTable();
-		bd = new BD();
-		if (bd.getConnection()) {
-			carregarTabela();
-		} else {
-			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+		try {
+			tabelaAlunos.setModel(dao.carregarTabelaSelecionarAluno());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão: " + e.getMessage());
 			PainelMenuCoordenador p = new PainelMenuCoordenador();
 			FramePatec.getFrame().setContentPane(p);
 			FramePatec.getFrame().revalidate();
@@ -126,12 +121,6 @@ public class PainelSelecionarAluno extends JPanel {
 		gbc_btnConfirmar.gridx = 2;
 		gbc_btnConfirmar.gridy = 4;
 		add(btnConfirmar, gbc_btnConfirmar);
-	}
-
-	private void carregarTabela() {
-		String sql = "SELECT ra, nome_aluno FROM ALUNO";
-		model = TableModelPatec.getModel(bd, sql);
-		tabelaAlunos.setModel(model);
 	}
 
 }

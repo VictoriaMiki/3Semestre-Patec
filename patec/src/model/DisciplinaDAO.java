@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import util.BD;
 import view.components.TableModelPatec;
@@ -193,16 +193,16 @@ public class DisciplinaDAO {
 	 * que foi informada e do gabarito dessa disciplina que possui a <code>dataAvaliação</code> 
 	 * mais próxima.
 	 * <p>
-	 * Este método é utilizado no PainelMenuAluno e o objeto de retorno é enviado 
-	 * como parâmetro para o PainelFolhaDeRespostas. O objeto é utilizado na correção 
-	 * automática das avaliações, pois carrega em si o gabarito referente à avaliação
-	 * que o Aluno está realizando.
+	 * Este método é utilizado no PainelMenuAluno antes do Aluno iniciar uma avaliação 
+	 * e o objeto de retorno é enviado como parâmetro para o PainelFolhaDeRespostas. 
+	 * O objeto é utilizado na correção automática das avaliações, pois carrega em si o 
+	 * gabarito referente à avaliação que o Aluno irá realizar.
 	 * 
 	 * @param disciplina - uma <code>String</code> que corresponde ao Nome da Disciplina.
 	 * @return Um <code>Map<String, Object></code> com dados da disciplina que o <code>Aluno</code> 
 	 * 			selecionou para realizar avaliação e o gabarito referente a essa avaliação.
 	 */
-	public Map<String, Object> lerDisciplina(String disciplina) {
+	public Map<String, Object> obterDadosParaAvaliacao(String disciplina) {
 		Map<String, Object> obj = new HashMap<>();
 
 		if (bd.getConnection()) {
@@ -311,18 +311,28 @@ public class DisciplinaDAO {
 		return matrizDados;
 	}
 
+	/**
+	 * Retorna o código da disciplina identificada pelo <code>nomeDisciplina</code>.
+	 * <p>
+	 * Este método é utilizado antes da gravação de objetos de classes que possuem a 
+	 * chave estrangeira <code>codigoDisciplina</code>. Nas interfaces, apenas os nomes das
+	 * Disciplina são exibidos, porém, para gravar um objeto é necessário utilizar o código da 
+	 * Disciplina. Assim, este método é utilizado.
+	 * 
+	 * @param nomeDisciplina - uma <code>String</code> que corresponde ao Nome da Disciplina.
+	 * @return Uma <code>String</code> contendo o código da disciplina informada.
+	 */
 	public String obterCodigoDisciplina (String nomeDisciplina) {
-		String codDisciplina = new String();
-		String sql = "SELECT cod_disciplina FROM DISCIPLINA\r\n"
+		String codigoDisciplina = new String();
+		String sql = "SELECT codigo_disciplina FROM DISCIPLINA "
 				+ "WHERE nome_disciplina = ?";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
 			bd.st.setString(1, nomeDisciplina);
 			bd.rs = bd.st.executeQuery();
-			int i = 0;
 			while (bd.rs.next()) {
-				codDisciplina = bd.rs.getString("cod_disciplina");
+				codigoDisciplina = bd.rs.getString("codigo_disciplina");
 			}
 			
 		} catch (Exception e) {
@@ -331,20 +341,28 @@ public class DisciplinaDAO {
 			bd.close();
 		}
 		
-		return codDisciplina;
+		return codigoDisciplina;
 	
 	}
 	
-	public String obterNomeDisciplina (String codDisciplina) {
+	/**
+	 * Retorna o nome da disciplina identificada pelo <code>codigoDisciplina</code>.
+	 * <p>
+	 * Este método é utilizado no PainelEditarGabarito para melhorar visualmente a experiência do 
+	 * usuário ao apresentar o nome da Disciplina ao invés de seu código.
+	 * 
+	 * @param codigoDisciplina - uma <code>String</code> que corresponde ao Registro da Disciplina.
+	 * @return Uma <code>String</code> contendo o nome da Disciplina informada.
+	 */
+	public String obterNomeDisciplina (String codigoDisciplina) {
 		String nomeDisciplina = new String();
-		String sql = "SELECT nome_disciplina FROM DISCIPLINA\r\n"
-				+ "WHERE cod_disciplina = ?";
+		String sql = "SELECT nome_disciplina FROM DISCIPLINA "
+				+ "WHERE codigo_disciplina = ?";
 		bd.getConnection();
 		try {
 			bd.st = bd.con.prepareStatement(sql);
-			bd.st.setString(1, codDisciplina);
+			bd.st.setString(1, codigoDisciplina);
 			bd.rs = bd.st.executeQuery();
-			int i = 0;
 			while (bd.rs.next()) {
 				nomeDisciplina = bd.rs.getString("nome_disciplina");
 			}
@@ -356,6 +374,68 @@ public class DisciplinaDAO {
 		}
 		
 		return nomeDisciplina;
-	
 	}
+	
+	/**
+	 * Carrega todos os dados da tabela <code>DISCIPLINA</code> do banco de dados.
+	 * <p>
+	 * Este método é utilizado para listar todas as Disciplinas em formato de tabela
+	 * no <code>PainelListarDisciplinas</code>.
+	 * 
+	 * @return Um <code>TableModel</code> contendo os dados de todas as Disciplinas.
+	 */
+	public TableModel carregarTabelaListarDisciplinas() {
+		DefaultTableModel model = null;
+		
+		String sql = "SELECT * FROM DISCIPLINA";
+		try {
+			if(bd.getConnection()) {
+				model = TableModelPatec.getModel(bd, sql);
+			}			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+
+		return model;
+	}
+	
+	/**
+	 * Carrega os dados referentes às avaliações da Disciplina identificada pelo <code>nomeDisciplina</code> 
+	 * que foram realizadas na data de avaliação identificada pela <code>dataAvaliacao</code>. 
+	 * <p>
+	 * Este método é utilizado para listar os dados do relatório em formato de tabela
+	 * no <code>PainelRelatorioDisciplina</code>.  
+	 * O query sql é igual ao do método <code>GerarRelatorioDisciplina</code>, porém a manipulação do dado 
+	 * é diferente.
+	 * 
+	 * @param nomeDisciplina - uma <code>String</code> que corresponde ao Nome da Disciplina.
+	 * @param dataAvaliacao - uma <code>String</code> que corresponde à Data de Realização da Avaliação.
+	 * @return Um <code>TableModel</code> contendo os dados do relatório.
+	 */
+	public TableModel carregarTabelaRelatorioDisciplina(String nomeDisciplina, String dataAvaliacao) {
+		DefaultTableModel model = null;
+		
+		String sql = "SELECT ALUNO.ra, ALUNO.nome_aluno, FOLHA_DE_RESPOSTAS.nota FROM AVALIACAO, FOLHA_DE_RESPOSTAS\r\n"
+				+ "JOIN ALUNO ON FOLHA_DE_RESPOSTAS.ra = ALUNO.ra\r\n"
+				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.codigo_gabarito\r\n"
+				+ "JOIN DISCIPLINA ON GABARITO_OFICIAL.codigo_disciplina = DISCIPLINA.codigo_disciplina\r\n"
+				+ "WHERE AVALIACAO.codigo_avaliacao = GABARITO_OFICIAL.codigo_avaliacao\r\n"
+				+ "AND DISCIPLINA.nome_disciplina = '" + nomeDisciplina + "'\r\n" + "AND AVALIACAO.data_avaliacao = '"
+				+ dataAvaliacao + "';";
+		bd.getConnection();
+		try {
+			if (bd.getConnection()) {
+				model = TableModelPatec.getModel(bd, sql);			
+			}									
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+
+		return model;
+	}
+	
 }

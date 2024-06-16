@@ -136,7 +136,7 @@ public class PainelMenuAluno extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (!cbDisciplina.getSelectedItem().toString().equals("-- selecione uma disciplina --")) {
-						Map<String, Object> obj = new HashMap<>(dDAO.lerDisciplina(cbDisciplina.getSelectedItem().toString()));
+						Map<String, Object> obj = new HashMap<>(dDAO.obterDadosParaAvaliacao(cbDisciplina.getSelectedItem().toString()));
 						System.out.println(obj);
 						if (fDAO.verificarStatus(obj, a)) {
 							JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");
@@ -255,7 +255,7 @@ public class PainelMenuAluno extends JPanel {
 				try {
 					if (!cbDisciplina.getSelectedItem().toString().equals("-- selecione uma disciplina --")) {
 						System.out.println(cbDisciplina.getSelectedItem().toString());
-						Map<String, Object> obj = dDAO.lerDisciplina(cbDisciplina.getSelectedItem().toString());
+						Map<String, Object> obj = dDAO.obterDadosParaAvaliacao(cbDisciplina.getSelectedItem().toString());
 											
 						if (fDAO.verificarStatus(obj, a)) {
 							JOptionPane.showMessageDialog(null, "Você já realizou a prova desta matéria.");

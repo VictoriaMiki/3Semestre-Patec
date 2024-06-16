@@ -274,7 +274,7 @@ public class PainelFolhaDeRespostas extends JPanel {
 					GabaritoOficialDAO goDAO = new GabaritoOficialDAO();
 					GabaritoOficial go = new GabaritoOficial();
 					
-					go = goDAO.getGabaritoParaCorrecao(fdr.getCodigoGabarito());
+					go = goDAO.obterGabaritoParaCorrecao(fdr.getCodigoGabarito());
 					
 					int nota = 0;
 					if (go.getQuestao1() == fdr.getResposta1()) {

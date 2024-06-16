@@ -19,6 +19,7 @@ import javax.swing.ListModel;
 import model.Aluno;
 import model.AlunoDisciplina;
 import model.AlunoDisciplinaDAO;
+import model.DisciplinaDAO;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
 import view.components.MenuBarCoord;
@@ -28,6 +29,7 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private AlunoDisciplina ad = new AlunoDisciplina();
     private AlunoDisciplinaDAO adDAO = new AlunoDisciplinaDAO();
+    private DisciplinaDAO dDAO = new DisciplinaDAO();
     private List<String> disciplinasNaoMatriculadas = new ArrayList<String>();
     private List<String> disciplinasMatriculadas = new ArrayList<String>();
     private JList<String> lstDisciplinasNaoMatriculadas;
@@ -286,7 +288,7 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 		        ad.setRa(a.getRa());
 		        adDAO.excluir(ad.getRa());
 		        for (int i = 0; i < disciplinasMatriculadas.size(); i++) {
-		        	ad.setCodigoDisciplina(adDAO.getCodigoDisciplinaPeloNome(disciplinasMatriculadas.get(i)));
+		        	ad.setCodigoDisciplina(dDAO.obterCodigoDisciplina(disciplinasMatriculadas.get(i)));
 		        	
 		        	adDAO.gravar(ad);
 		        }

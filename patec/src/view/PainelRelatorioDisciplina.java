@@ -18,24 +18,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 
 //import model.Aluno;
 import model.DisciplinaDAO;
-import util.BD;
 import util.GeraPlanilhaRelatorio;
 import util.ImprimirPlanilhaRelatorio;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
 import view.components.MenuBarCoord;
-import view.components.TableModelPatec;
 
 public class PainelRelatorioDisciplina extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaRelatorioAluno;
-	private DefaultTableModel model;
-	private BD bd;
 	private DisciplinaDAO dao = new DisciplinaDAO();
 
 	/**
@@ -103,11 +98,10 @@ public class PainelRelatorioDisciplina extends JPanel {
 		add(containerListaAlunos, gbc_containerListaAlunos);
 
 		tabelaRelatorioAluno = new JTable();
-		bd = new BD();
-		if (bd.getConnection()) {
-			carregarTabela(nomeDisciplina, dataAvaliacao);
-		} else {
-			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+		try {
+			tabelaRelatorioAluno.setModel(dao.carregarTabelaRelatorioDisciplina(nomeDisciplina, dataAvaliacao));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão: " + e.getMessage());
 			PainelMenuCoordenador p = new PainelMenuCoordenador();
 			FramePatec.getFrame().setContentPane(p);
 			FramePatec.getFrame().revalidate();
@@ -153,16 +147,4 @@ public class PainelRelatorioDisciplina extends JPanel {
 		add(btnImprimirRelatorioDisciplina, gbc_btnImprimirRelatorioDisciplina);
 	}
 
-	private void carregarTabela(String nomeDisciplina, String dataAvaliacao) {
-		String sql = "SELECT ALUNO.ra, ALUNO.nome_aluno, FOLHA_DE_RESPOSTAS.nota FROM AVALIACAO, FOLHA_DE_RESPOSTAS\r\n"
-				+ "JOIN ALUNO ON FOLHA_DE_RESPOSTAS.ra = ALUNO.ra\r\n"
-				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
-				+ "JOIN DISCIPLINA ON GABARITO_OFICIAL.codigo_disciplina = DISCIPLINA.cod_disciplina\r\n"
-				+ "WHERE AVALIACAO.codigo_avaliacao = GABARITO_OFICIAL.codigo_avaliacao\r\n"
-				+ "AND DISCIPLINA.nome_disciplina = '" + nomeDisciplina + "'\r\n" + "AND AVALIACAO.data_avaliacao = '"
-				+ dataAvaliacao + "';";
-		model = TableModelPatec.getModel(bd, sql);
-		tabelaRelatorioAluno.setModel(model);
-
-	}
 }

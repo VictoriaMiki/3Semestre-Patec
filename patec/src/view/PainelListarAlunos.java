@@ -15,22 +15,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 
 import model.Aluno;
 import model.AlunoDAO;
-import util.BD;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
 import view.components.MenuBarCoord;
-import view.components.TableModelPatec;
 
 public class PainelListarAlunos extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaAlunos;
-	private DefaultTableModel model;
-	private BD bd;
 	private AlunoDAO dao = new AlunoDAO();
 
 	/**
@@ -98,11 +93,10 @@ public class PainelListarAlunos extends JPanel {
 		add(containerListaAlunos, gbc_containerListaAlunos);
 
 		tabelaAlunos = new JTable();
-		bd = new BD();
-		if (bd.getConnection()) {
-			carregarTabela();
-		} else {
-			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+		try {
+			tabelaAlunos.setModel(dao.carregarTabelaListarAlunos());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão: " + e.getMessage());
 			PainelMenuCoordenador p = new PainelMenuCoordenador();
 			FramePatec.getFrame().setContentPane(p);
 			FramePatec.getFrame().revalidate();
@@ -231,12 +225,6 @@ public class PainelListarAlunos extends JPanel {
 		gbc_btnExcluir.gridx = 0;
 		gbc_btnExcluir.gridy = 7;
 		containerButtons.add(btnExcluir, gbc_btnExcluir);
-	}
-
-	private void carregarTabela() {
-		String sql = "SELECT * FROM ALUNO";
-		model = TableModelPatec.getModel(bd, sql);
-		tabelaAlunos.setModel(model);
 	}
 
 }
