@@ -22,8 +22,10 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import util.BD;
 import model.Aluno;
+import model.AlunoDAO;
+import util.BD;
+import util.LoginCoordenador;
 
 public class PainelLogin extends JPanel {
 
@@ -33,6 +35,7 @@ public class PainelLogin extends JPanel {
 	private JPasswordField pfSenha;
 	private BD bd;
 	private Aluno a = null;
+	private AlunoDAO dao = new AlunoDAO();
 
 	/**
 	 * Create the panel.
@@ -136,19 +139,20 @@ public class PainelLogin extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					String usuario = tfUsuario.getText();
 					String senha = new String(pfSenha.getPassword());
+					a = dao.realizarLogin(usuario, senha);
 
 					if (usuario.isEmpty() || senha.isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
 								JOptionPane.WARNING_MESSAGE);
 					} else if (tfUsuario.getText().contentEquals("coordenador")
-							&& senhaValida(false, pfSenha.getPassword())) {
+							&& LoginCoordenador.realizarLoginCoordenador(pfSenha.getPassword())) {
 						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuCoordenador p = new PainelMenuCoordenador();
 						FramePatec.frame.setTitle("Patec - Administrador");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
-					} else if (validarSenha(usuario, senha)) {
+					} else if (a != null) {
 						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuAluno p = new PainelMenuAluno(a);
 						FramePatec.frame.setTitle("Patec");
@@ -183,19 +187,20 @@ public class PainelLogin extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					String usuario = tfUsuario.getText();
 					String senha = new String(pfSenha.getPassword());
+					a = dao.realizarLogin(usuario, senha);
 
 					if (usuario.isEmpty() || senha.isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
 								JOptionPane.WARNING_MESSAGE);
 					} else if (tfUsuario.getText().contentEquals("coordenador")
-							&& senhaValida(false, pfSenha.getPassword())) {
+							&& LoginCoordenador.realizarLoginCoordenador(pfSenha.getPassword())) {
 						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuCoordenador p = new PainelMenuCoordenador();
 						FramePatec.frame.setTitle("Patec - Administrador");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
-					} else if (validarSenha(usuario, senha)) {
+					} else if (a != null) {
 						Arrays.fill(pfSenha.getPassword(), '0');
 						PainelMenuAluno p = new PainelMenuAluno(a);
 						FramePatec.frame.setTitle("Patec");
@@ -221,19 +226,20 @@ public class PainelLogin extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String usuario = tfUsuario.getText();
 				String senha = new String(pfSenha.getPassword());
+				a = dao.realizarLogin(usuario, senha);
 
 				if (usuario.isEmpty() || senha.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
 							JOptionPane.WARNING_MESSAGE);
 				} else if (tfUsuario.getText().contentEquals("coordenador")
-						&& senhaValida(false, pfSenha.getPassword())) {
+						&& LoginCoordenador.realizarLoginCoordenador(pfSenha.getPassword())) {
 					Arrays.fill(pfSenha.getPassword(), '0');
 					PainelMenuCoordenador p = new PainelMenuCoordenador();
 					FramePatec.frame.setTitle("Patec - Administrador");
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();
-				} else if (validarSenha(usuario, senha)) {
+				} else if (a != null) {
 					Arrays.fill(pfSenha.getPassword(), '0');
 					PainelMenuAluno p = new PainelMenuAluno(a);
 					FramePatec.frame.setTitle("Patec");
@@ -253,72 +259,5 @@ public class PainelLogin extends JPanel {
 		gbc_btnEntrar.gridy = 5;
 		loginContainer.add(btnEntrar, gbc_btnEntrar);
 
-	}
-
-	private boolean validarSenha(String cpf, String dataNascimento) {
-		bd = new BD();
-		String dia = new String();
-		String mes = new String();
-		String ano = new String();
-		boolean correto = true;
-
-		for (int i = 0; i < dataNascimento.length(); i++) {
-			if (i < 2) {
-				dia += dataNascimento.charAt(i);
-			} else if (i < 4) {
-				mes += dataNascimento.charAt(i);
-			} else {
-				ano += dataNascimento.charAt(i);
-			}
-		}
-
-		String dataFormatada = new String();
-		dataFormatada = dia + "-" + mes + "-" + ano;
-
-		String sql = "SET DATEFORMAT 'DMY'; SELECT * FROM ALUNO WHERE cpf = ? AND data_nascimento = ?;";
-		bd.getConnection();
-		try {
-			bd.st = bd.con.prepareStatement(sql);
-			bd.st.setString(1, cpf);
-			bd.st.setString(2, dataFormatada);
-			bd.rs = bd.st.executeQuery();
-			if (bd.rs.next()) {
-				a = new Aluno(bd.rs.getString("ra"), bd.rs.getString("cpf"), bd.rs.getString("nome_aluno"),
-						bd.rs.getString("data_nascimento"));
-			} else {
-				correto = false;
-			}
-
-		} catch (Exception e) {
-			correto = false;
-		} finally {
-			bd.close();
-		}
-		return correto;
-	}
-
-	private static boolean senhaValida(boolean isAluno, char[] input) {
-		boolean correto = true;
-		char[] senhaCoord = { 'a', 'd', 'm', 'i', 'n' };
-		char[] senhaAluno = { 'a', 'l', 'u', 'n', 'o' };
-
-		if (isAluno == false) {
-			if (input.length != senhaCoord.length) {
-				correto = false;
-			} else {
-				correto = Arrays.equals(input, senhaCoord);
-			}
-		} else {
-			if (input.length != senhaAluno.length) {
-				correto = false;
-			} else {
-				correto = Arrays.equals(input, senhaAluno);
-			}
-		}
-
-		Arrays.fill(senhaCoord, '0');
-		Arrays.fill(senhaAluno, '0');
-
-		return correto;
 	}
 }
