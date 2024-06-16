@@ -82,7 +82,7 @@ public class AlunoDAO {
 	}
 
 	/**
-	 * Exclui o registro da tabela Aluno do banco de dados identificado pelo 
+	 * Exclui o registro da tabela Aluno do banco de dados identificado pelo
 	 * <code>ra</code>.
 	 * 
 	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
@@ -108,6 +108,58 @@ public class AlunoDAO {
 			bd.close();
 		}
 		return men;
+	}
+
+	/**
+	 * Obtém os dados do aluno com base nos valores inseridos na tela de log-in.
+	 * Caso a consulta não retorne nenhum registro, o método retornará uma instância
+	 * de <code>Aluno</code>, cujo valor é <code>null</code>, impedindo o acesso ao
+	 * sistema.
+	 * 
+	 * @param cpf            - uma <code>String</code>, que corresponde ao cpf do
+	 *                       aluno.
+	 * @param dataNascimento - uma <code>String</code>, que corresponde à data de
+	 *                       nascimento do aluno.
+	 * @return Uma instância de <code>Aluno</code>, contendo os dados obtidos na
+	 *         consulta, ou <code>null</code>, caso a consulta não retorne nenhum
+	 *         registro.
+	 */
+	public Aluno realizarLogin(String cpf, String dataNascimento) {
+		bd = new BD();
+		String dia = new String();
+		String mes = new String();
+		String ano = new String();
+		Aluno a = null;
+
+		for (int i = 0; i < dataNascimento.length(); i++) {
+			if (i < 2) {
+				dia += dataNascimento.charAt(i);
+			} else if (i < 4) {
+				mes += dataNascimento.charAt(i);
+			} else {
+				ano += dataNascimento.charAt(i);
+			}
+		}
+
+		String dataFormatada = new String();
+		dataFormatada = dia + "-" + mes + "-" + ano;
+
+		String sql = "SET DATEFORMAT 'DMY'; SELECT * FROM ALUNO WHERE cpf = ? AND data_nascimento = ?;";
+		bd.getConnection();
+		try {
+			bd.st = bd.con.prepareStatement(sql);
+			bd.st.setString(1, cpf);
+			bd.st.setString(2, dataFormatada);
+			bd.rs = bd.st.executeQuery();
+			if (bd.rs.next()) {
+				a = new Aluno(bd.rs.getString("ra"), bd.rs.getString("cpf"), bd.rs.getString("nome_aluno"),
+						bd.rs.getString("data_nascimento"));
+			}
+		} catch (Exception e) {
+		} finally {
+			bd.close();
+		}
+		return a;
 	}
 
 	/**
@@ -145,16 +197,21 @@ public class AlunoDAO {
 	}
 
 	/**
-	 * Retorna os dados referentes às avaliações realizadas pelo Aluno identificado 
-	 * pelo <code>ra</code> e na data de avaliação identificada pela <code>dataAvaliacao</code>.
+	 * Retorna os dados referentes às avaliações realizadas pelo Aluno identificado
+	 * pelo <code>ra</code> e na data de avaliação identificada pela
+	 * <code>dataAvaliacao</code>.
 	 * <p>
 	 * Este método é utilizado para geração do relatório pelo Aluno.
 	 * 
-	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
-	 * @param dataAvaliacao - uma <code>String</code> que corresponde à Data de Realização da Avaliação.
-	 * @return Um <code>Map<Integer, Object></code> com dados das <code>Folhas de Respostas</code> que foram preenchidas
-	 * 			pelo Aluno informado na data informada. Dados: codigoDisciplina, nomeDisciplina, respostas 
-	 * 			preenchidase a nota obtida em cada avaliação que o Aluno realizou.
+	 * @param ra            - uma <code>String</code> que corresponde ao Registro do
+	 *                      Aluno.
+	 * @param dataAvaliacao - uma <code>String</code> que corresponde à Data de
+	 *                      Realização da Avaliação.
+	 * @return Um <code>Map<Integer, Object></code> com dados das
+	 *         <code>Folhas de Respostas</code> que foram preenchidas pelo Aluno
+	 *         informado na data informada. Dados: codigoDisciplina, nomeDisciplina,
+	 *         respostas preenchidase a nota obtida em cada avaliação que o Aluno
+	 *         realizou.
 	 */
 	public Map<Integer, Object> GerarRelatorioAluno(String ra, String dataAvaliacao) {
 		BD bd = new BD();
