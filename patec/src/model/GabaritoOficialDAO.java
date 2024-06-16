@@ -62,8 +62,8 @@ public class GabaritoOficialDAO {
 	}
 
 	/**
-	 * Atualiza os dados contidos na instância da classe <code>GabaritoOficial</code> 
-	 * no banco de dados identificado pelo <code>codigoGabarito</code>.
+	 * Edita um registro da tabela Gabarito_Oficial do banco de dados, utilizando os
+	 * dados inseridos na instância de <code>GabaritoOficial</code>.
 	 * 
 	 * @param go - a instância da classe <code>GabaritoOficial</code>.
 	 * @return Uma <code>String</code> que informa se a operação de edição foi
@@ -134,7 +134,7 @@ public class GabaritoOficialDAO {
 	/**
 	 * Obtém os dados da instância de GabaritoOficial identificada pelo <code>codigoGabarito</code> fornecido.
 	 * <p>
-	 * Este método é utilizado no momento da correção automética. Através do código, o método retorna 
+	 * Este método é utilizado no momento da correção automática. Através do código, o método retorna 
 	 * o gabarito correspondente à avaliação que o Aluno realizou e por meio disto é possível realizar
 	 * sua correção.
 	 * 
