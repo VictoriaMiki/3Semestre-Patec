@@ -190,16 +190,28 @@ public class PainelCadastroDisciplina extends JPanel {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				d.setCodigoDisciplina(tfCodDisciplina.getText());
-				d.setNomeDisciplina(tfNomeDisciplina.getText());
-				d.setSemestreDisciplina(Integer.parseInt(cbSemestre.getSelectedItem().toString()));
-				DisciplinaDAO dao = new DisciplinaDAO();
-				dao.gravar(d);
-				JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!", "Cadastro concluído", JOptionPane.INFORMATION_MESSAGE);
-				PainelListarDisciplinas p = new PainelListarDisciplinas();
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				if (tfCodDisciplina.getText().trim().isEmpty() || tfNomeDisciplina.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.");
+				} else if (tfCodDisciplina.getText().length() != 6 || 
+						!Character.isLetter(tfCodDisciplina.getText().charAt(0)) ||
+						!Character.isLetter(tfCodDisciplina.getText().charAt(1)) ||
+						!Character.isLetter(tfCodDisciplina.getText().charAt(2)) ||
+						!Character.isDigit(tfCodDisciplina.getText().charAt(3)) ||
+						!Character.isDigit(tfCodDisciplina.getText().charAt(4)) ||
+						!Character.isDigit(tfCodDisciplina.getText().charAt(5))) {
+					JOptionPane.showMessageDialog(null, "Código de disciplina inválido! (Formato necessário: XXX000; Exemplo: MET100)");
+				} else {
+					d.setCodigoDisciplina(tfCodDisciplina.getText().toUpperCase());
+					d.setNomeDisciplina(tfNomeDisciplina.getText());
+					d.setSemestreDisciplina(Integer.parseInt(cbSemestre.getSelectedItem().toString()));
+					DisciplinaDAO dao = new DisciplinaDAO();
+					dao.gravar(d);
+					JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!", "Cadastro concluído", JOptionPane.INFORMATION_MESSAGE);
+					PainelListarDisciplinas p = new PainelListarDisciplinas();
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}				
 			}
 		});
 		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();

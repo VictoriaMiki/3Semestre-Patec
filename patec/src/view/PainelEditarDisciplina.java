@@ -192,15 +192,19 @@ public class PainelEditarDisciplina extends JPanel {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				d.setCodigoDisciplina(tfCodDisciplina.getText());
-				d.setNomeDisciplina(tfNomeDisciplina.getText());
-				d.setSemestreDisciplina(Integer.parseInt(cbSemestre.getSelectedItem().toString()));
-				DisciplinaDAO dao = new DisciplinaDAO();
-				JOptionPane.showMessageDialog(null, dao.gravar(d), "Edição concluída", JOptionPane.INFORMATION_MESSAGE);
-				PainelListarDisciplinas p = new PainelListarDisciplinas();
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				if (tfNomeDisciplina.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.");
+				} else {
+					d.setCodigoDisciplina(tfCodDisciplina.getText());
+					d.setNomeDisciplina(tfNomeDisciplina.getText());
+					d.setSemestreDisciplina(Integer.parseInt(cbSemestre.getSelectedItem().toString()));
+					DisciplinaDAO dao = new DisciplinaDAO();
+					JOptionPane.showMessageDialog(null, dao.gravar(d), "Edição concluída", JOptionPane.INFORMATION_MESSAGE);
+					PainelListarDisciplinas p = new PainelListarDisciplinas();
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
