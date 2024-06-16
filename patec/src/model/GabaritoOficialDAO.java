@@ -20,13 +20,12 @@ public class GabaritoOficialDAO {
 	 * <code>GabaritoOficial</code> no banco de dados.
 	 * <p>
 	 * Caso os dados não existam no banco de dados, será criado um novo registro
-	 * contendo eles; Caso existam, os dados serão atualizados tendo como base o
-	 * registro cujo identificador está contido no atributo
-	 * <code>codigoGabarito</code>.
+	 * contendo eles. Caso existam, uma mensagem notificando que a adição não foi
+	 * bem-sucedida será retornada.
 	 * 
 	 * @param go - a instância da classe <code>GabaritoOficial</code>.
-	 * @return Uma <code>String</code> que informa se a operação de
-	 *         inserção/alteração foi bem-sucedida ou não.
+	 * @return Uma <code>String</code> que informa se a operação de inserção foi
+	 *         bem-sucedida ou não.
 	 */
 	public String gravar(GabaritoOficial go) {
 		sql = "INSERT INTO GABARITO_OFICIAL VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -52,6 +51,14 @@ public class GabaritoOficialDAO {
 		return men;
 	}
 
+	/**
+	 * Edita um registro da tabela Gabarito_Oficial do banco de dados, utilizando os
+	 * dados inseridos na instância de <code>GabaritoOficial</code>.
+	 * 
+	 * @param go - a instância da classe <code>GabaritoOficial</code>.
+	 * @return Uma <code>String</code> que informa se a operação de alteração foi
+	 *         bem-sucedida ou não.
+	 */
 	public String editar(GabaritoOficial go) {
 		sql = "UPDATE GABARITO_OFICIAL SET questao_1 = ?, questao_2 = ?, questao_3 = ?, questao_4 = ?, questao_5 = ?, codigo_disciplina = ?, codigo_avaliacao = ?  WHERE cod_gabarito = ?";
 		bd.getConnection();
@@ -83,9 +90,13 @@ public class GabaritoOficialDAO {
 	}
 
 	/**
+	 * Exclui o registro da tabela Gabarito_Oficial do banco de dados identificado
+	 * pelo <code>codGabarito</code>.
 	 * 
-	 * @param codGabarito
-	 * @return
+	 * @param codGabarito - um valor do tipo <code>int</code>, que corresponde ao
+	 *                    código do gabarito oficial.
+	 * @return Uma <code>String</code> que informa se a operação de exclusão foi
+	 *         bem-sucedida ou não.
 	 */
 	public String excluir(Object codGabarito) {
 		sql = "DELETE FROM GABARITO_OFICIAL WHERE cod_gabarito = ?";
@@ -108,6 +119,15 @@ public class GabaritoOficialDAO {
 		return men;
 	}
 
+	/**
+	 * Recupera um registro da tabela Gabarito_Oficial, a fim de utilizá-lo para
+	 * comparar as alternativas assinaladas pelo aluno, e as alternativas corretas
+	 * segundo o gabarito.
+	 * 
+	 * @param codGabarito - um valor do tipo <code>int</code>, que corresponde ao
+	 *                    código do gabarito oficial.
+	 * @return Uma instância de <code>GabaritoOficial</code>.
+	 */
 	public GabaritoOficial getGabaritoParaCorrecao(int codGabarito) {
 		sql = "SELECT * FROM GABARITO_OFICIAL WHERE cod_gabarito = ?";
 		GabaritoOficial go = null;
