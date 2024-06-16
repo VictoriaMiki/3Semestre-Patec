@@ -327,6 +327,8 @@ public class PainelEditarGabarito extends JPanel {
 						|| !Character.isAlphabetic(bgo.go.getQuestao4())
 						|| !Character.isAlphabetic(bgo.go.getQuestao5())) {
 					JOptionPane.showMessageDialog(null, "Há questões sem alternativas válidas.");
+				} else if (tfCodAvaliacao.getText().trim().isEmpty() || cbDisciplina.getSelectedItem() == cbDisciplina.getItemAt(0)) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.");
 				} else {
 					JOptionPane.showMessageDialog(null,
 							gabaritoOficialDao.editar(new GabaritoOficial(go.getCodigoGabarito(), bgo.go.getQuestao1(),

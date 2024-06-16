@@ -207,7 +207,7 @@ public class PainelCadastroGabarito extends JPanel {
 						|| !Character.isAlphabetic(bgo.go.getQuestao4())
 						|| !Character.isAlphabetic(bgo.go.getQuestao5())) {
 					JOptionPane.showMessageDialog(null, "Há questões sem alternativas válidas.");
-				} else if (tfCodAvaliacao == null || cbDisciplina.getSelectedItem() == cbDisciplina.getItemAt(0)) {
+				} else if (tfCodAvaliacao.getText().trim().isEmpty() || cbDisciplina.getSelectedItem() == cbDisciplina.getItemAt(0)) {
 					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.");
 				} else {
 					gabaritoOficialDao.gravar(new GabaritoOficial(-1, bgo.go.getQuestao1(), bgo.go.getQuestao2(),
