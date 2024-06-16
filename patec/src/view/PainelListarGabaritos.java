@@ -12,23 +12,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 
 import model.GabaritoOficial;
 import model.GabaritoOficialDAO;
-import util.BD;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
 import view.components.MenuBarCoord;
-import view.components.TableModelPatec;
 
 public class PainelListarGabaritos extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaGabaritos;
-	private DefaultTableModel model;
 	private GabaritoOficialDAO dao = new GabaritoOficialDAO();
-	private BD bd;
 
 	/**
 	 * Create the panel.
@@ -75,11 +70,10 @@ public class PainelListarGabaritos extends JPanel {
 		add(containerListaGabaritos, gbc_containerListaGabaritos);
 
 		tabelaGabaritos = new JTable();
-		bd = new BD();
-		if (bd.getConnection()) {
-			carregarTabela();
-		} else {
-			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+		try {
+			tabelaGabaritos.setModel(dao.carregarTabela());
+		} catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Falha na Conexão: " + e.getMessage());
 			PainelMenuCoordenador p = new PainelMenuCoordenador();
 			FramePatec.getFrame().setContentPane(p);
 			FramePatec.getFrame().revalidate();
@@ -178,9 +172,4 @@ public class PainelListarGabaritos extends JPanel {
 		panel.add(btnExcluir, gbc_btnExcluir);
 	}
 
-	private void carregarTabela() {
-		String sql = "SELECT * FROM GABARITO_OFICIAL";
-		model = TableModelPatec.getModel(bd, sql);
-		tabelaGabaritos.setModel(model);
-	}
 }

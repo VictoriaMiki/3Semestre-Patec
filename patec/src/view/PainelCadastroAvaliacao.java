@@ -30,7 +30,7 @@ public class PainelCadastroAvaliacao extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JComboBox<String> cbTipoAvaliacao;
-	private String[] tipoAvaliacao = {"1°BIM - SÁBADO", "2°BIM - SÁBADO", "1°BIM - SEGUNDA-FEIRA", "2°BIM - SEGUNDA-FEIRA", "FINAL"};
+	private String[] tipoAvaliacao = {"1°BIM - SÁBADO", "2°BIM - SÁBADO", "1°BIM - SEGUNDA-FEIRA", "2°BIM - SEGUNDA-FEIRA", "1°BIM - SUB", "2°BIM - SUB"};
 	Avaliacao a = new Avaliacao();
 	
 	/**

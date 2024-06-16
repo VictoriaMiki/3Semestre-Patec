@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import util.BD;
+import view.components.TableModelPatec;
 
 /**
  * Classe DAO (Data Access Object) responsável por trocar informações com o SGBD
@@ -245,6 +249,92 @@ public class AlunoDAO {
 		}
 
 		return matrizDados;
+	}
+	
+	/**
+	 * Carrega todos os dados da tabela <code>ALUNO</code> do banco de dados.
+	 * <p>
+	 * Este método é utilizado para listar todos os Alunos em formato de tabela
+	 * no <code>PainelListarAlunos</code>.
+	 * 
+	 * @return Um <code>TableModel</code> contendo os dados de todos os Alunos.
+	 */
+	public TableModel carregarTabelaListarAlunos() {
+		DefaultTableModel model = null;
+		
+		String sql = "SELECT * FROM ALUNO";
+		try {
+			if(bd.getConnection()) {
+				model = TableModelPatec.getModel(bd, sql);
+			}			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+
+		return model;
+	}
+
+	/**
+	 * Carrega o ra e o nome_aluno da tabela <code>ALUNO</code> do banco de dados.
+	 * <p>
+	 * Este método é utilizado para listar os Alunos em formato de tabela no <code>PainelSelecionarAluno</code> 
+	 * permitindo que o usuário selecione o aluno referente ao relatório que deseja gerar.
+	 * 
+	 * @return Um <code>TableModel</code> contendo o ra e o nome de todos os Alunos.
+	 */
+	public TableModel carregarTabelaSelecionarAluno() {
+		DefaultTableModel model = null;
+		
+		String sql = "SELECT ra, nome_aluno FROM ALUNO";
+		try {
+			if(bd.getConnection()) {
+				model = TableModelPatec.getModel(bd, sql);
+			}			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+
+		return model;
+	}
+	
+	/**
+	 * Carrega os dados referentes às avaliações realizadas pelo Aluno identificado 
+	 * pelo <code>ra</code> e na data de avaliação identificada pela <code>dataAvaliacao</code>.
+	 * <p>
+	 * Este método é utilizado para listar os dados do relatório em formato de tabela
+	 * no <code>PainelRelatorioAluno</code>.  
+	 * O query sql é igual ao do método <code>GerarRelatorioAluno</code>, porém a manipulação do dado 
+	 * é diferente.
+	 * 
+	 * @param ra - uma <code>String</code> que corresponde ao Registro do Aluno.
+	 * @param dataAvaliacao - uma <code>String</code> que corresponde à Data de Realização da Avaliação.
+	 * @return Um <code>TableModel</code> contendo os dados do relatório.
+	 */
+	public TableModel carregarTabelaRelatorioAluno(String ra, String dataAvaliacao) {
+		DefaultTableModel model = null;
+		
+		String sql = "SET DATEFORMAT 'DMY';\r\n"
+				+ "SELECT GABARITO_OFICIAL.codigo_disciplina, DISCIPLINA.nome_disciplina, FOLHA_DE_RESPOSTAS.resposta_1, FOLHA_DE_RESPOSTAS.resposta_2, FOLHA_DE_RESPOSTAS.resposta_3, FOLHA_DE_RESPOSTAS.resposta_4, FOLHA_DE_RESPOSTAS.resposta_5, FOLHA_DE_RESPOSTAS.nota FROM DISCIPLINA, FOLHA_DE_RESPOSTAS\r\n"
+				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.codigo_gabarito\r\n"
+				+ "JOIN AVALIACAO ON GABARITO_OFICIAL.codigo_avaliacao = AVALIACAO.codigo_avaliacao\r\n"
+				+ "WHERE DISCIPLINA.codigo_disciplina = GABARITO_OFICIAL.codigo_disciplina\r\n"
+				+ "AND FOLHA_DE_RESPOSTAS.ra = " + ra + " AND AVALIACAO.data_avaliacao = '" + dataAvaliacao + "';";
+		bd.getConnection();
+		try {
+			if (bd.getConnection()) {
+				model = TableModelPatec.getModel(bd, sql);			
+			}									
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			bd.close();
+		}
+
+		return model;
 	}
 
 }

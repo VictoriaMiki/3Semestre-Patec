@@ -21,24 +21,19 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 
 import model.Aluno;
 import model.AlunoDAO;
-import util.BD;
 import util.GeraPlanilhaRelatorio;
 import util.ImprimirPlanilhaRelatorio;
 import view.components.BtnSair;
 import view.components.BtnVoltar;
 import view.components.MenuBarCoord;
-import view.components.TableModelPatec;
 
 public class PainelRelatorioAluno extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tabelaRelatorioAluno;
-	private DefaultTableModel model;
-	private BD bd;
 	private AlunoDAO dao = new AlunoDAO();
 
 	/**
@@ -149,11 +144,10 @@ public class PainelRelatorioAluno extends JPanel {
 		add(containerListaAlunos, gbc_containerListaAlunos);
 
 		tabelaRelatorioAluno = new JTable();
-		bd = new BD();
-		if (bd.getConnection()) {
-			carregarTabela(a.getRa(), dataAvaliacao);
-		} else {
-			JOptionPane.showMessageDialog(null, "Falha na Conexão");
+		try {
+			tabelaRelatorioAluno.setModel(dao.carregarTabelaRelatorioAluno(a.getRa(), dataAvaliacao));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha na Conexão: " + e.getMessage());
 			PainelMenuCoordenador p = new PainelMenuCoordenador();
 			FramePatec.getFrame().setContentPane(p);
 			FramePatec.getFrame().revalidate();
@@ -199,15 +193,4 @@ public class PainelRelatorioAluno extends JPanel {
 		add(btnImprimirRelatorioAluno, gbc_btnImprimirRelatorioAluno);
 	}
 
-	private void carregarTabela(String ra, String dataAvaliacao) {
-		String sql = "SET DATEFORMAT 'DMY';\r\n"
-				+ "SELECT GABARITO_OFICIAL.codigo_disciplina, DISCIPLINA.nome_disciplina, FOLHA_DE_RESPOSTAS.resposta_1, FOLHA_DE_RESPOSTAS.resposta_2, FOLHA_DE_RESPOSTAS.resposta_3, FOLHA_DE_RESPOSTAS.resposta_4, FOLHA_DE_RESPOSTAS.resposta_5, FOLHA_DE_RESPOSTAS.nota FROM DISCIPLINA, FOLHA_DE_RESPOSTAS\r\n"
-				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.cod_gabarito\r\n"
-				+ "JOIN AVALIACAO ON GABARITO_OFICIAL.codigo_avaliacao = AVALIACAO.codigo_avaliacao\r\n"
-				+ "WHERE DISCIPLINA.cod_disciplina = GABARITO_OFICIAL.codigo_disciplina\r\n"
-				+ "AND FOLHA_DE_RESPOSTAS.ra = " + ra + " AND AVALIACAO.data_avaliacao = '" + dataAvaliacao + "';";
-		model = TableModelPatec.getModel(bd, sql);
-		tabelaRelatorioAluno.setModel(model);
-
-	}
 }

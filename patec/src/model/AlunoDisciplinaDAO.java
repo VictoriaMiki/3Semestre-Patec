@@ -158,40 +158,5 @@ public class AlunoDisciplinaDAO {
 		}
 		return listaDisciplinas;
 	}
-	
-	/**
-	 * Retorna o código da disciplina identificado pelo <code>nome</code> da disciplina. 
-	 * <p>
-	 * Este método é utilizado antes da gravação de um objeto de <code>AlunoDisciplina</code>, 
-	 * pois a gravação é realizada pelo código e não o nome.
-	 * 
-	 * @param nome - uma <code>String</code> que corresponde ao Nome da Disciplina.
-	 * @return Uma <code>String</code> contendo o código da disciplina informada.
-	 */
-	public String getCodigoDisciplinaPeloNome(String nome) {
-		String codigo = "";
-		String sql = "SELECT D.codigo_disciplina " 
-				+ "FROM DISCIPLINA D "
-				+ "WHERE D.nome_disciplina = ?";
-		if (bd.getConnection()) {
-
-			try {
-				bd.st = bd.con.prepareStatement(sql);
-				bd.st.setString(1, nome);
-				bd.rs = bd.st.executeQuery();
-
-				while (bd.rs.next()) {
-					codigo = bd.rs.getString("codigo_disciplina");
-				}
-			} catch (SQLException e) {
-				System.out.println(e);
-			} finally {
-				bd.close();
-			}
-		} else {
-			System.out.println("Falha na conexão.");
-		}
-		return codigo;
-	}
-	
+		
 }

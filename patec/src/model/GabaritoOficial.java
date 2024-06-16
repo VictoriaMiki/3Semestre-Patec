@@ -19,8 +19,8 @@ public class GabaritoOficial {
 	private int codigoAvaliacao;
 
 	/**
-	 * Cria uma nova instância de <code>GabaritoOficial</code>, sem nenhum valor
-	 * inicial atribuído aos atributos da instância.
+	 * Cria uma nova instância de <code>GabaritoOficial</code>, sem nenhum valor inicial
+	 * atribuído aos atributos da instância.
 	 */
 	public GabaritoOficial() {
 	};
@@ -70,7 +70,7 @@ public class GabaritoOficial {
 	}
 
 	/**
-	 * Define o valor do atributo <code>cquestao1</code>.
+	 * Define o valor do atributo <code>codigoGabarito</code>.
 	 * 
 	 * @param codigoGabarito - um valor do tipo <code>int</code>, que corresponde ao
 	 *                       código do gabarito oficial.
@@ -89,10 +89,10 @@ public class GabaritoOficial {
 	}
 
 	/**
-	 * Define o valor do atributo <code>questao2</code>.
+	 * Define o valor do atributo <code>questao1</code>.
 	 * 
-	 * @param questao1 - um valor do tipo <code>char</code>, que corresponde à
-	 *                 alternativa correta da primeira questão.
+	 * @param questao1 - um valor do tipo <code>char</code>, que corresponde à alternativa correta da
+	 * primeira questão.
 	 */
 	public void setQuestao1(char questao1) {
 		this.questao1 = questao1;
@@ -108,10 +108,10 @@ public class GabaritoOficial {
 	}
 
 	/**
-	 * Define o valor do atributo <code>questao3</code>.
+	 * Define o valor do atributo <code>questao2</code>.
 	 * 
-	 * @param questao2 - um valor do tipo <code>char</code>, que corresponde à
-	 *                 alternativa correta da segunda questão.
+	 * @param questao2 - um valor do tipo <code>char</code>, que corresponde à alternativa correta da
+	 * segunda questão.
 	 */
 	public void setQuestao2(char questao2) {
 		this.questao2 = questao2;
@@ -127,10 +127,10 @@ public class GabaritoOficial {
 	}
 
 	/**
-	 * Define o valor do atributo <code>questao4</code>.
+	 * Define o valor do atributo <code>questao3</code>.
 	 * 
-	 * @param questao3 - um valor do tipo <code>char</code>, que corresponde à
-	 *                 alternativa correta da terceira questão.
+	 * @param questao3 - um valor do tipo <code>char</code>, que corresponde à alternativa correta da
+	 * terceira questão.
 	 */
 	public void setQuestao3(char questao3) {
 		this.questao3 = questao3;
@@ -148,8 +148,8 @@ public class GabaritoOficial {
 	/**
 	 * Define o valor do atributo <code>questao4</code>.
 	 * 
-	 * @param questao4 - um valor do tipo <code>char</code>, que corresponde à
-	 *                 alternativa correta da quarta questão.
+	 * @param questao4 - um valor do tipo <code>char</code>, que corresponde à alternativa correta da
+	 * quarta questão.
 	 */
 	public void setQuestao4(char questao4) {
 		this.questao4 = questao4;
@@ -167,8 +167,8 @@ public class GabaritoOficial {
 	/**
 	 * Define o valor do atributo <code>questao5</code>.
 	 * 
-	 * @param questao5 - um valor do tipo <code>char</code>, que corresponde à
-	 *                 alternativa correta da quinta questão.
+	 * @param questao5 - um valor do tipo <code>char</code>, que corresponde à alternativa correta da
+	 * quinta questão.
 	 */
 	public void setQuestao5(char questao5) {
 		this.questao5 = questao5;
@@ -197,7 +197,7 @@ public class GabaritoOficial {
 	/**
 	 * Recupera o valor atribuído ao atributo <code>codigoAvaliacao</code>.
 	 * 
-	 * @returnO valor do atributo <code>codigoAvaliacao</code>.
+	 * @return O valor do atributo <code>codigoAvaliacao</code>.
 	 */
 	public int getCodigoAvaliacao() {
 		return codigoAvaliacao;
