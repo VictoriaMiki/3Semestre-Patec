@@ -202,7 +202,7 @@ public class DisciplinaDAO {
 	 * 
 	 * @param disciplina - uma <code>String</code> que corresponde ao Nome da
 	 *                   Disciplina.
-	 * @return Um <code>Map<String, Object></code> com dados da disciplina que o
+	 * @return Um {@code Map<String, Object>} com dados da disciplina que o
 	 *         <code>Aluno</code> selecionou para realizar avaliação e o gabarito
 	 *         referente a essa avaliação.
 	 */
@@ -281,7 +281,7 @@ public class DisciplinaDAO {
 	 *                       Disciplina.
 	 * @param dataAvaliacao  - uma <code>String</code> que corresponde à Data de
 	 *                       Realização da Avaliação.
-	 * @return Um <code>Map<Integer, Object></code> com dados dos
+	 * @return Um {@code Map<String, Object>} com dados dos
 	 *         <code>Alunos</code> que realizaram a avaliação da disciplina na data
 	 *         informada. Dados: ra, nome e a nota obtida em cada avaliação que
 	 *         realizou.

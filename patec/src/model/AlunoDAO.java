@@ -207,7 +207,7 @@ public class AlunoDAO {
 	 *                      Aluno.
 	 * @param dataAvaliacao - uma <code>String</code> que corresponde à Data de
 	 *                      Realização da Avaliação.
-	 * @return Um <code>Map<Integer, Object></code> com dados das
+	 * @return Um {@code Map<Integer, Object>} com dados das
 	 *         <code>Folhas de Respostas</code> que foram preenchidas pelo Aluno
 	 *         informado na data informada. Dados: codigoDisciplina, nomeDisciplina,
 	 *         respostas preenchidase a nota obtida em cada avaliação que o Aluno

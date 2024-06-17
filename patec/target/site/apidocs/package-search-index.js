@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"patec","l":"model"},{"m":"patec","l":"util"},{"m":"patec","l":"view"},{"m":"patec","l":"view.components"}];updateSearchResults();
