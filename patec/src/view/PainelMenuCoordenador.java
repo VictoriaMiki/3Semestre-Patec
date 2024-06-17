@@ -89,11 +89,16 @@ public class PainelMenuCoordenador extends JPanel {
 		lblListarGabarito.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PainelListarGabaritos p = new PainelListarGabaritos();
-				FramePatec.getFrame().setTitle("Patec - Listar Gabaritos");
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				try {
+					PainelListarGabaritos p = new PainelListarGabaritos();
+					FramePatec.getFrame().setTitle("Patec - Listar Gabaritos");
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				} catch (Exception e1) {
+					
+				}
+
 			}
 
 			@Override

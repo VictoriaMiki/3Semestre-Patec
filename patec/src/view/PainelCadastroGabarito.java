@@ -16,7 +16,7 @@ public class PainelCadastroGabarito extends JPanel {
 	private JTextField tfCodAvaliacao;
 	private List<String> disciplinas = new ArrayList<String>();
 	private DisciplinaDAO disciplinaDao = new DisciplinaDAO();
-	//private GabaritoOficial go = new GabaritoOficial();
+	// private GabaritoOficial go = new GabaritoOficial();
 	private GabaritoOficialDAO gabaritoOficialDao = new GabaritoOficialDAO();
 
 	/**
@@ -183,7 +183,7 @@ public class PainelCadastroGabarito extends JPanel {
 		gbc_bgo.gridx = 1;
 		gbc_bgo.gridy = 6;
 		containerGabarito.add(bgo, gbc_bgo);
-		
+
 		JButton btnSelecionarAvaliacao = new JButton("...");
 		btnSelecionarAvaliacao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -208,7 +208,8 @@ public class PainelCadastroGabarito extends JPanel {
 						|| !Character.isAlphabetic(bgo.go.getQuestao5())) {
 					JOptionPane.showMessageDialog(null, "Há questões sem alternativas válidas.");
 				} else if (tfCodAvaliacao.getText().trim().isEmpty() || cbDisciplina.getSelectedItem() == cbDisciplina.getItemAt(0)) {
-					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.");
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
+							JOptionPane.WARNING_MESSAGE);
 				} else {
 					gabaritoOficialDao.gravar(new GabaritoOficial(-1, bgo.go.getQuestao1(), bgo.go.getQuestao2(),
 							bgo.go.getQuestao3(), bgo.go.getQuestao4(), bgo.go.getQuestao5(),

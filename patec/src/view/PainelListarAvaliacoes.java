@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -68,6 +70,28 @@ public class PainelListarAvaliacoes extends JPanel {
 		gbc_containerListaAvaliacoes.gridx = 1;
 		gbc_containerListaAvaliacoes.gridy = 3;
 		add(containerListaAvaliacoes, gbc_containerListaAvaliacoes);
+		
+		JPanel containerLabels = new JPanel();
+		GridBagConstraints gbc_containerLabels = new GridBagConstraints();
+		gbc_containerLabels.insets = new Insets(0, 0, 5, 5);
+		gbc_containerLabels.fill = GridBagConstraints.BOTH;
+		gbc_containerLabels.gridx = 1;
+		gbc_containerLabels.gridy = 2;
+		add(containerLabels, gbc_containerLabels);
+		GridBagLayout gbl_containerLabels = new GridBagLayout();
+		gbl_containerLabels.columnWidths = new int[] { 0, 0 };
+		gbl_containerLabels.rowHeights = new int[] { 0, 0 };
+		gbl_containerLabels.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_containerLabels.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		containerLabels.setLayout(gbl_containerLabels);
+
+		JLabel lblAvaliacoes = new JLabel("Avaliações");
+		lblAvaliacoes.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblAvaliacoes = new GridBagConstraints();
+		gbc_lblAvaliacoes.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblAvaliacoes.gridx = 0;
+		gbc_lblAvaliacoes.gridy = 0;
+		containerLabels.add(lblAvaliacoes, gbc_lblAvaliacoes);
 
 		tabelaAvaliacoes = new JTable();
 		try {
@@ -96,22 +120,32 @@ public class PainelListarAvaliacoes extends JPanel {
 		gbl_panel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
+		
+		JLabel lblCrudAvaliacao = new JLabel("<html>Gerenciamento de<br>Avaliações (CRUD):</html>");
+		lblCrudAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		GridBagConstraints gbc_lblCrudAvaliacao = new GridBagConstraints();
+		gbc_lblCrudAvaliacao.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblCrudAvaliacao.insets = new Insets(0, 0, 5, 0);
+		gbc_lblCrudAvaliacao.gridx = 0;
+		gbc_lblCrudAvaliacao.gridy = 0;
+		panel.add(lblCrudAvaliacao, gbc_lblCrudAvaliacao);
 
-		JButton btnNewButton = new JButton("Cadastrar");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroAvaliacao p = new PainelCadastroAvaliacao();
+				FramePatec.getFrame().setTitle("Patec - Cadastrar Avaliação");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
 			}
 		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
+		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
+		gbc_btnCadastrar.fill = GridBagConstraints.BOTH;
+		gbc_btnCadastrar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnCadastrar.gridx = 0;
+		gbc_btnCadastrar.gridy = 1;
+		panel.add(btnCadastrar, gbc_btnCadastrar);
 
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
@@ -122,6 +156,7 @@ public class PainelListarAvaliacoes extends JPanel {
 									.getValueAt(tabelaAvaliacoes.getSelectedRow(), 0).toString()),
 							tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 1).toString(),
 							tabelaAvaliacoes.getModel().getValueAt(tabelaAvaliacoes.getSelectedRow(), 2).toString()));
+					FramePatec.getFrame().setTitle("Patec - Editar Avaliação");
 					FramePatec.getFrame().setContentPane(p);
 					FramePatec.getFrame().revalidate();
 					FramePatec.getFrame().repaint();

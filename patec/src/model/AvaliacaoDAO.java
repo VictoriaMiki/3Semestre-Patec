@@ -42,16 +42,24 @@ public class AvaliacaoDAO {
 	 * @see Avaliacao
 	 */
 	public String gravar(Avaliacao a) {
-		sql = "SET DATEFORMAT 'DMY'; INSERT INTO AVALIACAO VALUES (?, ?);";
 		men = "Avaliação inserida com sucesso!";
 		bd.getConnection();
-		try {
-			bd.st = bd.con.prepareStatement(sql);
-			bd.st.setString(1, a.getDataAvaliacao());
-			bd.st.setString(2, a.getTipoAvaliacao());
-			int n = bd.st.executeUpdate();
-			System.out.println("Linhas inseridas: " + n);
-		} catch (SQLException e) {
+		
+		if (a.getCodigoAvaliacao() == 0) {
+			sql = "SET DATEFORMAT 'DMY'; INSERT INTO AVALIACAO VALUES (?, ?);";
+			try {
+				bd.st = bd.con.prepareStatement(sql);
+				bd.st.setString(1, a.getDataAvaliacao());
+				bd.st.setString(2, a.getTipoAvaliacao());
+				int n = bd.st.executeUpdate();
+				System.out.println("Linhas inseridas: " + n);
+			} catch (SQLException e) {
+				men = "Falha" + e;
+				System.out.println(men);
+			} finally {
+				bd.close();
+			}	
+		} else {
 			sql = "UPDATE AVALIACAO SET data_avaliacao = ?, tipo_avaliacao = ? WHERE codigo_avaliacao = ?";
 			try {
 				bd.st = bd.con.prepareStatement(sql);
@@ -65,13 +73,14 @@ public class AvaliacaoDAO {
 				} else {
 					men = "Avaliação não encontrada!";
 				}
-			} catch (SQLException e2) {
-				men = "Falha" + e;
+			} catch (SQLException e1) {
+				men = "Falha" + e1;
 				System.out.println(men);
+			} finally {
+				bd.close();
 			}
-		} finally {
-			bd.close();
 		}
+		
 		return men;
 	}
 
@@ -118,7 +127,7 @@ public class AvaliacaoDAO {
 	public TableModel carregarTabela() {
 		DefaultTableModel model = null;
 		
-		String sql = "SELECT * FROM AVALIACAO";
+		String sql = "SELECT codigo_avaliacao AS Código, data_avaliacao AS Data, tipo_avaliacao AS Tipo FROM AVALIACAO";
 		try {
 			if(bd.getConnection()) {
 				model = TableModelPatec.getModel(bd, sql);

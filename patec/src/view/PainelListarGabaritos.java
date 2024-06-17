@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -61,6 +63,28 @@ public class PainelListarGabaritos extends JPanel {
 		gbc_btnSair.gridy = 1;
 		add(btnSair, gbc_btnSair);
 
+		JPanel containerLabels = new JPanel();
+		GridBagConstraints gbc_containerLabels = new GridBagConstraints();
+		gbc_containerLabels.insets = new Insets(0, 0, 5, 5);
+		gbc_containerLabels.fill = GridBagConstraints.BOTH;
+		gbc_containerLabels.gridx = 1;
+		gbc_containerLabels.gridy = 2;
+		add(containerLabels, gbc_containerLabels);
+		GridBagLayout gbl_containerLabels = new GridBagLayout();
+		gbl_containerLabels.columnWidths = new int[] { 0, 0 };
+		gbl_containerLabels.rowHeights = new int[] { 0, 0 };
+		gbl_containerLabels.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_containerLabels.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		containerLabels.setLayout(gbl_containerLabels);
+
+		JLabel lblGabaritos = new JLabel("Gabaritos");
+		lblGabaritos.setFont(new Font("Tahoma", Font.BOLD, 40));
+		GridBagConstraints gbc_lblGabaritos = new GridBagConstraints();
+		gbc_lblGabaritos.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblGabaritos.gridx = 0;
+		gbc_lblGabaritos.gridy = 0;
+		containerLabels.add(lblGabaritos, gbc_lblGabaritos);
+
 		JScrollPane containerListaGabaritos = new JScrollPane();
 		GridBagConstraints gbc_containerListaGabaritos = new GridBagConstraints();
 		gbc_containerListaGabaritos.fill = GridBagConstraints.BOTH;
@@ -73,7 +97,7 @@ public class PainelListarGabaritos extends JPanel {
 		try {
 			tabelaGabaritos.setModel(dao.carregarTabela());
 		} catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Falha na Conexão: " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Falha na Conexão: " + e.getMessage());
 			PainelMenuCoordenador p = new PainelMenuCoordenador();
 			FramePatec.getFrame().setContentPane(p);
 			FramePatec.getFrame().revalidate();
@@ -96,6 +120,15 @@ public class PainelListarGabaritos extends JPanel {
 		gbl_panel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
+		
+		JLabel lblCrudAvaliacao = new JLabel("<html>Gerenciamento de<br>Gabaritos (CRUD):</html>");
+		lblCrudAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		GridBagConstraints gbc_lblCrudAvaliacao = new GridBagConstraints();
+		gbc_lblCrudAvaliacao.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblCrudAvaliacao.insets = new Insets(0, 0, 5, 0);
+		gbc_lblCrudAvaliacao.gridx = 0;
+		gbc_lblCrudAvaliacao.gridy = 0;
+		panel.add(lblCrudAvaliacao, gbc_lblCrudAvaliacao);
 
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {

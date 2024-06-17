@@ -141,6 +141,7 @@ public class MenuBarCoord extends JMenuBar {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PainelConsultaRelatorio p = new PainelConsultaRelatorio(null);
+				FramePatec.getFrame().setTitle("Patec - Obter Relatório");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();

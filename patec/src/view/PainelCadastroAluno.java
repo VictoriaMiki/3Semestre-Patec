@@ -192,33 +192,42 @@ public class PainelCadastroAluno extends JPanel {
 		gbc_tftDataNascimentoAluno.gridx = 1;
 		gbc_tftDataNascimentoAluno.gridy = 7;
 		containerCadastroAluno.add(tftDataNascimentoAluno, gbc_tftDataNascimentoAluno);
-		
+
 		/*
-		JFormattedTextField tftDataNascimentoAluno = new JFormattedTextField();
-		tftDataNascimentoAluno.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		GridBagConstraints gbc_tftDataNascimentoAluno = new GridBagConstraints();
-		gbc_tftDataNascimentoAluno.gridwidth = 5;
-		gbc_tftDataNascimentoAluno.insets = new Insets(0, 0, 5, 0);
-		gbc_tftDataNascimentoAluno.fill = GridBagConstraints.BOTH;
-		gbc_tftDataNascimentoAluno.gridx = 1;
-		gbc_tftDataNascimentoAluno.gridy = 7;
-		containerCadastroAluno.add(tftDataNascimentoAluno, gbc_tftDataNascimentoAluno);
-		*/
-		
+		 * JFormattedTextField tftDataNascimentoAluno = new JFormattedTextField();
+		 * tftDataNascimentoAluno.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		 * GridBagConstraints gbc_tftDataNascimentoAluno = new GridBagConstraints();
+		 * gbc_tftDataNascimentoAluno.gridwidth = 5; gbc_tftDataNascimentoAluno.insets =
+		 * new Insets(0, 0, 5, 0); gbc_tftDataNascimentoAluno.fill =
+		 * GridBagConstraints.BOTH; gbc_tftDataNascimentoAluno.gridx = 1;
+		 * gbc_tftDataNascimentoAluno.gridy = 7;
+		 * containerCadastroAluno.add(tftDataNascimentoAluno,
+		 * gbc_tftDataNascimentoAluno);
+		 */
+
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				a.setRa(tfRegistroAluno.getText());
-				a.setCpf(ftfCpfAluno.getText());
-				a.setNomeAluno(tfNomeAluno.getText());
-				a.setDataNascimento(tftDataNascimentoAluno.getJFormattedTextField().getText());
-				AlunoDAO dao = new AlunoDAO();
-				dao.gravar(a);
-				JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!", "Cadastro concluído", JOptionPane.INFORMATION_MESSAGE);
-				PainelListarAlunos p = new PainelListarAlunos();
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				if (tfRegistroAluno.getText().isBlank() || ftfCpfAluno.getText().isBlank()
+						|| tfNomeAluno.getText().isBlank()
+						|| tftDataNascimentoAluno.getJFormattedTextField().getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					a.setRa(tfRegistroAluno.getText());
+					a.setCpf(ftfCpfAluno.getText());
+					a.setNomeAluno(tfNomeAluno.getText());
+					a.setDataNascimento(tftDataNascimentoAluno.getJFormattedTextField().getText());
+					AlunoDAO dao = new AlunoDAO();
+					dao.gravar(a);
+					JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!", "Cadastro concluído",
+							JOptionPane.INFORMATION_MESSAGE);
+					PainelListarAlunos p = new PainelListarAlunos();
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
+
 			}
 		});
 		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();

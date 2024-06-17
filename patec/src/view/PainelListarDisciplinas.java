@@ -120,11 +120,21 @@ public class PainelListarDisciplinas extends JPanel {
 		gbl_containerButtons.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 		gbl_containerButtons.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		containerButtons.setLayout(gbl_containerButtons);
+		
+		JLabel lblCrudDisciplinas = new JLabel("<html>Gerenciamento de<br>Disciplinas (CRUD):</html>");
+		lblCrudDisciplinas.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		GridBagConstraints gbc_lblCrudDisciplinas = new GridBagConstraints();
+		gbc_lblCrudDisciplinas.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblCrudDisciplinas.insets = new Insets(0, 0, 5, 0);
+		gbc_lblCrudDisciplinas.gridx = 0;
+		gbc_lblCrudDisciplinas.gridy = 0;
+		containerButtons.add(lblCrudDisciplinas, gbc_lblCrudDisciplinas);
 
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroDisciplina p = new PainelCadastroDisciplina();
+				FramePatec.getFrame().setTitle("Patec - Cadastrar Disciplina");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
@@ -146,6 +156,7 @@ public class PainelListarDisciplinas extends JPanel {
 							tabelaDisciplinas.getModel().getValueAt(tabelaDisciplinas.getSelectedRow(), 1).toString(),
 							Integer.parseInt(tabelaDisciplinas.getModel()
 									.getValueAt(tabelaDisciplinas.getSelectedRow(), 2).toString())));
+					FramePatec.getFrame().setTitle("Patec - Editar Disciplina");
 					FramePatec.getFrame().setContentPane(p);
 					FramePatec.getFrame().revalidate();
 					FramePatec.getFrame().repaint();

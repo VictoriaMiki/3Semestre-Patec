@@ -139,6 +139,7 @@ public class PainelListarAlunos extends JPanel {
 									tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 1).toString(),
 									tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 2).toString(),
 									tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 3).toString()));
+					FramePatec.getFrame().setTitle("Patec - Matricular Aluno");
 					FramePatec.getFrame().setContentPane(p);
 					FramePatec.getFrame().revalidate();
 					FramePatec.getFrame().repaint();
@@ -173,6 +174,7 @@ public class PainelListarAlunos extends JPanel {
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PainelCadastroAluno p = new PainelCadastroAluno();
+				FramePatec.getFrame().setTitle("Patec - Cadastrar Aluno");
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
@@ -194,6 +196,7 @@ public class PainelListarAlunos extends JPanel {
 									tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 1).toString(),
 									tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 2).toString(),
 									tabelaAlunos.getModel().getValueAt(tabelaAlunos.getSelectedRow(), 3).toString()));
+					FramePatec.getFrame().setTitle("Patec - Editar Aluno");
 					FramePatec.getFrame().setContentPane(p);
 					FramePatec.getFrame().revalidate();
 					FramePatec.getFrame().repaint();

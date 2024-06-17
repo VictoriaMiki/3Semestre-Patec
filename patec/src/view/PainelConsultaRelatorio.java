@@ -142,6 +142,7 @@ public class PainelConsultaRelatorio extends JPanel {
 					PainelRelatorioDisciplina p = new PainelRelatorioDisciplina(
 							cbDisciplina.getSelectedItem().toString(),
 							tftDataAvaliacaoRelDisc.getJFormattedTextField().getText());
+					FramePatec.frame.setTitle("Patec - Relatório (Disciplina)");
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();
@@ -244,6 +245,7 @@ public class PainelConsultaRelatorio extends JPanel {
 					try {
 						PainelRelatorioAluno p = new PainelRelatorioAluno(alunoDao.obterAluno(tfRa.getText()),
 								tftDataAvaliacaoRelAluno.getJFormattedTextField().getText());
+						FramePatec.frame.setTitle("Patec - Relatório (Aluno)");
 						FramePatec.frame.setContentPane(p);
 						FramePatec.frame.revalidate();
 						FramePatec.frame.repaint();
@@ -276,6 +278,7 @@ public class PainelConsultaRelatorio extends JPanel {
 				try {
 					PainelRelatorioAluno p = new PainelRelatorioAluno(alunoDao.obterAluno(tfRa.getText()),
 							tftDataAvaliacaoRelAluno.getJFormattedTextField().getText());
+					FramePatec.frame.setTitle("Patec - Relatório (Aluno)");
 					FramePatec.frame.setContentPane(p);
 					FramePatec.frame.revalidate();
 					FramePatec.frame.repaint();

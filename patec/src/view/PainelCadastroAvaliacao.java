@@ -30,9 +30,10 @@ public class PainelCadastroAvaliacao extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JComboBox<String> cbTipoAvaliacao;
-	private String[] tipoAvaliacao = {"1°BIM - SÁBADO", "2°BIM - SÁBADO", "1°BIM - SEGUNDA-FEIRA", "2°BIM - SEGUNDA-FEIRA", "1°BIM - SUB", "2°BIM - SUB"};
+	private String[] tipoAvaliacao = { "1°BIM - SÁBADO", "2°BIM - SÁBADO", "1°BIM - SEGUNDA-FEIRA",
+			"2°BIM - SEGUNDA-FEIRA", "1°BIM - SUB", "2°BIM - SUB" };
 	Avaliacao a = new Avaliacao();
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -164,20 +165,28 @@ public class PainelCadastroAvaliacao extends JPanel {
 		gbc_cbTipoAvaliacao.gridx = 1;
 		gbc_cbTipoAvaliacao.gridy = 3;
 		containerCadastroAvaliacao.add(cbTipoAvaliacao, gbc_cbTipoAvaliacao);
-		
+
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				a.setDataAvaliacao(tftDataAvaliacao.getJFormattedTextField().getText());
-				a.setTipoAvaliacao(cbTipoAvaliacao.getSelectedItem().toString());
-				AvaliacaoDAO dao = new AvaliacaoDAO();
-				
-				System.out.println(dao.gravar(a));
-				JOptionPane.showMessageDialog(null, "Avaliação cadastrada com sucesso!", "Cadastro concluído", JOptionPane.INFORMATION_MESSAGE);
-				PainelListarAvaliacoes p = new PainelListarAvaliacoes();
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				if (tftDataAvaliacao.getJFormattedTextField().getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					a.setDataAvaliacao(tftDataAvaliacao.getJFormattedTextField().getText());
+					a.setTipoAvaliacao(cbTipoAvaliacao.getSelectedItem().toString());
+					System.out.println(a.getCodigoAvaliacao());
+					AvaliacaoDAO dao = new AvaliacaoDAO();
+
+					System.out.println(dao.gravar(a));
+					JOptionPane.showMessageDialog(null, "Avaliação cadastrada com sucesso!", "Cadastro concluído",
+							JOptionPane.INFORMATION_MESSAGE);
+					PainelListarAvaliacoes p = new PainelListarAvaliacoes();
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
+
 			}
 		});
 		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
