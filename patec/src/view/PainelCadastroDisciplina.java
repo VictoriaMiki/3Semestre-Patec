@@ -200,7 +200,7 @@ public class PainelCadastroDisciplina extends JPanel {
 						|| !Character.isDigit(tfCodDisciplina.getText().charAt(3))
 						|| !Character.isDigit(tfCodDisciplina.getText().charAt(4))
 						|| !Character.isDigit(tfCodDisciplina.getText().charAt(5))) {
-					JOptionPane.showMessageDialog(null,
+				  JOptionPane.showMessageDialog(null,
 							"Código de disciplina inválido! (Formato necessário: XXX000; Exemplo: MET100)");
 				} else {
 					d.setCodigoDisciplina(tfCodDisciplina.getText().toUpperCase());
@@ -214,7 +214,7 @@ public class PainelCadastroDisciplina extends JPanel {
 					FramePatec.getFrame().setContentPane(p);
 					FramePatec.getFrame().revalidate();
 					FramePatec.getFrame().repaint();
-				}
+				}				
 			}
 		});
 		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();
