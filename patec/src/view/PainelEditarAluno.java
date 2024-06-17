@@ -227,18 +227,51 @@ public class PainelEditarAluno extends JPanel {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (tfRegistroAluno.getText().isBlank() || ftfCpfAluno.getText().isBlank()
+						|| tfNomeAluno.getText().isBlank()
+						|| tftDataNascimentoAluno.getJFormattedTextField().getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				} else if (tfRegistroAluno.getText().length() != 13) {
+					JOptionPane.showMessageDialog(null, "O RA deve possuir 13 (treze) dígitos.", "Valor inválido",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				} else if (ftfCpfAluno.getText().length() != 11) {
+					JOptionPane.showMessageDialog(null, "O CPF deve possuir 11 (onze) dígitos.", "Valor inválido",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				for (int i = 0; i < tfRegistroAluno.getText().length(); i++) {
+					if (!Character.isDigit(tfRegistroAluno.getText().charAt(i))) {
+						JOptionPane.showMessageDialog(null, "O RA deve possuir 13 (treze) dígitos.", "Valor inválido",
+								JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+				}
+
+				for (int i = 0; i < ftfCpfAluno.getText().length(); i++) {
+					if (!Character.isDigit(ftfCpfAluno.getText().charAt(i))) {
+						JOptionPane.showMessageDialog(null, "O CPF deve possuir 11 (onze) dígitos.", "Valor inválido",
+								JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+				}
+
 				a.setRa(tfRegistroAluno.getText());
 				a.setCpf(ftfCpfAluno.getText());
 				a.setNomeAluno(tfNomeAluno.getText());
 				a.setDataNascimento(tftDataNascimentoAluno.getJFormattedTextField().getText());
 				AlunoDAO dao = new AlunoDAO();
-				//dao.gravar(a);
-				JOptionPane.showMessageDialog(null, dao.gravar(a), "Edição concluída",
+				dao.gravar(a);
+				JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!", "Cadastro concluído",
 						JOptionPane.INFORMATION_MESSAGE);
 				PainelListarAlunos p = new PainelListarAlunos();
 				FramePatec.getFrame().setContentPane(p);
 				FramePatec.getFrame().revalidate();
 				FramePatec.getFrame().repaint();
+
 			}
 		});
 		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
