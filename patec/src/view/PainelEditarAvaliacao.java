@@ -33,7 +33,8 @@ public class PainelEditarAvaliacao extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField tfCodigoAvaliacao;
 	private JComboBox<String> cbTipoAvaliacao;
-	private String[] tipoAvaliacao = {"1°BIM - SÁBADO", "2°BIM - SÁBADO", "1°BIM - SEGUNDA-FEIRA", "2°BIM - SEGUNDA-FEIRA", "FINAL"};
+	private String[] tipoAvaliacao = { "1°BIM - SÁBADO", "2°BIM - SÁBADO", "1°BIM - SEGUNDA-FEIRA",
+			"2°BIM - SEGUNDA-FEIRA", "FINAL" };
 
 	/**
 	 * Create the panel.
@@ -124,7 +125,7 @@ public class PainelEditarAvaliacao extends JPanel {
 		gbc_separator.gridx = 0;
 		gbc_separator.gridy = 0;
 		containerEdicaoAvaliacao.add(separator, gbc_separator);
-		
+
 		JLabel lblCodigoAvaliacao = new JLabel("Código da Avaliação:");
 		lblCodigoAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblCodigoAvaliacao = new GridBagConstraints();
@@ -134,7 +135,7 @@ public class PainelEditarAvaliacao extends JPanel {
 		gbc_lblCodigoAvaliacao.gridx = 1;
 		gbc_lblCodigoAvaliacao.gridy = 0;
 		containerEdicaoAvaliacao.add(lblCodigoAvaliacao, gbc_lblCodigoAvaliacao);
-		
+
 		tfCodigoAvaliacao = new JTextField();
 		tfCodigoAvaliacao.setEditable(false);
 		tfCodigoAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -147,7 +148,7 @@ public class PainelEditarAvaliacao extends JPanel {
 		gbc_tfCodigoAvaliacao.gridy = 1;
 		containerEdicaoAvaliacao.add(tfCodigoAvaliacao, gbc_tfCodigoAvaliacao);
 		tfCodigoAvaliacao.setColumns(10);
-		
+
 		JLabel lblDataAvaliacao = new JLabel("Data da Avaliação:");
 		lblDataAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblDataAvaliacao = new GridBagConstraints();
@@ -157,7 +158,7 @@ public class PainelEditarAvaliacao extends JPanel {
 		gbc_lblDataAvaliacao.gridx = 1;
 		gbc_lblDataAvaliacao.gridy = 2;
 		containerEdicaoAvaliacao.add(lblDataAvaliacao, gbc_lblDataAvaliacao);
-		
+
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
 		JDatePickerImpl tftDataAvaliacao = new JDatePickerImpl(datePanel, new DateLabelFormatter());
@@ -170,7 +171,7 @@ public class PainelEditarAvaliacao extends JPanel {
 		gbc_tftDataAvaliacao.gridx = 1;
 		gbc_tftDataAvaliacao.gridy = 3;
 		containerEdicaoAvaliacao.add(tftDataAvaliacao, gbc_tftDataAvaliacao);
-		
+
 		JLabel lblTipoAvaliacao = new JLabel("Tipo da Avaliação:");
 		lblTipoAvaliacao.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblTipoAvaliacao = new GridBagConstraints();
@@ -191,22 +192,26 @@ public class PainelEditarAvaliacao extends JPanel {
 		gbc_cbTipoAvaliacao.gridx = 1;
 		gbc_cbTipoAvaliacao.gridy = 5;
 		containerEdicaoAvaliacao.add(cbTipoAvaliacao, gbc_cbTipoAvaliacao);
-		
-		
+
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				a.setCodigoAvaliacao(Integer.parseInt(tfCodigoAvaliacao.getText()));
-				a.setDataAvaliacao(tftDataAvaliacao.getJFormattedTextField().getText());
-				a.setTipoAvaliacao(cbTipoAvaliacao.getSelectedItem().toString());
-				AvaliacaoDAO dao = new AvaliacaoDAO();
-				
-				JOptionPane.showMessageDialog(null, dao.gravar(a), "Edição concluída",
-						JOptionPane.INFORMATION_MESSAGE);
-				PainelListarAvaliacoes p = new PainelListarAvaliacoes();
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				if (tftDataAvaliacao.getJFormattedTextField().getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					a.setCodigoAvaliacao(Integer.parseInt(tfCodigoAvaliacao.getText()));
+					a.setDataAvaliacao(tftDataAvaliacao.getJFormattedTextField().getText());
+					a.setTipoAvaliacao(cbTipoAvaliacao.getSelectedItem().toString());
+					AvaliacaoDAO dao = new AvaliacaoDAO();
+
+					JOptionPane.showMessageDialog(null, dao.gravar(a), "Edição concluída",
+							JOptionPane.INFORMATION_MESSAGE);
+					PainelListarAvaliacoes p = new PainelListarAvaliacoes();
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();

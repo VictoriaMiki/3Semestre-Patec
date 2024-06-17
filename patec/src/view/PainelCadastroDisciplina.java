@@ -31,7 +31,7 @@ public class PainelCadastroDisciplina extends JPanel {
 	private JTextField tfNomeDisciplina;
 	private JComboBox<String> cbSemestre;
 	Disciplina d = new Disciplina();
-	private String[] semestres = {"1", "2", "3", "4", "5", "6"};
+	private String[] semestres = { "1", "2", "3", "4", "5", "6" };
 
 	/**
 	 * Create the panel.
@@ -190,16 +190,22 @@ public class PainelCadastroDisciplina extends JPanel {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				d.setCodigoDisciplina(tfCodDisciplina.getText());
-				d.setNomeDisciplina(tfNomeDisciplina.getText());
-				d.setSemestreDisciplina(Integer.parseInt(cbSemestre.getSelectedItem().toString()));
-				DisciplinaDAO dao = new DisciplinaDAO();
-				dao.gravar(d);
-				JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!", "Cadastro concluído", JOptionPane.INFORMATION_MESSAGE);
-				PainelListarDisciplinas p = new PainelListarDisciplinas();
-				FramePatec.getFrame().setContentPane(p);
-				FramePatec.getFrame().revalidate();
-				FramePatec.getFrame().repaint();
+				if (tfCodDisciplina.getText().isBlank() || tfNomeDisciplina.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Todos os campos são obrigatórios.", "Campos vazios",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					d.setCodigoDisciplina(tfCodDisciplina.getText());
+					d.setNomeDisciplina(tfNomeDisciplina.getText());
+					d.setSemestreDisciplina(Integer.parseInt(cbSemestre.getSelectedItem().toString()));
+					DisciplinaDAO dao = new DisciplinaDAO();
+					dao.gravar(d);
+					JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!", "Cadastro concluído",
+							JOptionPane.INFORMATION_MESSAGE);
+					PainelListarDisciplinas p = new PainelListarDisciplinas();
+					FramePatec.getFrame().setContentPane(p);
+					FramePatec.getFrame().revalidate();
+					FramePatec.getFrame().repaint();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnCadastrar = new GridBagConstraints();

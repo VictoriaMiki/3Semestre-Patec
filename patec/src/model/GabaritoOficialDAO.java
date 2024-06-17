@@ -181,7 +181,7 @@ public class GabaritoOficialDAO {
 	public TableModel carregarTabela() {
 		DefaultTableModel model = null;
 		
-		String sql = "SELECT * FROM GABARITO_OFICIAL";
+		String sql = "SELECT codigo_gabarito AS Código, questao_1 AS 'Questão 1', questao_2 AS 'Questão 2', questao_3 AS 'Questão 3', questao_4 AS 'Questão 4', questao_5 AS 'Questão 5', codigo_disciplina AS 'Cód. Disciplina', codigo_avaliacao AS 'Cód. Avaliação' FROM GABARITO_OFICIAL";
 		try {
 			if(bd.getConnection()) {
 				model = TableModelPatec.getModel(bd, sql);

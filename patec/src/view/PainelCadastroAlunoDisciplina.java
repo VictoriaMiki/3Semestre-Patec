@@ -44,7 +44,7 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 	    gridBagLayout.columnWidths = new int[] { 66, 262, 100, 225, 66, 0};
 	    gridBagLayout.rowHeights = new int[] { 28, 0, 100, 50, 0, 272, 0, 0 };
 	    gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
-	    gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0 };
+	    gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0 };
 	    setLayout(gridBagLayout);
 
 	    MenuBarCoord mbc = new MenuBarCoord();
@@ -93,9 +93,9 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 	    add(containerAluno, gbc_containerAluno);
 	    GridBagLayout gbl_containerAluno = new GridBagLayout();
 	    gbl_containerAluno.columnWidths = new int[]{0, 0};
-	    gbl_containerAluno.rowHeights = new int[]{0, 0, 0, 0, 0};
+	    gbl_containerAluno.rowHeights = new int[]{0, 0, 0};
 	    gbl_containerAluno.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-	    gbl_containerAluno.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+	    gbl_containerAluno.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 	    containerAluno.setLayout(gbl_containerAluno);
 	    
 	    JLabel lblAluno = new JLabel("Aluno: " + a.getNomeAluno());
@@ -110,28 +110,10 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 	    JLabel lblRa = new JLabel("RA: " + a.getRa());
 	    lblRa.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	    GridBagConstraints gbc_lblRa = new GridBagConstraints();
-	    gbc_lblRa.insets = new Insets(0, 0, 5, 0);
 	    gbc_lblRa.anchor = GridBagConstraints.WEST;
 	    gbc_lblRa.gridx = 0;
 	    gbc_lblRa.gridy = 1;
 	    containerAluno.add(lblRa, gbc_lblRa);
-	    
-	    JLabel lblCpf = new JLabel("CPF: " + a.getCpf());
-	    lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 14));
-	    GridBagConstraints gbc_lblCpf = new GridBagConstraints();
-	    gbc_lblCpf.insets = new Insets(0, 0, 5, 0);
-	    gbc_lblCpf.anchor = GridBagConstraints.WEST;
-	    gbc_lblCpf.gridx = 0;
-	    gbc_lblCpf.gridy = 2;
-	    containerAluno.add(lblCpf, gbc_lblCpf);
-	    
-	    JLabel lblDataNascimento = new JLabel("Data Nasc.: " + a.getDataNascimento());
-	    lblDataNascimento.setFont(new Font("Tahoma", Font.PLAIN, 14));
-	    GridBagConstraints gbc_lblDataNascimento = new GridBagConstraints();
-	    gbc_lblDataNascimento.anchor = GridBagConstraints.WEST;
-	    gbc_lblDataNascimento.gridx = 0;
-	    gbc_lblDataNascimento.gridy = 3;
-	    containerAluno.add(lblDataNascimento, gbc_lblDataNascimento);
 	    
 	    JLabel lblTituloLista1 = new JLabel("Todas as Disciplinas");
 	    lblTituloLista1.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -142,14 +124,28 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 	    gbc_lblTituloLista1.gridy = 4;
 	    add(lblTituloLista1, gbc_lblTituloLista1);
 	    
+	    JPanel panel = new JPanel();
+	    GridBagConstraints gbc_panel = new GridBagConstraints();
+	    gbc_panel.insets = new Insets(0, 0, 5, 5);
+	    gbc_panel.fill = GridBagConstraints.VERTICAL;
+	    gbc_panel.gridx = 3;
+	    gbc_panel.gridy = 4;
+	    add(panel, gbc_panel);
+	    GridBagLayout gbl_panel = new GridBagLayout();
+	    gbl_panel.columnWidths = new int[]{0, 0};
+	    gbl_panel.rowHeights = new int[]{0, 0};
+	    gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	    gbl_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+	    panel.setLayout(gbl_panel);
+	    
 	    JLabel lblTituloLista2 = new JLabel("<html>Disciplinas matriculadas para a<br>realização da próxima avaliação</html>");
-	    lblTituloLista2.setFont(new Font("Tahoma", Font.BOLD, 14));
 	    GridBagConstraints gbc_lblTituloLista2 = new GridBagConstraints();
 	    gbc_lblTituloLista2.anchor = GridBagConstraints.SOUTH;
-	    gbc_lblTituloLista2.insets = new Insets(0, 0, 5, 5);
-	    gbc_lblTituloLista2.gridx = 3;
-	    gbc_lblTituloLista2.gridy = 4;
-	    add(lblTituloLista2, gbc_lblTituloLista2);
+	    gbc_lblTituloLista2.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_lblTituloLista2.gridx = 0;
+	    gbc_lblTituloLista2.gridy = 0;
+	    panel.add(lblTituloLista2, gbc_lblTituloLista2);
+	    lblTituloLista2.setFont(new Font("Tahoma", Font.BOLD, 14));
 	    
 	    // JList das Disciplinas Matriculadas
 	    lstDisciplinasNaoMatriculadas = new JList<>(disciplinasNaoMatriculadas.toArray(new String[0]));
@@ -250,18 +246,21 @@ public class PainelCadastroAlunoDisciplina extends JPanel {
 	    	}
 	    });
 	    GridBagConstraints gbc_btnAdicionar = new GridBagConstraints();
+	    gbc_btnAdicionar.fill = GridBagConstraints.HORIZONTAL;
 	    gbc_btnAdicionar.anchor = GridBagConstraints.SOUTH;
 	    gbc_btnAdicionar.insets = new Insets(0, 0, 5, 0);
 	    gbc_btnAdicionar.gridx = 0;
 	    gbc_btnAdicionar.gridy = 2;
 	    containerButtons.add(btnAdicionar, gbc_btnAdicionar);
 	    GridBagConstraints gbc_btnRemover = new GridBagConstraints();
+	    gbc_btnRemover.fill = GridBagConstraints.HORIZONTAL;
 	    gbc_btnRemover.anchor = GridBagConstraints.NORTH;
 	    gbc_btnRemover.insets = new Insets(0, 0, 5, 0);
 	    gbc_btnRemover.gridx = 0;
 	    gbc_btnRemover.gridy = 3;
 	    containerButtons.add(btnRemover, gbc_btnRemover);
 	    GridBagConstraints gbc_btnRemoverTudo = new GridBagConstraints();
+	    gbc_btnRemoverTudo.fill = GridBagConstraints.HORIZONTAL;
 	    gbc_btnRemoverTudo.anchor = GridBagConstraints.NORTH;
 	    gbc_btnRemoverTudo.gridx = 0;
 	    gbc_btnRemoverTudo.gridy = 6;

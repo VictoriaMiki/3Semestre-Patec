@@ -262,7 +262,7 @@ public class AlunoDAO {
 	public TableModel carregarTabelaListarAlunos() {
 		DefaultTableModel model = null;
 		
-		String sql = "SELECT * FROM ALUNO";
+		String sql = "SELECT ra AS RA, cpf AS CPF, nome_aluno AS Nome, data_nascimento AS 'Data Nasc.' FROM ALUNO";
 		try {
 			if(bd.getConnection()) {
 				model = TableModelPatec.getModel(bd, sql);
@@ -287,7 +287,7 @@ public class AlunoDAO {
 	public TableModel carregarTabelaSelecionarAluno() {
 		DefaultTableModel model = null;
 		
-		String sql = "SELECT ra, nome_aluno FROM ALUNO";
+		String sql = "SELECT ra AS RA, nome_aluno AS Nome FROM ALUNO";
 		try {
 			if(bd.getConnection()) {
 				model = TableModelPatec.getModel(bd, sql);
@@ -318,7 +318,7 @@ public class AlunoDAO {
 		DefaultTableModel model = null;
 		
 		String sql = "SET DATEFORMAT 'DMY';\r\n"
-				+ "SELECT GABARITO_OFICIAL.codigo_disciplina, DISCIPLINA.nome_disciplina, FOLHA_DE_RESPOSTAS.resposta_1, FOLHA_DE_RESPOSTAS.resposta_2, FOLHA_DE_RESPOSTAS.resposta_3, FOLHA_DE_RESPOSTAS.resposta_4, FOLHA_DE_RESPOSTAS.resposta_5, FOLHA_DE_RESPOSTAS.nota FROM DISCIPLINA, FOLHA_DE_RESPOSTAS\r\n"
+				+ "SELECT GABARITO_OFICIAL.codigo_disciplina AS 'Cód. Disciplina', DISCIPLINA.nome_disciplina AS 'Nome da Disciplina', FOLHA_DE_RESPOSTAS.resposta_1 AS 'Resposta - 1', FOLHA_DE_RESPOSTAS.resposta_2 AS 'Resposta - 2', FOLHA_DE_RESPOSTAS.resposta_3 AS 'Resposta - 3', FOLHA_DE_RESPOSTAS.resposta_4 AS 'Resposta - 4', FOLHA_DE_RESPOSTAS.resposta_5 AS 'Resposta - 5', FOLHA_DE_RESPOSTAS.nota AS Nota FROM DISCIPLINA, FOLHA_DE_RESPOSTAS\r\n"
 				+ "JOIN GABARITO_OFICIAL ON FOLHA_DE_RESPOSTAS.codigo_gabarito = GABARITO_OFICIAL.codigo_gabarito\r\n"
 				+ "JOIN AVALIACAO ON GABARITO_OFICIAL.codigo_avaliacao = AVALIACAO.codigo_avaliacao\r\n"
 				+ "WHERE DISCIPLINA.codigo_disciplina = GABARITO_OFICIAL.codigo_disciplina\r\n"
